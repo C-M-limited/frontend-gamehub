@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import { Button, Grid } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,6 +17,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Link from 'next/link';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import axios from 'axios';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -63,9 +66,28 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
+  const [openLoginDialog, setOpenLoginDialog] = React.useState<boolean>(false)
+  const [openRegisterDialog, setOpenRegisterDialog] = React.useState<boolean>(false)
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirm_password: ""
+    },
+    onSubmit: async (values) => {
+      const { email, password } = values
+      const res = await axios.post('/api/auth/register', {
+        email,
+        password
+      })
+
+      console.log(res)
+    }
+  })
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -83,6 +105,16 @@ export default function Navbar() {
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleDialogOpen = (type: string) => {
+    if (type === 'login') setOpenLoginDialog(true)
+    if (type === 'register') setOpenRegisterDialog(true)
+  }
+
+  const handleDialogClose = (type: string) => {
+    if (type === 'login') setOpenLoginDialog(false)
+    if (type === 'register') setOpenRegisterDialog(false)
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -173,7 +205,7 @@ export default function Navbar() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Link href="/">
+          <Link href="/" passHref={true}>
             <Typography
               color="#000"
               variant="h6"
@@ -196,8 +228,17 @@ export default function Navbar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Button
+                variant="contained"
+                style={{ backgroundColor: '#000'}}
+                onClick={() => handleDialogOpen('register')}
+                sx={{ marginRight: 1 }}
+              >
+              Register
+            </Button>
+            <Button
               variant="contained"
               style={{ backgroundColor: '#000'}}
+              onClick={() => handleDialogOpen('login')}
             >
               Login
             </Button>
@@ -218,6 +259,100 @@ export default function Navbar() {
           </Grid>
         </Toolbar>
       </AppBar>
+      <Dialog open={openRegisterDialog} onClose={() => handleDialogClose('register')}>
+      <form onSubmit={formik.handleSubmit}>
+        <DialogTitle>Register</DialogTitle>
+        <DialogContent>
+          {/* <DialogContentText>
+            To subscribe to this website, please enter your email address here. We
+            will send updates occasionally.
+          </DialogContentText> */}
+          
+            <TextField
+              margin="dense"
+              id="email"
+              label="Email Address"
+              type="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+              margin="dense"
+              id="password"
+              label="Password"
+              type="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+              margin="dense"
+              id="confirm_password"
+              label="Confirm password"
+              type="password"
+              value={formik.values.confirm_password}
+              onChange={formik.handleChange}
+              fullWidth
+              variant="standard"
+            />
+          
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleDialogClose('login')}>Cancel</Button>
+          <Button type="submit">Register</Button>
+        </DialogActions>
+        </form>
+      </Dialog>
+      <Dialog open={openLoginDialog} onClose={() => handleDialogClose('login')}>
+      <form onSubmit={formik.handleSubmit}>
+        <DialogTitle>Login</DialogTitle>
+        <DialogContent>
+          {/* <DialogContentText>
+            To subscribe to this website, please enter your email address here. We
+            will send updates occasionally.
+          </DialogContentText> */}
+          
+            <TextField
+              margin="dense"
+              id="email"
+              label="Email Address"
+              type="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+              margin="dense"
+              id="password"
+              label="Password"
+              type="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+              margin="dense"
+              id="confirm_password"
+              label="Confirm password"
+              type="password"
+              value={formik.values.confirm_password}
+              onChange={formik.handleChange}
+              fullWidth
+              variant="standard"
+            />
+          
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleDialogClose('login')}>Cancel</Button>
+          <Button type="submit">Login</Button>
+        </DialogActions>
+        </form>
+      </Dialog>
       {renderMobileMenu}
       {renderMenu}
     </Box>

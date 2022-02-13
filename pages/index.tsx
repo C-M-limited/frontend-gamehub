@@ -7,6 +7,7 @@ import StyledButtonList from '../components/templates/StyledButtonList'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
+
   return (
     <>
       <StyledBanner />
