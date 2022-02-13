@@ -62,6 +62,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .email('Enter a valid email')
+    .required('Email is required'),
+  password: yup
+    .string()
+    .min(8, 'Password should be of minimum 8 character')
+    .required('Password is required'),
+  confirm_password: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Password must match')
+    .required('Confirm password is required'),
+})
+
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -72,20 +87,34 @@ export default function Navbar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const formik = useFormik({
+  const register_formik = useFormik({
     initialValues: {
       email: "",
       password: "",
       confirm_password: ""
     },
+    validationSchema,
     onSubmit: async (values) => {
       const { email, password } = values
       const res = await axios.post('/api/auth/register', {
         email,
         password
       })
+    }
+  })
 
-      console.log(res)
+  const login_formik = useFormik({
+    initialValues: {
+      email: "",
+      password: ""
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      const { email, password } = values
+      const res = await axios.post('/api/auth/login', {
+        email,
+        password
+      })
     }
   })
 
@@ -260,7 +289,7 @@ export default function Navbar() {
         </Toolbar>
       </AppBar>
       <Dialog open={openRegisterDialog} onClose={() => handleDialogClose('register')}>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={register_formik.handleSubmit}>
         <DialogTitle>Register</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
@@ -273,8 +302,10 @@ export default function Navbar() {
               id="email"
               label="Email Address"
               type="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
+              value={register_formik.values.email}
+              onChange={register_formik.handleChange}
+              error={register_formik.touched.email && Boolean(register_formik.errors.email)}
+              helperText={register_formik.touched.email && register_formik.errors.email}
               fullWidth
               variant="standard"
             />
@@ -283,8 +314,10 @@ export default function Navbar() {
               id="password"
               label="Password"
               type="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
+              value={register_formik.values.password}
+              onChange={register_formik.handleChange}
+              error={register_formik.touched.password && Boolean(register_formik.errors.password)}
+              helperText={register_formik.touched.password && register_formik.errors.password}
               fullWidth
               variant="standard"
             />
@@ -293,35 +326,34 @@ export default function Navbar() {
               id="confirm_password"
               label="Confirm password"
               type="password"
-              value={formik.values.confirm_password}
-              onChange={formik.handleChange}
+              value={register_formik.values.confirm_password}
+              onChange={register_formik.handleChange}
+              error={register_formik.touched.confirm_password && Boolean(register_formik.errors.confirm_password)}
+              helperText={register_formik.touched.confirm_password && register_formik.errors.confirm_password}
               fullWidth
               variant="standard"
             />
           
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleDialogClose('login')}>Cancel</Button>
+          <Button onClick={() => handleDialogClose('register')}>Cancel</Button>
           <Button type="submit">Register</Button>
         </DialogActions>
         </form>
       </Dialog>
       <Dialog open={openLoginDialog} onClose={() => handleDialogClose('login')}>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={login_formik.handleSubmit}>
         <DialogTitle>Login</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
-          </DialogContentText> */}
-          
             <TextField
               margin="dense"
               id="email"
               label="Email Address"
               type="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
+              value={login_formik.values.email}
+              onChange={login_formik.handleChange}
+              error={login_formik.touched.email && Boolean(login_formik.errors.email)}
+              helperText={login_formik.touched.email && login_formik.errors.email}
               fullWidth
               variant="standard"
             />
@@ -330,22 +362,13 @@ export default function Navbar() {
               id="password"
               label="Password"
               type="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
+              value={login_formik.values.password}
+              onChange={login_formik.handleChange}
+              error={login_formik.touched.password && Boolean(login_formik.errors.password)}
+              helperText={login_formik.touched.password && login_formik.errors.password}
               fullWidth
               variant="standard"
             />
-            <TextField
-              margin="dense"
-              id="confirm_password"
-              label="Confirm password"
-              type="password"
-              value={formik.values.confirm_password}
-              onChange={formik.handleChange}
-              fullWidth
-              variant="standard"
-            />
-          
         </DialogContent>
         <DialogActions>
           <Button onClick={() => handleDialogClose('login')}>Cancel</Button>
