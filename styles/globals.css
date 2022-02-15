@@ -14,3 +14,15 @@ a {
 * {
   box-sizing: border-box;
 }
+
+:root {
+  --white: #fff;
+  --ps: #003087;
+  --xbox: #107c10;
+  --ns: #db081a;
+  --mainBackground: rgba(239, 245, 245, 0.397);
+  --mainGrey: hsl(210, 36%, 96%);
+  --mainDarkerGrey: hsl(210, 4%, 80%);
+  --mainGreen: var(--xbox);
+  --mainRed: var(--ns);
+}
