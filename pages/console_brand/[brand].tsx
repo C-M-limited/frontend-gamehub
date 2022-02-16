@@ -6,7 +6,7 @@ import StyledBanner from '../../components/template/StyledBanner';
 import StyledGameItem from '../../components/template/StyledGameItem';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
-const FilterButton = styled('a')<{ active?: string }>(({active}) => ({
+const FilterButton = styled('a')<{ active?: boolean }>(({active}) => ({
   position: 'relative',
   backgroundColor: active ? '#6100FF' : '#353545',
   color: '#ffffff',
@@ -22,7 +22,11 @@ const filterList = [
   { name: "X Box", brand: "xbox", src: "/console_brand/xbox" },
 ]
 
-const FilterRow = ({brand}) => {
+interface FilterRowProps {
+  brand: string;
+}
+
+const FilterRow = ({brand}: FilterRowProps) => {
   return (
     <Grid container>
       <Grid item sm={12} display="flex" alignItems="center">
@@ -54,12 +58,9 @@ const FilterRow = ({brand}) => {
 const ConsoleBrand = () => {
   const router = useRouter()
 
-  console.log(router.query)
-
   return (
     <>
-      <p>{router.query.brand}</p>
-      <FilterRow brand={router.query.brand}/>
+      <FilterRow brand={String(router.query.brand)}/>
     </>
   )
 };

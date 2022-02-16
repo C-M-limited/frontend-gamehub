@@ -21,7 +21,6 @@ const StyledHero = () => {
     <>
         <Grid container>
             <Grid item sm={12} display="flex" flexDirection="column" alignItems="center">
-                
                 <Title>Game Hub helps you find your game</Title>
                     <Box display="flex">
                         {[gameConsoleList.map((item)=> (

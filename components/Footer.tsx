@@ -1,7 +1,82 @@
+import { Button, Grid, Typography } from '@mui/material';
+import { Box, styled } from '@mui/system';
 import React from 'react';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import GoogleIcon from '@mui/icons-material/Google';
+import Link from 'next/link';
+
+const IconButton = styled(Button)({
+  position: 'relative',
+  backgroundColor: '#8d8d8d',
+  color: '#ffffff',
+  width: 30,
+  height: 50,
+  margin: '20px 10px 20px 0px',
+})
+
+const FooterTitle = styled(Typography)({
+  fontSize: 20,
+  fontWeight: 700,
+  marginBottom: 20,
+})
+
+const FooterContent = styled(Typography)({
+  fontSize: 16,
+  marginBottom: 20,
+  fontWeight: 100,
+  cursor: 'pointer',
+  '&:hover': {
+    color: 'var(--mainGrey)'
+  }
+})
+
+const filterList = [
+  { name: "All", brand: 'all', src: "/console_brand/all" },
+  { name: "Play station", brand: "playstation", src: "/console_brand/playstation" },
+  { name: "Nintendo", brand: "nintendo", src: "/console_brand/nintendo" },
+  { name: "X Box", brand: "xbox", src: "/console_brand/xbox" },
+]
 
 const Footer = () => {
-  return <div></div>;
+  return (
+    <Grid container spacing={1} bgcolor="#151520" display="flex" justifyContent="center">
+      <Grid item xs={12} lg={8} display="flex" justifyContent="center" mt={2}>
+        <Grid item xs={12} lg={6}>
+          <FooterTitle>Game Hub</FooterTitle>
+          <Typography>Help you find your dream game</Typography>
+          <Box>
+            <IconButton>
+              <TwitterIcon />
+            </IconButton>
+            <IconButton>
+              <InstagramIcon />
+            </IconButton>
+            <IconButton>
+              <GoogleIcon />
+            </IconButton>
+          </Box>
+        </Grid>
+        <Grid item xs={12} lg={3}>
+          <FooterTitle>My account</FooterTitle>
+          <FooterContent>Profile</FooterContent>
+          <FooterContent>Sell my game</FooterContent>
+          <FooterContent>Browse random game</FooterContent>
+        </Grid>
+        <Grid item xs={12} lg={3}>
+          <FooterTitle>Resource</FooterTitle>
+          {
+            filterList.map((item)=>(
+              <Link key={item.src} href={item.src}>
+                <FooterContent>{item.name}</FooterContent>
+              </Link>
+            ))
+          }
+        </Grid>
+        
+      </Grid>
+    </Grid>
+  )
 };
 
 export default Footer;
