@@ -4,21 +4,28 @@ import Layout from '../components/Layout'
 import Head from 'next/head'
 
 import allReducers,{RootState} from '../store/reducer';
-import { createStore } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
-const store = createStore(allReducers);
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+const composeEnhancers = typeof window != 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(allReducers,composeEnhancers());
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
-      <Head>
-        <title>GameHub</title>
-      </Head>
-      <Provider store={store}>
-       <Component {...pageProps} />
-      </Provider>
-    </Layout>
+    <Provider store={store}>
+      <Layout>
+        <Head>
+          <title>GameHub</title>
+        </Head>
+        <Component {...pageProps} />
+      </Layout>
+    </Provider>
   )
 }
 
