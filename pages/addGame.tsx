@@ -1,9 +1,26 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm , SubmitHandler} from 'react-hook-form';
+const gameList = [
+  {
+    id: 1,
+    name: 'GTA5'
+  },
+  {
+    id:2,
+    name:'Pokemon'
+  }  
+]
 
-export default function addGame() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
+interface AddGameFormInput {
+  game: String;
+  price: number;
+  place_for_transaction: String;
+  description?: String;
+}
+
+export default function AddGame() {
+  const { register, handleSubmit, formState: { errors } } = useForm<AddGameFormInput>();
+  const onSubmit : SubmitHandler<AddGameFormInput> = data => console.log(data);
   console.log(errors);
   
   return (
@@ -11,15 +28,15 @@ export default function addGame() {
       <h2 style={{color:'var(--white'}}>ADD GAME</h2>
       <form onSubmit={handleSubmit(onSubmit)} style={addGameFromStyle} id="addGameForm">
         <h4>Game :</h4>
-        <select {...register("Game", { required: true })} style={addGameInputStyle}>
-
+        <select {...register("game", { required: true })} style={addGameInputStyle}>
+          {gameList.map((game,index)=><option key={index} value={game.name}>{game.name}</option>)}
         </select>
         <h4>Price :</h4>
-        <input type="number" {...register("Price", {required: true, max: 2000, min: 0})} style={addGameInputStyle}/>
+        <input type="number" {...register("price", {required: true, max: 2000, min: 0})} style={addGameInputStyle}/>
         <h4>Place fro Transaction :</h4>
-        <input type="text" {...register("Place for Transaction", {required: true})} style={addGameInputStyle}/>
+        <input type="text" {...register("place_for_transaction", {required: true})} style={addGameInputStyle}/>
         <h4>Description : </h4>
-        <textarea {...register("Description", {})} placeholder="Optional" style={addGameInputTextStyle}/>
+        <textarea {...register("description", {})} placeholder="Optional" style={addGameInputTextStyle}/>
 
         
       </form>
