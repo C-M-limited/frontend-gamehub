@@ -6,6 +6,9 @@ import StyledBanner from '../../components/template/StyledBanner';
 import StyledGameItem from '../../components/template/StyledGameItem';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/reducer';
+
 const FilterButton = styled('a')<{ active?: boolean }>(({active}) => ({
   position: 'relative',
   backgroundColor: active ? '#6100FF' : '#353545',
@@ -27,8 +30,10 @@ interface FilterRowProps {
 }
 
 const FilterRow = ({brand}: FilterRowProps) => {
+  const currentSelectedConsoleBrand = useSelector((state:RootState) => state.consoleBrand);
   return (
     <Grid container>
+      <h2>{currentSelectedConsoleBrand}</h2>
       <Grid item sm={12} display="flex" alignItems="center">
       </Grid>
       <Grid item sm={12} display="flex" alignItems="center">
