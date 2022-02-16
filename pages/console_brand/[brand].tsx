@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import StyledBanner from '../../components/templates/StyledBanner';
+import StyledBanner from '../../components/template/StyledBanner';
 
 const ConsoleBrand = () => {
   const router = useRouter()

@@ -23,10 +23,10 @@ import axios from 'axios';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.black, 0.15),
+  borderRadius: 30,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.black, 0.25),
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -38,7 +38,7 @@ const Search = styled('div')(({ theme }) => ({
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
-  color: alpha(theme.palette.common.black, 1),
+  color: alpha(theme.palette.common.white, 1),
   padding: theme.spacing(0, 2),
   height: '100%',
   position: 'absolute',
@@ -49,7 +49,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'primary',
+  color: '#fff',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -221,8 +221,8 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar style={{ backgroundColor: '#fff'}}>
+      <AppBar position="static" style={{ height: 40 }}>
+        <Toolbar style={{ backgroundColor: '#151520' }}>
         <Grid container display='flex' justifyContent='center'>
               <Grid item sm={8} display='flex' alignItems='center'>
           {/* <IconButton
@@ -236,7 +236,7 @@ export default function Navbar() {
           </IconButton> */}
           <Link href="/" passHref={true}>
             <Typography
-              color="#000"
+              color="#fff"
               variant="h6"
               noWrap
               component="div"

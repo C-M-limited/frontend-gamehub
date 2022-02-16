@@ -21,7 +21,7 @@ function StyledBanner() {
     ]
 
     return (
-        <div style={{ position: 'relative', marginTop: 10 }}>
+        <div style={{ position: 'relative', marginTop: 30 }}>
             <Carousel indicators={false} navButtonsAlwaysVisible>
                 {
                     items.map( (item, i) => (
