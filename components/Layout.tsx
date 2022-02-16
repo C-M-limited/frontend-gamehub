@@ -7,8 +7,8 @@ const Layout = ({children}: React.PropsWithChildren<{}>) => {
   return (
       <div>
           <Navbar />
-            <Grid container display='flex' justifyContent='center'>
-              <Grid item sm={8}>
+            <Grid container display='flex' justifyContent='center' bgcolor="#000">
+              <Grid item sm={10}>
                 {children}
               </Grid>
             </Grid>

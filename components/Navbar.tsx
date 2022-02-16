@@ -221,7 +221,7 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ height: 40 }}>
+      <AppBar position="sticky">
         <Toolbar style={{ backgroundColor: '#151520' }}>
         <Grid container display='flex' justifyContent='center'>
               <Grid item sm={8} display='flex' alignItems='center'>
