@@ -24,7 +24,7 @@ import { server } from '../config'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: 30,
+  borderRadius: 4,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
@@ -245,80 +245,55 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky">
         <Toolbar style={{ backgroundColor: '#151520' }}>
-        <Grid container display='flex' justifyContent='center'>
-              <Grid item sm={8} display='flex' alignItems='center'>
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton> */}
-          <Link href="/" passHref={true}>
-            <Typography
-              color="#fff"
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { xs: 'none', sm: 'block' }, marginLeft: 0, cursor: 'pointer' }}
-            >
-              GameHUB
-            </Typography>
-          </Link>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <Button
-                variant="contained"
-                style={{ backgroundColor: '#000'}}
-                onClick={() => handleDialogOpen('register')}
-                sx={{ marginRight: 1 }}
-              >
-              Register
-            </Button>
-            <Button
-              variant="contained"
-              style={{ backgroundColor: '#000'}}
-              onClick={() => handleDialogOpen('login')}
-            >
-              Login
-            </Button>
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="primary"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-          </Grid>
+          <Grid container display='flex' justifyContent='center'>
+            <Grid item sm={8} display='flex' alignItems='center'>
+              <Grid item sm={2}>
+                <Link href="/" passHref={true}>
+                  <Typography
+                    color="#fff"
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    sx={{ marginLeft: 0, cursor: 'pointer' }}
+                  >
+                    GameHUB
+                  </Typography>
+                </Link>
+              </Grid>
+              <Grid item sm={6}>
+                <Search>
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    placeholder="Search…"
+                    inputProps={{ 'aria-label': 'search' }}
+                  />
+                </Search>
+              </Grid>
+              <Grid item sm={4}></Grid>
+              <Grid item sm={2}>
+                <Button
+                  variant="contained"
+                  style={{ backgroundColor: '#000' }}
+                  onClick={() => handleDialogOpen('login')}
+                >
+                  Login
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
       <Dialog open={openRegisterDialog} onClose={() => handleDialogClose('register')}>
-      <form onSubmit={register_formik.handleSubmit}>
-        <DialogTitle>Register</DialogTitle>
-        <DialogContent>
-          {/* <DialogContentText>
+        <form onSubmit={register_formik.handleSubmit}>
+          <DialogTitle>Register</DialogTitle>
+          <DialogContent>
+            {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We
             will send updates occasionally.
           </DialogContentText> */}
-          
+
             <TextField
               margin="dense"
               id="email"
@@ -355,19 +330,19 @@ export default function Navbar() {
               fullWidth
               variant="standard"
             />
-          
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleDialogClose('register')}>Cancel</Button>
-          <Button type="submit">Register</Button>
-        </DialogActions>
+
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => handleDialogClose('register')}>Cancel</Button>
+            <Button type="submit">Register</Button>
+          </DialogActions>
         </form>
       </Dialog>
       {/* Log In */}
       <Dialog open={openLoginDialog} onClose={() => handleDialogClose('login')}>
-      <form onSubmit={login_formik.handleSubmit}>
-        <DialogTitle>Login</DialogTitle>
-        <DialogContent>
+        <form onSubmit={login_formik.handleSubmit}>
+          <DialogTitle>Login</DialogTitle>
+          <DialogContent>
             <TextField
               margin="dense"
               id="email"
@@ -392,12 +367,11 @@ export default function Navbar() {
               fullWidth
               variant="standard"
             />
-            {problem && <Typography>{problemDetail}</Typography>}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleDialogClose('login')}>Cancel</Button>
-          <Button type="submit">Login</Button>
-        </DialogActions>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => handleDialogClose('login')}>Cancel</Button>
+            <Button type="submit">Login</Button>
+          </DialogActions>
         </form>
       </Dialog>
       {renderMobileMenu}

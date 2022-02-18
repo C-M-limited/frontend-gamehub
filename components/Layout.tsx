@@ -5,9 +5,9 @@ import Navbar from './Navbar';
 
 const Layout = ({children}: React.PropsWithChildren<{}>) => {
   return (
-      <div>
+      <div style={{ background: 'url(/body-background.png)', backgroundSize: 'cover'}}>
           <Navbar />
-            <Grid container display='flex' justifyContent='center' bgcolor="#000" minHeight="100vh">
+            <Grid container display='flex' justifyContent='center' minHeight="100vh">
               <Grid item sm={8}>
                 {children}
               </Grid>

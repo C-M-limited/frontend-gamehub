@@ -23,9 +23,9 @@ const StyledHero = () => {
             <Grid item sm={12} display="flex" flexDirection="column" alignItems="center">
                 <Title>Game Hub helps you find your game</Title>
                     <Box display="flex">
-                        {[gameConsoleList.map((item)=> (
-                            <Box key={item.src} mr={2} mt={3} style={{ cursor: 'pointer' }}>
-                                <Link href={item.url}>
+                        {[gameConsoleList.map((item, key)=> (
+                            <Box key={key} mr={2} mt={3} style={{ cursor: 'pointer' }}>
+                                <Link href={item.url} passHref>
                                     <Image src={item.src} layout="intrinsic" width={60} height={60}/>
                                 </Link>
                             </Box>
