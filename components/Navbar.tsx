@@ -20,6 +20,7 @@ import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import { server } from '../config'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -78,6 +79,9 @@ const validationSchema = yup.object({
 })
 
 export default function Navbar() {
+  const [problem,setProblem] = React.useState<boolean>(false);
+  const [problemDetail,setProblemDetail] = React.useState<string>("");
+  //provided by marterial ui
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -108,12 +112,30 @@ export default function Navbar() {
       email: "",
       password: ""
     },
-    validationSchema,
     onSubmit: async (values) => {
       const { email, password } = values
-      const res = await axios.post('/api/auth/login', {
+      axios.post(`${server}/api/v1/login`, {
         email,
         password
+      })
+      .then(function (response){
+        if (response.data==="Wrong Email or Password"){
+          setProblem(true);
+          setProblemDetail(response.data);
+          return;
+        }
+        if (response.data==="This account is already LogIn"){
+          setProblem(true);
+          setProblemDetail(response.data);
+          return;
+        }
+        console.log(response.data);
+        localStorage.setItem('token',response.data.accessToken);
+      })
+      .catch(function (error){
+        console.log(error.response)
+        setProblem(true);
+        setProblemDetail(error.response.data);
       })
     }
   })
@@ -341,6 +363,7 @@ export default function Navbar() {
         </DialogActions>
         </form>
       </Dialog>
+      {/* Log In */}
       <Dialog open={openLoginDialog} onClose={() => handleDialogClose('login')}>
       <form onSubmit={login_formik.handleSubmit}>
         <DialogTitle>Login</DialogTitle>
@@ -369,6 +392,7 @@ export default function Navbar() {
               fullWidth
               variant="standard"
             />
+            {problem && <Typography>{problemDetail}</Typography>}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => handleDialogClose('login')}>Cancel</Button>

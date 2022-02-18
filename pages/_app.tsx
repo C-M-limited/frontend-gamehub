@@ -5,6 +5,7 @@ import Head from 'next/head'
 
 import allReducers,{RootState} from '../store/reducer';
 import { createStore, compose, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk'
 import { Provider } from 'react-redux';
 
 declare global {
@@ -14,7 +15,7 @@ declare global {
 }
 const composeEnhancers = typeof window != 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(allReducers,composeEnhancers());
+const store = createStore(allReducers ,composeEnhancers(applyMiddleware(thunk)));
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
