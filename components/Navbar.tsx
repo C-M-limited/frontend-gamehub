@@ -22,22 +22,19 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { server } from '../config'
-<<<<<<< HEAD
-import StyledButton from './StyledButton';
-import StyledInput from './StyledInput';
-=======
 import jwt from 'jwt-decode';
 //redux
 import { useDispatch,useSelector } from 'react-redux';
 import { LogInAction } from '../store/action/logIn';
 import { setUserProfileAction } from '../store/action/userPorfile';
+import StyledButton from './StyledButton';
+import StyledInput from './StyledInput';
 
 interface userProfileProps{
   role  : string;
   id    : number;
   email : string;
 }
->>>>>>> 086543b3afab1f7cbf65efee69ff15e8180a1c97
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
