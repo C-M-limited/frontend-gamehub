@@ -37,43 +37,48 @@ const filterList = [
   { name: "Nintendo", brand: "nintendo", src: "/console_brand/nintendo" },
   { name: "X Box", brand: "xbox", src: "/console_brand/xbox" },
 ]
-
+// #151520
 const Footer = () => {
   return (
     <Grid container spacing={1} bgcolor="#151520" display="flex" justifyContent="center">
       <Grid item xs={12} lg={8} display="flex" justifyContent="center" mt={2}>
-        <Grid item xs={12} lg={6}>
-          <FooterTitle>Game Hub</FooterTitle>
-          <Typography>Help you find your dream game</Typography>
-          <Box>
-            <IconButton>
-              <TwitterIcon />
-            </IconButton>
-            <IconButton>
-              <InstagramIcon />
-            </IconButton>
-            <IconButton>
-              <GoogleIcon />
-            </IconButton>
-          </Box>
+        <Grid item xs={12} lg={6} display="flex"  flexDirection={'column'} alignItems="center">
+          <Grid>
+            <FooterTitle>Game Hub</FooterTitle>
+            <Typography>Help you find your dream game</Typography>
+            <Box>
+              <IconButton>
+                <TwitterIcon />
+              </IconButton>
+              <IconButton>
+                <InstagramIcon />
+              </IconButton>
+              <IconButton>
+                <GoogleIcon />
+              </IconButton>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid item xs={12} lg={3}>
-          <FooterTitle>My account</FooterTitle>
-          <FooterContent>Profile</FooterContent>
-          <FooterContent>Sell my game</FooterContent>
-          <FooterContent>Browse random game</FooterContent>
+        <Grid item xs={12} lg={3} display="flex"  flexDirection={'column'} alignItems="center">
+          <Grid>
+            <FooterTitle>My account</FooterTitle>
+            <FooterContent>Profile</FooterContent>
+            <FooterContent>Sell my game</FooterContent>
+            <FooterContent>Browse random game</FooterContent>
+          </Grid>
         </Grid>
-        <Grid item xs={12} lg={3}>
-          <FooterTitle>Resource</FooterTitle>
-          {
-            filterList.map((item)=>(
-              <Link key={item.src} href={item.src}>
-                <FooterContent>{item.name}</FooterContent>
-              </Link>
-            ))
-          }
+        <Grid item xs={12} lg={3} display="flex"  flexDirection={'column'} alignItems="center">
+          <Grid>
+            <FooterTitle>Resource</FooterTitle>
+            {
+              filterList.map((item)=>(
+                <Link key={item.src} href={item.src}>
+                  <FooterContent>{item.name}</FooterContent>
+                </Link>
+              ))
+            }
+          </Grid>
         </Grid>
-        
       </Grid>
     </Grid>
   )

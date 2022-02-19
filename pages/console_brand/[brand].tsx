@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Pagination } from '@mui/material';
 import { styled } from '@mui/system';
 import { useRouter } from 'next/router';
 import React,{useEffect} from 'react';
@@ -9,6 +9,8 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';
 import { fetchGameListAction } from '../../store/action/gameList';
+import GameItem from '../../components/template/gameItem';
+import { CenterFocusStrong } from '@mui/icons-material';
 
 const FilterButton = styled('a')<{ active?: boolean }>(({active}) => ({
   position: 'relative',
@@ -35,13 +37,25 @@ interface GameListProps{
   image_url: string,
   console_Id : number
 }
+const GameListPagination = styled(Pagination)({
+  ul: {
+      "& .MuiPaginationItem-root": {
+        color: "#fff"
+      }
+  },
+  marginBottom: 20,
+})
+
 const FilterRow = ({brand}: FilterRowProps) => {
   const gameList = useSelector((state:RootState) => state.gameList);
-  console.log(gameList);
   const dispatch = useDispatch();
   useEffect(()=>{
     dispatch(fetchGameListAction());
   },[])
+  const [page, setPage] = React.useState(1);
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
   return (
     <Grid container>
       <Grid item sm={12} display="flex" alignItems="center">
@@ -63,11 +77,17 @@ const FilterRow = ({brand}: FilterRowProps) => {
           </FilterButton>
         </Grid>
       </Grid>
+      {/* Post */}
       <Grid item sm={12} mt={2}>
-        {gameList.map(({id,name,image_url,console_Id}: GameListProps)=>{
-          return (
-          <StyledGameItem name={name} src="/game_sample.png" price={200} location="Yau Tong"/>
-          )})}
+        <Grid container spacing={15}>
+          {gameList.map(({id,name,image_url,console_Id}: GameListProps)=>{
+            return (
+            <GameItem key={id} name={name} src="/game_sample.png" />
+            )})}
+        </Grid>
+      </Grid>
+      <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
+        <GameListPagination color="primary" count={Math.ceil(gameList.length / 12) } page={page} onChange={handleChange} showFirstButton showLastButton/>
       </Grid>
     </Grid>
   )
