@@ -137,8 +137,8 @@ export default function Navbar() {
           setProblemDetail(response.data);
           return;
         }
-        console.log(response.data);
-        localStorage.setItem('token',response.data.accessToken);
+        localStorage.setItem('access-token',response.data.AUTHORIZATION);
+        localStorage.setItem('refresh-token',response.data.refreshToken);
         handleDialogClose('login')
         dispatch(LogInAction());
         // console.log('3')
@@ -152,7 +152,7 @@ export default function Navbar() {
         setProblem(true);
         setProblemDetail(error.response.data);
       })
-    }
+     }
   })
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
