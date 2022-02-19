@@ -68,7 +68,7 @@ const StyledGameItem = ({ src, name, price, location }: StyledGameItemProps) => 
             </Grid>
         ))}
         </Grid>
-        <GameListPagination color="primary" count={10} page={page} onChange={handleChange} />
+        <GameListPagination color="primary" count={Math.ceil(Array.from(Array(100).keys()).length / 12) } page={page} onChange={handleChange} />
     </Box>
   )
 }
