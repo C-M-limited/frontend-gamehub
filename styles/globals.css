@@ -19,8 +19,8 @@ h1,
 h2,
 h3,
 h4,
-p{
-  color: var(--white)
+p {
+  color: var(--white);
 }
 
 :root {
@@ -28,11 +28,11 @@ p{
   --ps: #003087;
   --xbox: #107c10;
   --ns: #db081a;
-  --mainBackground: #1E1E31;
+  --mainBackground: #1e1e31;
   --mainGrey: #353545;
-  --mainPurple: #6100FF;
+  --mainPurple: #6100ff;
   --mainDarkerGrey: hsl(210, 4%, 80%);
   --mainGreen: var(--xbox);
   --mainRed: var(--ns);
-
+  --warningRed: #bf1650;
 }
