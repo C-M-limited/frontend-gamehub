@@ -1,18 +1,7 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import { useForm , SubmitHandler} from 'react-hook-form';
 import axios from 'axios';
 import { server } from '../config'
-import styles from './addGame.module.css'
-const gameList = [
-  {
-    id: 1,
-    name: 'GTA5'
-  },
-  {
-    id:2,
-    name:'Pokemon'
-  }  
-]
 
 interface AddGameFormInput {
   game_id: number;
@@ -90,7 +79,18 @@ export default function AddGame() {
         }
       }))
   }
-  
+  const [gameList,setGameList] = useState<any[]>([]);
+  const fetchGameList=async()=>{
+    axios.get(`${server}/api/v1/games/all`)
+    .then(response =>{
+      setGameList(response.data);
+      console.log(response.data)
+    })
+    .catch((error)=> window.alert("Sorry, Server is down right now"))
+  }
+  useEffect (()=>{
+    fetchGameList();
+  },[])
   return (
     <div style={{justifyContent:'center', width:'100%' , display:'flex', flexDirection:'column', alignItems:'center'}}>
       <h2 style={{color:'var(--white'}}>ADD GAME</h2>
@@ -100,19 +100,19 @@ export default function AddGame() {
         <select {...register("game_id", { required: true,min: 1 })} style={addGameInputStyle}>
           {gameList.map((game,index)=><option key={index} value={game.id}>{game.name}</option>)}
         </select>
-        {errors.game_id && <p style={addGameWarningFont}>⚠This field is required</p>}
+        {errors.game_id ? <p style={addGameWarningFont}>⚠This field is required</p> : <p></p>}
         {/* Price */}
         <h4>Price :</h4>
         <input type="number" {...register("price", {required: true, max: 2000, min: 0})} style={addGameInputStyle}/>
-        {errors.price && <p style={addGameWarningFont}>⚠This field is required</p>}
+        {errors.price ? <p style={addGameWarningFont}>⚠This field is required</p> : <p></p>}
         {/* Place for Transaction */}
         <h4>Place for Transaction :</h4>
         <input type="text" {...register("place_for_transaction", {required: true})} style={addGameInputStyle}/>
-        {errors.place_for_transaction && <p style={addGameWarningFont}>⚠This field is required</p>}
+        {errors.place_for_transaction ? <p style={addGameWarningFont}>⚠This field is required</p> : <p></p>}
         {/* Contact Method */}
         <h4>Contact Method : </h4>
         <input type="text" {...register("contact_method", { required: true })}  style={addGameInputStyle}/>
-        {errors.contact_method && <p style={addGameWarningFont}>⚠This field is required</p>}
+        {errors.contact_method ? <p style={addGameWarningFont}>⚠This field is required</p> : <p></p>}
         {/* Description */}
         <h4>Description : </h4>
         <textarea {...register("description", {})} placeholder="Optional" style={addGameInputTextStyle}/>
