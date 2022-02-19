@@ -1,4 +1,5 @@
 import * as React from 'react';
+//material ui
 import { styled, alpha } from '@mui/material/styles';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -21,6 +22,17 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { server } from '../config'
+import jwt from 'jwt-decode';
+//redux
+import { useDispatch,useSelector } from 'react-redux';
+import { LogInAction } from '../store/action/logIn';
+import { setUserProfileAction } from '../store/action/userPorfile';
+
+interface userProfileProps{
+  role  : string;
+  id    : number;
+  email : string;
+}
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -79,6 +91,7 @@ const validationSchema = yup.object({
 })
 
 export default function Navbar() {
+  const dispatch = useDispatch();
   const [problem,setProblem] = React.useState<boolean>(false);
   const [problemDetail,setProblemDetail] = React.useState<string>("");
   //provided by marterial ui
@@ -106,7 +119,7 @@ export default function Navbar() {
       })
     }
   })
-
+// Log In
   const login_formik = useFormik({
     initialValues: {
       email: "",
@@ -119,11 +132,6 @@ export default function Navbar() {
         password
       })
       .then(function (response){
-        if (response.data==="Wrong Email or Password"){
-          setProblem(true);
-          setProblemDetail(response.data);
-          return;
-        }
         if (response.data==="This account is already LogIn"){
           setProblem(true);
           setProblemDetail(response.data);
@@ -131,8 +139,15 @@ export default function Navbar() {
         }
         console.log(response.data);
         localStorage.setItem('token',response.data.accessToken);
+        handleDialogClose('login')
+        dispatch(LogInAction());
+        // console.log('3')
+        // const user:userProfileProps  = jwt(response.data.accessToken);
+        // console.log('4')
+        // dispatch(setUserProfileAction(user));
       })
       .catch(function (error){
+        console.log('heo')
         console.log(error.response)
         setProblem(true);
         setProblemDetail(error.response.data);
@@ -368,6 +383,7 @@ export default function Navbar() {
               variant="standard"
             />
           </DialogContent>
+          {problem && <Typography variant="body1" color="red" mb={2} align="center">{problemDetail}</Typography>}
           <DialogActions>
             <Button onClick={() => handleDialogClose('login')}>Cancel</Button>
             <Button type="submit">Login</Button>
