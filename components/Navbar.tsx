@@ -1,7 +1,7 @@
 import * as React from 'react';
 //material ui
 import { styled, alpha } from '@mui/material/styles';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@mui/material';
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -23,6 +23,8 @@ import * as yup from 'yup';
 import axios from 'axios';
 import StyledButton from './StyledButton';
 import StyledInput from './StyledInput';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../store/action/auth';
 
 interface userProfileProps {
   role: string;
@@ -201,11 +203,14 @@ export default function Navbar() {
   );
 
   const LoginForm = () => {
+    const loginStatus = useSelector((state) => state.auth)
+    const dispatch = useDispatch()
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = (data: any) => console.log(data);
+    const onSubmit = (data: any) => dispatch(login(data));
+
     return (
       <Dialog open={openLoginDialog} onClose={() => handleDialogClose('login')}>
-        <form onSubmit={handleSubmit(onSubmit)} style={{ width: 400 }}>
+          <form onSubmit={handleSubmit(onSubmit)} style={{ width: 400 }}>
           <DialogTitle style={{ backgroundColor: '#000' }}>Login</DialogTitle>
           <DialogContent style={{ backgroundColor: '#000' }}>
             <StyledInput
@@ -232,7 +237,15 @@ export default function Navbar() {
           {problem && <Typography variant="body1" color="red" mb={2} align="center">{problemDetail}</Typography>}
           <DialogActions style={{ backgroundColor: '#000' }}>
             <StyledButton onClick={() => handleDialogClose('login')}>Cancel</StyledButton>
-            <StyledButton type="submit">Login</StyledButton>
+            <StyledButton type="submit">
+              {
+                loginStatus.loading
+                ?
+                <CircularProgress size={16} color="inherit" />
+                :
+                "Login"
+              }
+            </StyledButton>
           </DialogActions>
         </form>
       </Dialog>

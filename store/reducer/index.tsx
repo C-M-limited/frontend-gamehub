@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 
 import ConsoleBrandTypeReducer from './consoleBrandType';
-import isLogInReducer from './logIn';
+import authReducer from './auth';
 import userProfileReducer from './userProfile';
 
 const allReducers = combineReducers({
     consoleBrand : ConsoleBrandTypeReducer,
-    isLogIn : isLogInReducer,
+    auth : authReducer,
     userProfile : userProfileReducer,
 
 }) 
