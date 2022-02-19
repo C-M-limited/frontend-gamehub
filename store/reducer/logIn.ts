@@ -1,4 +1,7 @@
-const initialState = false;
+const initialState = {
+    isLogin: false,
+    
+};
 
 const isLogInReducer = (state = initialState, action: {type: string;}) =>{
     switch(action.type){
