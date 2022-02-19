@@ -30,10 +30,8 @@ interface FilterRowProps {
 }
 
 const FilterRow = ({brand}: FilterRowProps) => {
-  const currentSelectedConsoleBrand = useSelector((state:RootState) => state.consoleBrand);
   return (
     <Grid container>
-      <h2>{currentSelectedConsoleBrand}</h2>
       <Grid item sm={12} display="flex" alignItems="center">
       </Grid>
       <Grid item sm={12} display="flex" alignItems="center">
