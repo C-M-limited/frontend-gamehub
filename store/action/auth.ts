@@ -61,6 +61,7 @@ export const login = ({ email, password}: logInProps) => {
           .then(function (response){
             if (response.data==="This account is already LogIn"){
               dispatch(logInFailed(response.data))
+              alert('Login Failed')
               return;
             }
             localStorage.setItem('access-token',response.data.AUTHORIZATION);
@@ -68,7 +69,8 @@ export const login = ({ email, password}: logInProps) => {
             dispatch(logInSuccess());
           })
           .catch(function (error){
-            dispatch(logInFailed(error.response));
+            dispatch(logInFailed("Login Failed"));
+            alert('Login Failed')
             console.log(error.response)
           })
          }
