@@ -1,7 +1,10 @@
 import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILED } from './../action/auth';
 
-const auth = JSON.parse(localStorage.getItem('login'))
+let auth;
 
+if (typeof window !== 'undefined') {
+    auth = localStorage.getItem('login')
+}
 const initialState = auth ? {
     loading: false,
     isLogin: false,
