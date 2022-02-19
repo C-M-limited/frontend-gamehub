@@ -4,12 +4,14 @@ import ConsoleBrandTypeReducer from './consoleBrandType';
 import authReducer from './auth';
 import userProfileReducer from './userProfile';
 import  gameListReducer  from './gameList';
+import { registerReducer } from './registration';
 
 const allReducers = combineReducers({
     consoleBrand : ConsoleBrandTypeReducer,
     auth : authReducer,
     userProfile : userProfileReducer,
-    gameList : gameListReducer
+    gameList : gameListReducer,
+    register: registerReducer,
 
 }) 
 export default allReducers;

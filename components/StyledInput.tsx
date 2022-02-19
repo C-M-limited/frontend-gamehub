@@ -25,6 +25,7 @@ const HelperText = styled('label')({
 })
 interface StyledInputProps {
     label: Path<any>;
+    name: string;
     placeholder: string;
     register: UseFormRegister<any>;
     required: boolean;
@@ -32,11 +33,11 @@ interface StyledInputProps {
     helperText: string;
 }
 
-const StyledInput = ({ label, register, required, error, helperText, placeholder }: StyledInputProps ) => {
+const StyledInput = ({ label, name, register, required, error, helperText, placeholder }: StyledInputProps ) => {
   return (
     <div style={{ position: 'relative' }}>
         <Label>{label}</Label>
-        <Input placeholder={placeholder} error={error} {...register(String(label).replace(" ", "_"), { required })}/>
+        <Input placeholder={placeholder} error={error} {...register(name, { required })}/>
         {error && <HelperText>{helperText}</HelperText>}
     </div>
   )

@@ -25,6 +25,7 @@ import StyledButton from './StyledButton';
 import StyledInput from './StyledInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/action/auth';
+import { registerThunk } from '../store/action/registration';
 
 interface userProfileProps {
   role: string;
@@ -215,6 +216,7 @@ export default function Navbar() {
           <DialogContent style={{ backgroundColor: '#000' }}>
             <StyledInput
               label="email"
+              name="email"
               placeholder='Enter your email'
               register={register}
               required
@@ -223,6 +225,7 @@ export default function Navbar() {
             />
             <StyledInput
               label="password"
+              name="password"
               placeholder='Enter your password'
               register={register}
               required
@@ -243,7 +246,7 @@ export default function Navbar() {
                 ?
                 <CircularProgress size={16} color="inherit" />
                 :
-                "Login"
+                "Submit"
               }
             </StyledButton>
           </DialogActions>
@@ -253,8 +256,10 @@ export default function Navbar() {
   }
 
   const RegisterForm = () => {
+    const registerStatus = useSelector((state) => state.register)
+    const dispatch = useDispatch()
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = (data: any) => console.log(data);
+    const onSubmit = (data: any) => dispatch(registerThunk(data));
     return (
       <Dialog open={openRegisterDialog} onClose={() => handleDialogClose('register')}>
         <form onSubmit={handleSubmit(onSubmit)} style={{ width: 400 }}>
@@ -266,6 +271,7 @@ export default function Navbar() {
           </DialogContentText> */}
             <StyledInput
               label="first name"
+              name="firstName"
               placeholder='Enter your first name'
               register={register}
               required
@@ -274,6 +280,7 @@ export default function Navbar() {
             />
             <StyledInput
               label="last name"
+              name="lastName"
               placeholder='Enter your last name'
               register={register}
               required
@@ -282,6 +289,7 @@ export default function Navbar() {
             />
             <StyledInput
               label="email"
+              name="email"
               placeholder='Enter your email'
               register={register}
               required
@@ -290,6 +298,7 @@ export default function Navbar() {
             />
             <StyledInput
               label="password"
+              name="password"
               placeholder='Enter your password'
               register={register}
               required
@@ -298,6 +307,7 @@ export default function Navbar() {
             />
             <StyledInput
               label="confirm password"
+              name="confirmPassword"
               placeholder='Enter your confirm password'
               register={register}
               required
@@ -311,7 +321,15 @@ export default function Navbar() {
           </DialogContent>
           <DialogActions style={{ backgroundColor: '#000' }}>
             <StyledButton onClick={() => handleDialogClose('register')}>Cancel</StyledButton>
-            <StyledButton type="submit">Register</StyledButton>
+            <StyledButton type="submit">
+              {
+                registerStatus.loading
+                ?
+                <CircularProgress size={16} color="inherit" />
+                :
+                "Submit"
+              }
+            </StyledButton>
           </DialogActions>
         </form>
       </Dialog>
