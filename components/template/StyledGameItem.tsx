@@ -1,4 +1,4 @@
-import { Grid, Typography, Box, Divider } from '@mui/material';
+import { Grid, Typography, Box, Divider, Pagination } from '@mui/material';
 import { styled } from '@mui/system';
 import Image from 'next/image';
 import React from 'react'
@@ -11,7 +11,7 @@ interface StyledGameItemProps {
 }
 
 const GameItemContainer = styled(Box)({
-    backgroundColor: '#353545',
+    backgroundColor: '#35354584',
     color: '#ffffff',
     display: 'flex',
     flexDirection: 'column',
@@ -31,15 +31,30 @@ const GameItemSubTitle = styled(Typography)({
     color: '#C0C0C0',
 })
 
+const GameListPagination = styled(Pagination)({
+    position: 'relative',
+    ul: {
+        "& .MuiPaginationItem-root": {
+          color: "#fff"
+        }
+    },
+    marginBottom: 20,
+})
+
 const StyledGameItem = ({ src, name, price, location }: StyledGameItemProps) => {
-  return (
+    const [page, setPage] = React.useState(1);
+    const handleChange = (event, value) => {
+      setPage(value);
+    };
+
+    return (
     <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={1}>
-        {Array.from('x'.repeat(50)).map((item, key)=>(
+        {Array.from(Array(100).keys()).slice(12*(page-1), 12*page).map((item, key)=>(
             <Grid key={key} item xs={12} sm={6} md={3} lg={2}>
                 <GameItemContainer>
                     <Image src={src} layout="responsive" width={180} height={200} />
-                    <GameItemTitle>{name}</GameItemTitle>
+                    <GameItemTitle>{name} - {item}</GameItemTitle>
                     <Divider style={{ backgroundColor: '#fff'}}/>
                     <>
                         <GameItemSubTitle>Price</GameItemSubTitle>
@@ -53,6 +68,7 @@ const StyledGameItem = ({ src, name, price, location }: StyledGameItemProps) => 
             </Grid>
         ))}
         </Grid>
+        <GameListPagination color="primary" count={10} page={page} onChange={handleChange} />
     </Box>
   )
 }
