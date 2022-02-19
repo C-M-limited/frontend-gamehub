@@ -1,5 +1,5 @@
 import axios from "axios"
-
+import { server } from '../../config'
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST"
 export const LOG_IN_SUCCESS = "LOG_IN_SUCCESS"
 export const LOG_IN_FAILED = "LOG_IN_FAILED"
@@ -54,7 +54,7 @@ export const login = ({ email, password}: logInProps) => {
     return async (dispatch: any) => {
         dispatch(logInRequest())
         
-        axios.post(`/api/v1/login`, {
+        axios.post(`${server}/api/v1/login`, {
             email,
             password
           })

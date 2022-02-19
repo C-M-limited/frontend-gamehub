@@ -1,13 +1,14 @@
 import { Box, Grid } from '@mui/material';
 import { styled } from '@mui/system';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React,{useEffect} from 'react';
 import StyledBanner from '../../components/template/StyledBanner';
 import StyledGameItem from '../../components/template/StyledGameItem';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';
+import { fetchGameListAction } from '../../store/action/gameList';
 
 const FilterButton = styled('a')<{ active?: boolean }>(({active}) => ({
   position: 'relative',
@@ -28,8 +29,19 @@ const filterList = [
 interface FilterRowProps {
   brand: string;
 }
-
+interface GameListProps{
+  id : number,
+  name: string,
+  image_url: string,
+  console_Id : number
+}
 const FilterRow = ({brand}: FilterRowProps) => {
+  const gameList = useSelector((state:RootState) => state.gameList);
+  console.log(gameList);
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(fetchGameListAction());
+  },[])
   return (
     <Grid container>
       <Grid item sm={12} display="flex" alignItems="center">
@@ -52,7 +64,10 @@ const FilterRow = ({brand}: FilterRowProps) => {
         </Grid>
       </Grid>
       <Grid item sm={12} mt={2}>
-        <StyledGameItem name="GTA-5" src="/game_sample.png" price={200} location="Yau Tong"/>
+        {gameList.map(({id,name,image_url,console_Id}: GameListProps)=>{
+          return (
+          <StyledGameItem name={name} src="/game_sample.png" price={200} location="Yau Tong"/>
+          )})}
       </Grid>
     </Grid>
   )
