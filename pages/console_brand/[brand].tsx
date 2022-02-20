@@ -8,7 +8,7 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';
-import { fetchGameListAction } from '../../store/action/gameList';
+import { fetchGameListThunk, setGameListRangeAction } from '../../store/action/gameList';
 import GameItem from '../../components/template/gameItem';
 import { CenterFocusStrong } from '@mui/icons-material';
 
@@ -19,6 +19,7 @@ const FilterButton = styled('a')<{ active?: boolean }>(({active}) => ({
   marginRight: 20,
   padding: '10px 20px',
   borderRadius: '10px',
+  cursor: 'pointer'
 }))
 
 const filterList = [
@@ -47,14 +48,32 @@ const GameListPagination = styled(Pagination)({
 })
 
 const FilterRow = ({brand}: FilterRowProps) => {
-  const gameList = useSelector((state:RootState) => state.gameList);
+  const response = useSelector((state:RootState) => state.gameList);
+  const [brandID,setBrandID] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const dispatch = useDispatch();
   useEffect(()=>{
-    dispatch(fetchGameListAction());
-  },[])
-  const [page, setPage] = React.useState(1);
-  const handleChange = (event, value) => {
+    // switch (brand){
+    //   case 'all':
+    //     setBrandID(0);
+    //     break
+    //   case 'playstation':
+    //     setBrandID(1);
+    //     break
+    //   case  'nintendo':
+    //     setBrandID(2);
+    //     break
+    //   case 'xbox':
+    //     setBrandID(3);
+    //     break
+    //   default:
+    //     setBrandID(0);
+    // }
+    dispatch(fetchGameListThunk({page:page-1,size:16,sortBy:'id', category:0}));
+  },[page])
+  const handleChange = (_event: any, value: number) => {
     setPage(value);
+    window.scrollTo(0, 0)
   };
   return (
     <Grid container>
@@ -80,14 +99,14 @@ const FilterRow = ({brand}: FilterRowProps) => {
       {/* Post */}
       <Grid item sm={12} mt={2}>
         <Grid container spacing={15}>
-          {gameList.map(({id,name,image_url,console_Id}: GameListProps)=>{
+          {response.gameList.content?.map(({id,name,image_url,console_Id}: GameListProps)=>{
             return (
-            <GameItem key={id} name={name} src="/game_sample.png" />
+              <GameItem key={id} name={name} src="/game_sample.png" id={id} />
             )})}
         </Grid>
       </Grid>
       <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
-        <GameListPagination color="primary" count={Math.ceil(gameList.length / 12) } page={page} onChange={handleChange} showFirstButton showLastButton/>
+        <GameListPagination color="primary" count={Math.ceil(response.gameList.totalPages ) } page={page} onChange={handleChange} showFirstButton showLastButton/>
       </Grid>
     </Grid>
   )

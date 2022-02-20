@@ -1,8 +1,8 @@
 import React from 'react'
-import { Grid, Typography, Box, Divider, Pagination } from '@mui/material';
+import { Grid, Typography, Box, Divider, Pagination} from '@mui/material';
 import { styled } from '@mui/system';
 import Image from 'next/image';
-
+import Link from 'next/link';
 interface StyledGameItemProps {
     src: string;
     name: string;
@@ -18,7 +18,8 @@ const GameItemContainer = styled(Box)({
     margin: '10px 0px',
     borderRadius: 20,
     width: '200px',
-    height: '300px'
+    height: '300px',
+    cursor:'pointer'
 })
 
 const GameItemTitle = styled(Typography)({
@@ -26,13 +27,15 @@ const GameItemTitle = styled(Typography)({
     marginTop: 20,
 })
 
-export default function GameItem({src, name}: StyledGameItemProps) {
+export default function GameItem({src, name, id}: StyledGameItemProps) {
   return (
     <Grid item xs={12} sm={6} md={3} lg={2}>
-        <GameItemContainer>
-            <Image src={src} layout="responsive" width={180} height={200} />
-            <GameItemTitle>{name}</GameItemTitle>
-        </GameItemContainer>
+        <Link href={`/game/${id}`}>
+            <GameItemContainer>
+                <Image src={src} layout="responsive" width={180} height={200} />
+                <GameItemTitle>{name}</GameItemTitle>
+            </GameItemContainer>
+        </Link>
     </Grid>
 
   )

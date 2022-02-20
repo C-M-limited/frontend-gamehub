@@ -5,13 +5,20 @@ interface actionProps{
 // const initialState = {
 //     gameList: [],
 // }
-const initialState: any[] = [];
+const initialState ={
+    loading: false,
+    gameList: [],
+    success: true,
+
+};
 const gameListReducer = (state = initialState, action: actionProps) => {
     switch (action.type) {
-        case "setGameList":
-            return action.payload ;
-        case "fetchGameList":
-            return action.payload;
+        case "fetchGameListRequest":
+            return {...state, loading:true} ;
+        case "fetchGameListSuccess":
+            return {...state, loading:false, gameList: action.payload};
+        case "fetchGameListFail":
+            return {...state,loading: false, success: true}
         default:
             return state;
     }
