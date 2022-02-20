@@ -6,6 +6,7 @@ import Link from 'next/link';
 interface StyledGameItemProps {
     src: string;
     name: string;
+    game_id:number
 }
 
 const GameItemContainer = styled(Box)({
@@ -27,10 +28,10 @@ const GameItemTitle = styled(Typography)({
     marginTop: 20,
 })
 
-export default function GameItem({src, name, id}: StyledGameItemProps) {
+export default function GameItem({src, name, game_id}: StyledGameItemProps) {
   return (
     <Grid item xs={12} sm={6} md={3} lg={2}>
-        <Link href={`/game/${id}`}>
+        <Link href={`/game/${game_id}`}>
             <GameItemContainer>
                 <Image src={src} layout="responsive" width={180} height={200} />
                 <GameItemTitle>{name}</GameItemTitle>

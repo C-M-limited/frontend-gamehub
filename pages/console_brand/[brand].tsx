@@ -2,13 +2,11 @@ import { Box, Grid, Pagination } from '@mui/material';
 import { styled } from '@mui/system';
 import { useRouter } from 'next/router';
 import React,{useEffect} from 'react';
-import StyledBanner from '../../components/template/StyledBanner';
-import StyledGameItem from '../../components/template/StyledGameItem';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';
-import { fetchGameListThunk, setGameListRangeAction } from '../../store/action/gameList';
+import { fetchGameListThunk } from '../../store/action/gameList';
 import GameItem from '../../components/template/gameItem';
 import { CenterFocusStrong } from '@mui/icons-material';
 
@@ -101,7 +99,7 @@ const FilterRow = ({brand}: FilterRowProps) => {
         <Grid container spacing={15}>
           {response.gameList.content?.map(({id,name,image_url,console_Id}: GameListProps)=>{
             return (
-              <GameItem key={id} name={name} src="/game_sample.png" id={id} />
+              <GameItem key={id} name={name} src="/game_sample.png" game_id={id} />
             )})}
         </Grid>
       </Grid>
