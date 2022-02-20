@@ -8,6 +8,7 @@ import StyledBanner from '../components/template/StyledBanner'
 import StyledButtonList from '../components/template/StyledButtonList'
 import StyledGameItem from '../components/template/StyledGameItem'
 import StyledHero from '../components/template/StyledHero'
+import TodaysPickGameItem from '../components/template/TodaysPickGameItem'
 import styles from '../styles/Home.module.css'
 
 const SubTitle = styled(Typography)({
@@ -22,7 +23,7 @@ const Home: NextPage = () => {
     <>
       <StyledHero/>
       <SubTitle>Today's Picks</SubTitle>
-      <StyledGameItem name="GTA-5" src="/game_sample.png" price={200} location="Yau Tong"/>
+      <TodaysPickGameItem name="GTA-5" image_src="/game_sample.png" price={200} location="Yau Tong"/>
     </>
   )
 }
