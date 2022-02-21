@@ -9,8 +9,9 @@ import { RootState } from '../../store/reducer';
 import { fetchGameListThunk } from '../../store/action/gameList';
 import GameItem from '../../components/template/gameItem';
 import { CenterFocusStrong } from '@mui/icons-material';
+import Link from 'next/link';
 
-const FilterButton = styled('a')<{ active?: boolean }>(({active}) => ({
+const FilterButton = styled(Box)<{ active?: boolean }>(({active}) => ({
   position: 'relative',
   backgroundColor: active ? '#6100FF' : '#353545',
   color: '#ffffff',
@@ -21,10 +22,10 @@ const FilterButton = styled('a')<{ active?: boolean }>(({active}) => ({
 }))
 
 const filterList = [
-  { name: "All", brand: 'all', src: "/console_brand/all" },
-  { name: "Play station", brand: "playstation", src: "/console_brand/playstation" },
-  { name: "Nintendo", brand: "nintendo", src: "/console_brand/nintendo" },
-  { name: "X Box", brand: "xbox", src: "/console_brand/xbox" },
+  {name: "All", brand: 'all', src: "/console_brand/all" },
+  {name: "Play station", brand: "playstation", src: "/console_brand/playstation" },
+  {name: "Nintendo", brand: "nintendo", src: "/console_brand/nintendo" },
+  {name: "X Box", brand: "xbox", src: "/console_brand/xbox" },
 ]
 
 interface FilterRowProps {
@@ -47,28 +48,13 @@ const GameListPagination = styled(Pagination)({
 
 const FilterRow = ({brand}: FilterRowProps) => {
   const response = useSelector((state:RootState) => state.gameList);
-  const [brandID,setBrandID] = React.useState(0);
   const [page, setPage] = React.useState(1);
   const dispatch = useDispatch();
   useEffect(()=>{
-    // switch (brand){
-    //   case 'all':
-    //     setBrandID(0);
-    //     break
-    //   case 'playstation':
-    //     setBrandID(1);
-    //     break
-    //   case  'nintendo':
-    //     setBrandID(2);
-    //     break
-    //   case 'xbox':
-    //     setBrandID(3);
-    //     break
-    //   default:
-    //     setBrandID(0);
-    // }
-    dispatch(fetchGameListThunk({page:page-1,size:16,sortBy:'id', category:0}));
-  },[page])
+    console.log({brand})
+    dispatch(fetchGameListThunk({page:page-1,size:16,sortBy:'id', category: brand}));
+    // dispatch(fetchGameListThunk({page:page-1,size:16,sortBy:'id', category: "all"}));
+  },[page,brand])
   const handleChange = (_event: any, value: number) => {
     setPage(value);
     window.scrollTo(0, 0)
@@ -81,7 +67,10 @@ const FilterRow = ({brand}: FilterRowProps) => {
         <Grid item sm={8}>
           {
             filterList.map((item)=>(
-              <FilterButton key={item.src} href={item.src} active={brand===item.brand}>{item.name}</FilterButton>
+                <Link href={item.src}>
+                    <FilterButton key={item.src}  active={brand===item.brand}>{item.name}</FilterButton>
+                </Link>
+
             ))
           }
         </Grid>

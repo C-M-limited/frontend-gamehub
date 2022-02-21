@@ -1,26 +1,26 @@
 import axios from "axios";
 import { server } from '../../config'
-interface GameListProps{
-    id : number,
-    name: string,
-    image_url: string,
-    console_Id : number
-}
+// interface GameListProps{
+//     id : number,
+//     name: string,
+//     image_url: string,
+//     console_Id : number
+// }
 interface SearchProps{
-  category: number,
+  category: string,
   page: number,
   size: number,
   sortBy: string
 }
 
-export const setGameListAction = (gameList: GameListProps) => {
-    return {
-      type: "setGameList",
-      payload: gameList,
-    };
-  };
+// export const setGameListAction = (gameList: GameListProps) => {
+//     return {
+//       type: "setGameList",
+//       payload: gameList,
+//     };
+//   };
 
-export const fetchGameListRequestAction = (category: number) =>{
+export const fetchGameListRequestAction = (category: string) =>{
   return {
     type: "fetchGameListRequest",
     payload: category
