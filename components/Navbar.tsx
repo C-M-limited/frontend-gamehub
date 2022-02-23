@@ -105,7 +105,7 @@ export default function Navbar() {
   const searchList = useSelector((state:RootState) => state.searchList);
   React.useEffect(()=>{
     dispatch(fetchSearchListThunk({page:0,keyword:keyword}))
-    console.log(searchList.searchList.content)
+    // console.log(searchList.searchList.content)
   },[keyword])
   const [problem, setProblem] = React.useState<boolean>(false);
   const [problemDetail, setProblemDetail] = React.useState<string>("");
