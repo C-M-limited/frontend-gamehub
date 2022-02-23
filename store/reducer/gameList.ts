@@ -18,7 +18,7 @@ const gameListReducer = (state = initialState, action: actionProps) => {
         case "fetchGameListSuccess":
             return {...state, loading:false, gameList: action.payload};
         case "fetchGameListFail":
-            return {...state,loading: false, success: true}
+            return {...state,loading: false, success: false}
         default:
             return state;
     }

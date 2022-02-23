@@ -26,11 +26,20 @@ import StyledInput from './StyledInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/action/auth';
 import { registerThunk } from '../store/action/registration';
+import { RootState } from '../store/reducer';
+import { fetchSearchListThunk } from '../store/action/search';
 
 interface userProfileProps {
   role: string;
   id: number;
   email: string;
+}
+
+interface GamesProps {
+  id: number;
+  name: string;
+  image_url: string;
+  console_Id: number;
 }
 
 const Search = styled('div')(({ theme }) => ({
@@ -90,6 +99,14 @@ const validationSchema = yup.object({
 })
 
 export default function Navbar() {
+  //search function
+  const [keyword,setKeyword] = React.useState("");
+  const dispatch = useDispatch();
+  const searchList = useSelector((state:RootState) => state.searchList);
+  React.useEffect(()=>{
+    dispatch(fetchSearchListThunk({page:0,keyword:keyword}))
+    console.log(searchList.searchList.content)
+  },[keyword])
   const [problem, setProblem] = React.useState<boolean>(false);
   const [problemDetail, setProblemDetail] = React.useState<string>("");
   //provided by marterial ui
@@ -360,8 +377,21 @@ export default function Navbar() {
                   <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
+                    value={keyword}
+                    onChange={(e)=>setKeyword(e.target.value)}
                   />
                 </Search>
+                {searchList.searchList.content.map((game:GamesProps)=>{
+                  return(
+                    <Link href={`/game/${game.id}`}>
+                      <Box>
+                        <Typography>game.name</Typography>
+                        <img src="/game_sample.png"/>
+                        {/* <Image src="/game_sample.png" layout="responsive" width={100} height={100} /> */}
+                      </Box>
+                    </Link>
+                    )
+                })}
               </Box>
               <Box sx={{ flexGrow: 1 }} />
               <StyledButton

@@ -6,6 +6,7 @@ import userProfileReducer from './userProfile';
 import  gameListReducer  from './gameList';
 import { registerReducer } from './registration';
 import todaysPickReducer from './todaysPick';
+import searchListReducer from './search';
 
 const allReducers = combineReducers({
     consoleBrand : ConsoleBrandTypeReducer,
@@ -14,6 +15,7 @@ const allReducers = combineReducers({
     gameList : gameListReducer,
     register: registerReducer,
     todaysPick : todaysPickReducer,
+    searchList: searchListReducer
 
 }) 
 export default allReducers;
