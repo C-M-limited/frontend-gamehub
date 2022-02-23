@@ -385,7 +385,7 @@ export default function Navbar() {
                   return(
                     <Link href={`/game/${game.id}`}>
                       <Box>
-                        <Typography>game.name</Typography>
+                        <Typography>{game.name}</Typography>
                         <img src="/game_sample.png"/>
                         {/* <Image src="/game_sample.png" layout="responsive" width={100} height={100} /> */}
                       </Box>
