@@ -1,4 +1,4 @@
-import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILED } from './../action/auth';
+import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILED, LOG_OUT_SUCCESS } from './../action/auth';
 
 let auth;
 
@@ -27,6 +27,8 @@ const authReducer = (state = initialState, action: {type: string; payload?: stri
             }
         case LOG_IN_FAILED:
             return {}
+        case LOG_OUT_SUCCESS:
+            return {...initialState,isLogin:false}
         default:
             return state
     }

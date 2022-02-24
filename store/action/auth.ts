@@ -1,5 +1,7 @@
 import axios from "axios"
 import { server } from '../../config'
+import jwt from 'jwt-decode';
+import { setUserProfileAction } from "./userPorfile";
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST"
 export const LOG_IN_SUCCESS = "LOG_IN_SUCCESS"
 export const LOG_IN_FAILED = "LOG_IN_FAILED"
@@ -50,6 +52,13 @@ interface logInProps {
     password: string;
 }
 
+interface userProfileProps{
+    role  : string;
+    id    : number;
+    email : string;
+    name  : string;
+}
+
 export const login = ({ email, password }: logInProps) => {
     return async (dispatch: any) => {
         dispatch(logInRequest())
@@ -67,6 +76,8 @@ export const login = ({ email, password }: logInProps) => {
             localStorage.setItem('access-token',response.data.AUTHORIZATION);
             localStorage.setItem('refresh-token',response.data.refreshToken);
             dispatch(logInSuccess());
+            const user:userProfileProps = jwt(response.data.AUTHORIZATION);
+            dispatch(setUserProfileAction({name: user.name, role: user.role, email: user.email, id :user.id}))
             alert('Login Success')
           })
           .catch(function (error){
@@ -80,12 +91,24 @@ export const login = ({ email, password }: logInProps) => {
 
 export const logOut = () => {
     return async (dispatch: any) => {
+        const refreshTokenCopy= localStorage.getItem('refresh-token');
+        const headers:any = { 
+            'refreshToken': refreshTokenCopy,
+          };
+        axios.post(`${server}/api/v1/logOut`, {}, { headers }).then((res)=>{
+            localStorage.removeItem('access-token')
+            localStorage.removeItem('refresh-token');
+            dispatch(logOutSuccess());
+        })
+        .catch((err)=>{
+            console.log(err.response)
+        })
 
     }
 }
 
-export const register = () => {
-    return async (dispatch: any) => {
+// // export const register = () => {
+// //     return async (dispatch: any) => {
 
-    }
-}
+//     }
+// }

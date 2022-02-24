@@ -24,7 +24,7 @@ import axios from 'axios';
 import StyledButton from './StyledButton';
 import StyledInput from './StyledInput';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../store/action/auth';
+import { login, logOut } from '../store/action/auth';
 import { registerThunk } from '../store/action/registration';
 import { RootState } from '../store/reducer';
 import { fetchSearchListThunk } from '../store/action/search';
@@ -104,6 +104,8 @@ const validationSchema = yup.object({
 })
 
 export default function Navbar() {
+  const loginStatus = useSelector((state:RootState) => state.auth)
+  const userProfile = useSelector((state: RootState) => state.userProfile)
   //search function
   const [keyword,setKeyword] = React.useState("");
   const dispatch = useDispatch();
@@ -118,6 +120,7 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
+  //PopUpWindow
   const [openLoginDialog, setOpenLoginDialog] = React.useState<boolean>(false)
   const [openRegisterDialog, setOpenRegisterDialog] = React.useState<boolean>(false)
 
@@ -278,7 +281,7 @@ export default function Navbar() {
   }
 
   const RegisterForm = () => {
-    const registerStatus = useSelector((state :RootState) => state.register)
+    const registerStatus = useSelector((state :RootState) => state.register);
     const dispatch = useDispatch()
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = (data: any) => dispatch(registerThunk(data));
@@ -389,11 +392,26 @@ export default function Navbar() {
                   </Search>
                 </Box>
                 <Box sx={{ flexGrow: 1 }} />
+                {
+                loginStatus.isLogin
+                ? <Box sx={{display: 'flex',justifyContent:'center', alignItems:'center'}}>
+                    <Typography sx={{marginRight: '20px'}}>
+                      {userProfile.name}
+                    </Typography>
+                    <StyledButton
+                      onClick={() => dispatch(logOut())}
+                    >
+                      LogOut
+                    </StyledButton>
+                  </Box>
+                :                
                 <StyledButton
                   onClick={() => handleDialogOpen('login')}
                 >
                   Login
                 </StyledButton>
+                }
+
               </Grid>
             </Grid>
           </Toolbar>
@@ -403,7 +421,6 @@ export default function Navbar() {
         {renderMobileMenu}
         {renderMenu}
       </Box>
-      {/* removed code */}
     </Box>
   );
 }
