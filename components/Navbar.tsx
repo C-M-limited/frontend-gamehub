@@ -381,7 +381,7 @@ export default function Navbar() {
                     onChange={(e)=>setKeyword(e.target.value)}
                   />
                 </Search>
-                {searchList.searchList.content.map((game:GamesProps)=>{
+                {searchList.searchList.content?.map((game:GamesProps)=>{
                   return(
                     <Link href={`/game/${game.id}`}>
                       <Box>
