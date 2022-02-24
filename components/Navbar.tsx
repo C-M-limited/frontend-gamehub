@@ -221,7 +221,7 @@ export default function Navbar() {
   );
 
   const LoginForm = () => {
-    const loginStatus = useSelector((state) => state.auth)
+    const loginStatus = useSelector((state:RootState) => state.auth)
     const dispatch = useDispatch()
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = (data: any) => dispatch(login(data));
@@ -249,7 +249,7 @@ export default function Navbar() {
               error={errors.password}
               helperText="Password is required"
             />
-            <p>Don't have an account? <a onClick={() => {
+            <p>Don't have an account? <a  style={{cursor: 'pointer', borderBottom: '2px solid white'}} onClick={() => {
               handleDialogClose('login')
               handleDialogOpen('register')
             }}>Register</a></p>
@@ -273,7 +273,7 @@ export default function Navbar() {
   }
 
   const RegisterForm = () => {
-    const registerStatus = useSelector((state) => state.register)
+    const registerStatus = useSelector((state :RootState) => state.register)
     const dispatch = useDispatch()
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = (data: any) => dispatch(registerThunk(data));
@@ -331,7 +331,7 @@ export default function Navbar() {
               error={errors.confirm_password}
               helperText="Confirm password is required"
             />
-            <p>Already have an account? <a onClick={() => {
+            <p>Already have an account? <a style={{cursor: 'pointer', borderBottom: '2px solid white'}} onClick={() => {
               handleDialogClose('register')
               handleDialogOpen('login')
             }}>Login</a></p>
@@ -354,59 +354,66 @@ export default function Navbar() {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky">
-        <Toolbar style={{ backgroundColor: '#151520' }}>
-          <Grid container display='flex' justifyContent='center'>
-            <Grid item sm={8} display='flex' alignItems='center'>
-              <Box display='flex' alignItems='center'>
-                <Link href="/" passHref={true}>
-                  <Typography
-                    color="#fff"
-                    variant="h6"
-                    component="div"
-                    sx={{ marginRight: 1, cursor: 'pointer' }}
-                  >
-                    GameHUB
-                  </Typography>
-                </Link>
-                <Search>
-                  <SearchIconWrapper>
-                    <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
-                    value={keyword}
-                    onChange={(e)=>setKeyword(e.target.value)}
-                  />
-                </Search>
-                {searchList.searchList.content?.map((game:GamesProps)=>{
-                  return(
-                    <Link href={`/game/${game.id}`}>
-                      <Box>
-                        <Typography>{game.name}</Typography>
-                        <img src="/game_sample.png"/>
-                        {/* <Image src="/game_sample.png" layout="responsive" width={100} height={100} /> */}
-                      </Box>
-                    </Link>
-                    )
-                })}
-              </Box>
-              <Box sx={{ flexGrow: 1 }} />
-              <StyledButton
-                onClick={() => handleDialogOpen('login')}
-              >
-                Login
-              </StyledButton>
+    <Box>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="sticky">
+          <Toolbar style={{ backgroundColor: '#151520' }}>
+            <Grid container display='flex' justifyContent='center'>
+              <Grid item sm={8} display='flex' alignItems='center'>
+                <Box display='flex' alignItems='center'>
+                  <Link href="/" passHref={true}>
+                    <Typography
+                      color="#fff"
+                      variant="h6"
+                      component="div"
+                      sx={{ marginRight: 1, cursor: 'pointer' }}
+                    >
+                      GameHUB
+                    </Typography>
+                  </Link>
+                  <Search>
+                    <SearchIconWrapper>
+                      <SearchIcon />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                      placeholder="Search…"
+                      inputProps={{ 'aria-label': 'search' }}
+                      value={keyword}
+                      onChange={(e)=>setKeyword(e.target.value)}
+                    />
+                  </Search>
+                </Box>
+                <Box sx={{ flexGrow: 1 }} />
+                <StyledButton
+                  onClick={() => handleDialogOpen('login')}
+                >
+                  Login
+                </StyledButton>
+              </Grid>
             </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      <LoginForm />
-      <RegisterForm />
-      {renderMobileMenu}
-      {renderMenu}
+          </Toolbar>
+        </AppBar>
+        <LoginForm />
+        <RegisterForm />
+        {renderMobileMenu}
+        {renderMenu}
+      </Box>
+      <Grid container display='flex' justifyContent='center'>
+              <Grid item xs={12} sm={6} md={3} lg={2} display='flex' alignItems='center'>
+      {searchList.searchList.content?.map((game:GamesProps)=>{
+                    return(
+
+                      <Link href={`/game/${game.id}`}>
+                        <Box>
+                          <Typography>{game.name}</Typography>
+                          <img src="/game_sample.png"/>
+                          {/* <Image src="/game_sample.png" layout="responsive" width={100} height={100} /> */}
+                        </Box>
+                      </Link>
+                      )
+                  })}
+        </Grid>
+      </Grid>
     </Box>
   );
 }

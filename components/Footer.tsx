@@ -63,7 +63,7 @@ const Footer = () => {
           <Grid>
             <FooterTitle>My account</FooterTitle>
             <FooterContent>Profile</FooterContent>
-            <FooterContent>Sell my game</FooterContent>
+            <FooterContent><Link href="/addGame">Sell my game</Link></FooterContent>
             <FooterContent>Browse random game</FooterContent>
           </Grid>
         </Grid>

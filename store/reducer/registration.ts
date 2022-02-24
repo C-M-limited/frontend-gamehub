@@ -4,7 +4,7 @@ let initialState = {
     loading: false,
 }
 
-export const registerReducer = (state=initialState, action) => {
+export const registerReducer = (state=initialState, action: any) => {
     switch(action.type) {
         case REGISTER_REQUEST:
             return {
