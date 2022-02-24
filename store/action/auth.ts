@@ -57,24 +57,26 @@ export const login = ({ email, password }: logInProps) => {
         axios.post(`/api/v1/login`, {
             email,
             password
-        })
-            .then(function (response) {
-                if (response.data === "This account is already LogIn") {
-                    dispatch(logInFailed(response.data))
-                    alert('Login Failed')
-                    return;
-                }
-                localStorage.setItem('access-token', response.data.AUTHORIZATION);
-                localStorage.setItem('refresh-token', response.data.refreshToken);
-                dispatch(logInSuccess());
-            })
-            .catch(function (error) {
-                dispatch(logInFailed("Login Failed"));
-                alert('Login Failed')
-                console.log(error.response)
-            })
+          })
+          .then(function (response){
+            if (response.data==="This account is already LogIn"){
+              dispatch(logInFailed(response.data))
+              alert('Login Failed')
+              return;
+            }
+            localStorage.setItem('access-token',response.data.AUTHORIZATION);
+            localStorage.setItem('refresh-token',response.data.refreshToken);
+            dispatch(logInSuccess());
+            alert('Login Success')
+          })
+          .catch(function (error){
+            dispatch(logInFailed("Login Failed"));
+            alert('Login Failed')
+            console.log(error.response)
+          })
     }
 }
+
 
 export const logOut = () => {
     return async (dispatch: any) => {

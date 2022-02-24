@@ -83,6 +83,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const FormNavigateButton = styled('a')({
+  cursor: 'pointer',
+  textDecoration: 'underline',
+})
+
 const validationSchema = yup.object({
   email: yup
     .string()

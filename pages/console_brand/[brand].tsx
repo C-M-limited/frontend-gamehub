@@ -63,8 +63,8 @@ const FilterRow = ({brand}: FilterRowProps) => {
     <Grid container>
       <Grid item sm={12} display="flex" alignItems="center">
       </Grid>
-      <Grid item sm={12} display="flex" alignItems="center">
-        <Grid item sm={8}>
+      <Grid item sm={12} display="flex" alignItems="center" mt={3}>
+        <Grid item sm={8} display="flex">
           {
             filterList.map((item)=>(
                 <Link href={item.src}>
