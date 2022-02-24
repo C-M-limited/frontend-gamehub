@@ -27,7 +27,7 @@ const Game = () => {
     
     return (
         <Grid container display='flex' justifyContent='center'my={1} spacing={2}>
-            <Grid item lg={4} sx={{ height: '100vh', overflowY: 'scroll',  display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Grid item xs={12} md={12} lg={4} sx={{ height: '100vh', overflowY: 'scroll',  display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Box>
                     <Image layout="intrinsic" src="/game_sample.png" width={'150px'} height={'200px'} />
                 </Box>
@@ -54,7 +54,7 @@ const Game = () => {
                     )
                 })}
             </Grid>
-            <Grid item lg={8} sx={{ height: '100vh', overflowY: 'scroll' }}>
+            <Grid item xs={12} md={12} lg={8} sx={{ height: '100vh', overflowY: 'hidden' }}>
                 <Box display="flex" alignItems='center'>
                     <Image src="/user_icon/user_1.svg" alt="user icon" width={'150px'} height={'200px'} />
                     <WhatsAppIcon style={{ width: 50, height: 50, marginLeft: 40, color: '#fff', backgroundColor: 'var(--mainGrey)', padding: 4, borderRadius: 4 }}/>

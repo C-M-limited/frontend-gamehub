@@ -10,6 +10,7 @@ import { fetchGameListThunk } from '../../store/action/gameList';
 import GameItem from '../../components/template/gameItem';
 import { CenterFocusStrong } from '@mui/icons-material';
 import Link from 'next/link';
+import StyledMenu from '../../components/template/StyledMenu';
 
 const FilterButton = styled(Box)<{ active?: boolean }>(({active}) => ({
   position: 'relative',
@@ -73,12 +74,7 @@ const FilterRow = ({brand}: FilterRowProps) => {
             }
           </Grid>
           <Grid item sm={4} display="flex" justifyContent="flex-end">
-            <FilterButton>
-              <Box display="flex" alignItems="center">
-                Sort by
-                <KeyboardArrowDownRoundedIcon/>
-              </Box>
-            </FilterButton>
+            <StyledMenu />
           </Grid>
         </Grid>
       </Grid>
