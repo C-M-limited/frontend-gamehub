@@ -7,7 +7,7 @@ import todaysPickReducer from './todaysPick';
 import searchListReducer from './search';
 import popUpWindowReducer from './popUpWindow';
 import authReducer from './auth';
-import registerReducer from './registration';
+import {registerReducer} from './registration';
 
 const allReducers = combineReducers({
     consoleBrand : ConsoleBrandTypeReducer,
