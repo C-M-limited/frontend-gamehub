@@ -403,21 +403,25 @@ export default function Navbar() {
         {renderMobileMenu}
         {renderMenu}
       </Box>
-      <Grid container display='flex' justifyContent='center'>
-              <Grid item xs={12} sm={6} md={3} lg={2} display='flex' alignItems='center'>
-      {searchList.searchList.content?.map((game:GamesProps)=>{
-                    return(
-                      <Link href={`/game/${game.id}`}>
-                        <Box>
-                          <Typography>{game.name}</Typography>
-                          <img src="/game_sample.png"/>
-                          {/* <Image src="/game_sample.png" layout="responsive" width={100} height={100} /> */}
-                        </Box>
-                      </Link>
-                      )
-                  })}
-        </Grid>
-      </Grid>
+      {/* removed code */}
     </Box>
   );
 }
+
+// removed code
+// {/* <Grid container display='flex' justifyContent='center'>
+// <Grid item xs={12} sm={6} md={3} lg={2} display='flex' alignItems='center'>
+// {searchList.searchList.content?.map((game:GamesProps)=>{
+//       return(
+//         <Link href={`/game/${game.id}`}>
+//           <Box>
+//             <Typography>{game.name}</Typography>
+//             <img src="/game_sample.png"/>
+//             {/* <Image src="/game_sample.png" layout="responsive" width={100} height={100} /> */}
+//           </Box>
+//         </Link>
+//         )
+//     })}
+// </Grid>
+// </Grid> 
+// */}

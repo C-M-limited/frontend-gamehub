@@ -60,42 +60,40 @@ const FilterRow = ({brand}: FilterRowProps) => {
     window.scrollTo(0, 0)
   };
   return (
-    <Grid container>
-      <Grid item sm={12} display="flex" alignItems="center">
-      </Grid>
-      <Grid item sm={12} display="flex" alignItems="center" mt={3}>
-        <Grid item sm={8} display="flex">
-          {
-            filterList.map((item)=>(
-                <Link href={item.src}>
-                    <FilterButton key={item.src}  active={brand===item.brand}>{item.name}</FilterButton>
-                </Link>
-
-            ))
-          }
+    <>
+      <Grid container>
+        <Grid item sm={12} display="flex" alignItems="center" mt={3}>
+          <Grid item sm={8} display="flex">
+            {
+              filterList.map((item)=>(
+                  <Link href={item.src}>
+                      <FilterButton key={item.src}  active={brand===item.brand}>{item.name}</FilterButton>
+                  </Link>
+              ))
+            }
+          </Grid>
+          <Grid item sm={4} display="flex" justifyContent="flex-end">
+            <FilterButton>
+              <Box display="flex" alignItems="center">
+                Sort by
+                <KeyboardArrowDownRoundedIcon/>
+              </Box>
+            </FilterButton>
+          </Grid>
         </Grid>
-        <Grid item sm={4} display="flex" justifyContent="flex-end">
-          <FilterButton>
-            <Box display="flex" alignItems="center">
-              Sort by
-              <KeyboardArrowDownRoundedIcon/>
-            </Box>
-          </FilterButton>
-        </Grid>
       </Grid>
-      {/* Post */}
-      <Grid item sm={12} mt={2}>
-        <Grid container spacing={15}>
+      <Grid container spacing={1}>
           {response.gameList.content?.map(({id,name,image_url,console_Id}: GameListProps)=>{
             return (
-              <GameItem key={id} name={name} src="/game_sample.png" game_id={id} />
+              <Grid item xs={12} sm={6} md={3} lg={2}>
+                <GameItem key={id} name={name} src="/game_sample.png" game_id={id} />
+              </Grid>
             )})}
-        </Grid>
       </Grid>
       <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
         <GameListPagination color="primary" count={Math.ceil(response.gameList.totalPages ) } page={page} onChange={handleChange} showFirstButton showLastButton/>
       </Grid>
-    </Grid>
+      </>
   )
 }
 
