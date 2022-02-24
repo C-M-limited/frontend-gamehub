@@ -407,7 +407,6 @@ export default function Navbar() {
               <Grid item xs={12} sm={6} md={3} lg={2} display='flex' alignItems='center'>
       {searchList.searchList.content?.map((game:GamesProps)=>{
                     return(
-
                       <Link href={`/game/${game.id}`}>
                         <Box>
                           <Typography>{game.name}</Typography>

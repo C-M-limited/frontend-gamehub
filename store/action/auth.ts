@@ -54,7 +54,7 @@ export const login = ({ email, password }: logInProps) => {
     return async (dispatch: any) => {
         dispatch(logInRequest())
 
-        axios.post(`/api/v1/login`, {
+        axios.post(`${server}/api/v1/login`, {
             email,
             password
           })
