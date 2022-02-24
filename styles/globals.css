@@ -34,7 +34,7 @@ p {
   --mainDarkerGrey: hsl(210, 4%, 80%);
   --mainGreen: var(--xbox);
   --mainRed: var(--ns);
-  --warningRed: #bf1650;
+  --warningRed: #ff0000;
 }
 
 /* width */

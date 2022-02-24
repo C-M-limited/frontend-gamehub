@@ -11,6 +11,7 @@ import GameItem from '../../components/template/gameItem';
 import { CenterFocusStrong } from '@mui/icons-material';
 import Link from 'next/link';
 import StyledMenu from '../../components/template/StyledMenu';
+import { fetchGameSalePostListThunk } from '../../store/action/gameSalePost';
 
 const FilterButton = styled(Box)<{ active?: boolean }>(({active}) => ({
   position: 'relative',
@@ -48,14 +49,16 @@ const GameListPagination = styled(Pagination)({
 })
 
 const FilterRow = ({brand}: FilterRowProps) => {
-  const response = useSelector((state:RootState) => state.gameList);
+  const response = useSelector((state:RootState) => state.gameSalePostList);
   const [page, setPage] = React.useState(1);
   const dispatch = useDispatch();
+  
   useEffect(()=>{
-    console.log({brand})
-    dispatch(fetchGameListThunk({page:page-1,size:16,sortBy:'id', category: brand}));
+    dispatch(fetchGameSalePostListThunk({page:page-1,size:16,sortBy:'id', category: brand}));
     // dispatch(fetchGameListThunk({page:page-1,size:16,sortBy:'id', category: "all"}));
+    console.log(response)
   },[page,brand])
+  
   const handleChange = (_event: any, value: number) => {
     setPage(value);
     window.scrollTo(0, 0)
@@ -79,7 +82,7 @@ const FilterRow = ({brand}: FilterRowProps) => {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-          {response.gameList.content?.map(({id,name,image_url,console_Id}: GameListProps)=>{
+          {response.gameSalePostList.content?.map(({id,name,image_url,console_Id}: GameListProps)=>{
             return (
               <Grid item xs={12} sm={6} md={3} lg={2}>
                 <GameItem key={id} name={name} src="/game_sample.png" game_id={id} />
@@ -87,7 +90,7 @@ const FilterRow = ({brand}: FilterRowProps) => {
             )})}
       </Grid>
       <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
-        <GameListPagination color="primary" count={Math.ceil(response.gameList.totalPages ) } page={page} onChange={handleChange} showFirstButton showLastButton/>
+        <GameListPagination color="primary" count={Math.ceil(response.gameSalePostList?.pageable?.pageSize) || 10 } page={page} onChange={handleChange} showFirstButton showLastButton/>
       </Grid>
       </>
   )

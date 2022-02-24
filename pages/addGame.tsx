@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react';
 import { useForm , SubmitHandler} from 'react-hook-form';
 import axios from 'axios';
 import { server } from '../config'
+import { Typography } from '@mui/material';
 
 interface AddGameFormInput {
   game_id: number;
@@ -12,7 +13,7 @@ interface AddGameFormInput {
 }
 
 export default function AddGame() {
-  const { register, handleSubmit, watch,formState: { errors }} = useForm({
+  const { register, handleSubmit, getValues, formState: { errors }} = useForm({
     defaultValues: {
       game_id: 0,
       price: 0,
@@ -96,23 +97,26 @@ export default function AddGame() {
       <h2 style={{color:'var(--white'}}>ADD GAME</h2>
       <form onSubmit={handleSubmit(onSubmit)} style={addGameFromStyle} id="addGameForm">
         {/* Game */}
-        <h4>Game :</h4>
+        <Typography>Game :</Typography>
         <select {...register("game_id", { required: true,min: 1 })} style={addGameInputStyle}>
-          {gameList.map((game,index)=><option key={index} value={game.id}>{game.name}</option>)}
+          <>
+            <option>find your game</option>
+            {gameList.map((game,index)=><option key={index} value={game.id}>{game.name}</option>)}
+          </>
         </select>
-        {errors.game_id ? <p style={addGameWarningFont}>⚠This field is required</p> : <p></p>}
+        {errors.game_id && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
         {/* Price */}
-        <h4>Price :</h4>
+        <Typography>Price :</Typography>
         <input type="number" {...register("price", {required: true, max: 2000, min: 0})} style={addGameInputStyle}/>
-        {errors.price ? <p style={addGameWarningFont}>⚠This field is required</p> : <p></p>}
+        {errors.price && <Typography style={addGameWarningFont}>⚠ This field is required</Typography> }
         {/* Place for Transaction */}
-        <h4>Place for Transaction :</h4>
+        <Typography>Place for Transaction :</Typography>
         <input type="text" {...register("place_for_transaction", {required: true})} style={addGameInputStyle}/>
-        {errors.place_for_transaction ? <p style={addGameWarningFont}>⚠This field is required</p> : <p></p>}
+        {errors.place_for_transaction && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
         {/* Contact Method */}
-        <h4>Contact Method : </h4>
+        <Typography>Contact Method : </Typography>
         <input type="text" {...register("contact_method", { required: true })}  style={addGameInputStyle}/>
-        {errors.contact_method ? <p style={addGameWarningFont}>⚠This field is required</p> : <p></p>}
+        {errors.contact_method && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
         {/* Description */}
         <h4>Description : </h4>
         <textarea {...register("description", {})} placeholder="Optional" style={addGameInputTextStyle}/>
@@ -129,8 +133,7 @@ const addGameFromStyle : React.CSSProperties={
   justifyContent: 'center',
   display:'flex',
   flexDirection:'column',
-  paddingLeft: '20px',
-  paddingRight:'20px',
+  padding:'20px',
   borderRadius:'30px',
   width:'60%',
   maxWidth:'600px'
@@ -138,9 +141,9 @@ const addGameFromStyle : React.CSSProperties={
 
 const addGameInputStyle : React.CSSProperties={
   backgroundColor:'var(--mainBackground)',
-  borderRadius:'10px',
+  borderRadius:'4px',
   color: 'var(--white)',
-  padding:'5px'
+  padding:'5px',
 }
 //Todo
 // const addGameInputStyle :-internal-autofill-selected : React.CSSProperties={

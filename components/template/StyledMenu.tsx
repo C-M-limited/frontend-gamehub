@@ -10,7 +10,6 @@ const CustomButton = styled(Box)<{ active?: boolean }>(({active}) => ({
     position: 'relative',
     backgroundColor: active ? '#6100FF' : '#353545',
     color: '#ffffff',
-    marginRight: 20,
     padding: '10px 20px',
     borderRadius: '10px',
     cursor: 'pointer'
