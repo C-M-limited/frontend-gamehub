@@ -8,7 +8,7 @@ const Layout = ({children}: React.PropsWithChildren<{}>) => {
       <div style={{ background: 'url(/body-background.png)', backgroundSize: 'cover'}}>
           <Navbar />
             <Grid container display='flex' justifyContent='center' minHeight="100vh">
-              <Grid item sm={8}>
+              <Grid item sm={10}>
                 {children}
               </Grid>
             </Grid>
