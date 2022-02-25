@@ -9,7 +9,6 @@ const initialState ={
     loading: false,
     gameSalePostList: [],
     success: true,
-
 };
 const gameSalePostListReducer = (state = initialState, action: actionProps) => {
     switch (action.type) {

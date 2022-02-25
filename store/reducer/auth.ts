@@ -7,7 +7,8 @@ if (typeof window !== 'undefined') {
 }
 const initialState = auth ? {
     loading: false,
-    isLogin: false,
+    isLogin: true,
+    username: auth,
     error: false,
     errMsg: "",
 } : {}

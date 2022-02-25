@@ -42,6 +42,7 @@ export const registerThunk = ({ firstName, lastName, email, password}: registerP
         .then((res) => {
             alert(`Congrats ${firstName}! Register Success`)
             dispatch(registerSuccess())
+            window.location.reload()
         })
         .catch((err) => {
             alert("Register Failed")

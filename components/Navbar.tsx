@@ -396,8 +396,15 @@ export default function Navbar() {
                 loginStatus.isLogin
                 ? <Box sx={{display: 'flex',justifyContent:'center', alignItems:'center'}}>
                     <Typography sx={{marginRight: '20px'}}>
-                      {userProfile.name}
+                      {loginStatus.username}
                     </Typography>
+                    <Box mr={1}>
+                      <Link href="/addGame">
+                        <StyledButton>
+                          add games
+                        </StyledButton>
+                      </Link>
+                    </Box>
                     <StyledButton
                       onClick={() => dispatch(logOut())}
                     >

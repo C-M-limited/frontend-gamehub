@@ -2,16 +2,13 @@ import { Box, Grid, Pagination } from '@mui/material';
 import { styled } from '@mui/system';
 import { useRouter } from 'next/router';
 import React,{useEffect} from 'react';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';
-import { fetchGameListThunk } from '../../store/action/gameList';
-import GameItem from '../../components/template/gameItem';
-import { CenterFocusStrong } from '@mui/icons-material';
 import Link from 'next/link';
 import StyledMenu from '../../components/template/StyledMenu';
 import { fetchGameSalePostListThunk } from '../../store/action/gameSalePost';
+import GameItem from '../../components/template/GameItem';
 
 const FilterButton = styled(Box)<{ active?: boolean }>(({active}) => ({
   position: 'relative',
@@ -35,9 +32,11 @@ interface FilterRowProps {
 }
 interface GameListProps{
   id : number,
-  name: string,
+  user_name: string,
+  game_name: string,
   image_url: string,
-  console_Id : number
+  console_Id: number,
+  created_date: Date,
 }
 const GameListPagination = styled(Pagination)({
   ul: {
@@ -70,7 +69,7 @@ const FilterRow = ({brand}: FilterRowProps) => {
           <Grid item sm={8} display="flex">
             {
               filterList.map((item)=>(
-                  <Link href={item.src}>
+                  <Link href={item.src} key={item.src}>
                       <FilterButton key={item.src}  active={brand===item.brand}>{item.name}</FilterButton>
                   </Link>
               ))
@@ -82,10 +81,18 @@ const FilterRow = ({brand}: FilterRowProps) => {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-          {response.gameSalePostList.content?.map(({id,name,image_url,console_Id}: GameListProps)=>{
+          {response.gameSalePostList.content?.map(({id,user_name, game_name , game_sale_post}: GameListProps)=>{
             return (
-              <Grid item xs={12} sm={6} md={3} lg={2}>
-                <GameItem key={id} name={name} src="/game_sample.png" game_id={id} />
+              <Grid item xs={12} sm={6} md={3} lg={2} key={id}>
+                <GameItem 
+                  key={game_sale_post.id} 
+                  game_id={game_sale_post.id} 
+                  user_name={user_name} 
+                  game_name={game_name} 
+                  price={game_sale_post.price} 
+                  created_date={game_sale_post.created_date} 
+                  src="/game_sample.png" 
+                />
               </Grid>
             )})}
       </Grid>

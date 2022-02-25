@@ -33,7 +33,6 @@ export default function AddGame() {
       "games":{
           "id":game_id
       }
-  
   }
     console.log(dataToSend)
     addPost(dataToSend);

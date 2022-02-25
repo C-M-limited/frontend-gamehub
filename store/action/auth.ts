@@ -75,10 +75,13 @@ export const login = ({ email, password }: logInProps) => {
             }
             localStorage.setItem('access-token',response.data.AUTHORIZATION);
             localStorage.setItem('refresh-token',response.data.refreshToken);
+            
             dispatch(logInSuccess());
             const user:userProfileProps = jwt(response.data.AUTHORIZATION);
             dispatch(setUserProfileAction({name: user.name, role: user.role, email: user.email, id :user.id}))
+            localStorage.setItem('login', String(user.name))
             alert('Login Success')
+            window.location.reload()
           })
           .catch(function (error){
             dispatch(logInFailed("Login Failed"));
@@ -98,6 +101,7 @@ export const logOut = () => {
         axios.post(`${server}/api/v1/logOut`, {}, { headers }).then((res)=>{
             localStorage.removeItem('access-token')
             localStorage.removeItem('refresh-token');
+            localStorage.removeItem('login')
             dispatch(logOutSuccess());
         })
         .catch((err)=>{
