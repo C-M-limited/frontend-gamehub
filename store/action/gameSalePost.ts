@@ -10,7 +10,8 @@ interface SearchProps{
   category: string,
   page: number,
   size: number,
-  sortBy: string
+  sortBy: string,
+  asc: boolean,
 }
 
 // export const setGameListAction = (gameList: GameListProps) => {
@@ -40,10 +41,10 @@ export const fetchGameSalePostListFailAction = () =>{
   }
 }
 
-export const fetchGameSalePostListThunk = ({category,page,size,sortBy}: SearchProps)=>{
+export const fetchGameSalePostListThunk = ({category,page,size,sortBy,asc}: SearchProps)=>{
     return (dispatch: any) => {
         dispatch(fetchGameSalePostListRequestAction(category))
-        axios.get(`${server}/api/v1/game_sale_post/byPage?page=${page}&size=${size}&sortBy=${sortBy}&category=${category}`)
+        axios.get(`${server}/api/v1/game_sale_post/byPage?page=${page}&size=${size}&sortBy=${sortBy}&category=${category}&asc=${asc}`)
           .then((res)=>{
             dispatch(fetchGameSalePostListSuccessAction(res.data))
           })

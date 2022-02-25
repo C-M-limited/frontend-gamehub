@@ -37,6 +37,12 @@ interface GameListProps{
   image_url: string,
   console_Id: number,
   created_date: Date,
+  asc: boolean,
+  game_sale_post: {
+    id: number,
+    price: number,
+    created_date: Date,
+  }
 }
 const GameListPagination = styled(Pagination)({
   ul: {
@@ -50,13 +56,24 @@ const GameListPagination = styled(Pagination)({
 const FilterRow = ({brand}: FilterRowProps) => {
   const response = useSelector((state:RootState) => state.gameSalePostList);
   const [page, setPage] = React.useState(1);
+  const [filterData, setFilterData] = React.useState({
+    index: 0,
+    sortBy: 'id',
+    asc: true
+  })
   const dispatch = useDispatch();
   
   useEffect(()=>{
-    dispatch(fetchGameSalePostListThunk({page:page-1,size:16,sortBy:'id', category: brand}));
+    const { sortBy, asc } = filterData
+    dispatch(fetchGameSalePostListThunk({page:page-1,size:16, sortBy, asc, category: brand}));
     // dispatch(fetchGameListThunk({page:page-1,size:16,sortBy:'id', category: "all"}));
     console.log(response)
-  },[page,brand])
+  },[page,brand,filterData])
+
+  const handleUpdateFilterData = (index: number, sortBy: string, asc: boolean) => {
+    setFilterData({index, sortBy, asc})
+    dispatch(fetchGameSalePostListThunk({page:page-1,size:16, sortBy, asc, category: brand}));
+  }
   
   const handleChange = (_event: any, value: number) => {
     setPage(value);
@@ -76,7 +93,17 @@ const FilterRow = ({brand}: FilterRowProps) => {
             }
           </Grid>
           <Grid item sm={4} display="flex" justifyContent="flex-end">
-            <StyledMenu />
+            <StyledMenu 
+              selectIndex={filterData.index}
+              handleChange={handleUpdateFilterData}
+              nameList={[
+                { name: "Lowest ID", asc: true, sortBy: 'id' },
+                { name: "Highest ID", asc: false, sortBy: 'id' },
+                { name: "Lowest Price", asc: true, sortBy: 'price' },
+                { name: "Highest Price", asc: false, sortBy: 'price' },
+                { name: "Latest", asc: false, sortBy: 'created_date' },
+              ]}
+            />
           </Grid>
         </Grid>
       </Grid>

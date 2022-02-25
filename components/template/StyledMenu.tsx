@@ -15,13 +15,14 @@ const CustomButton = styled(Box)<{ active?: boolean }>(({active}) => ({
     cursor: 'pointer'
   }))
 
-export default function StyledMenu() {
+export default function StyledMenu({ nameList, selectIndex, handleChange }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
+        handleChange()
         setAnchorEl(null);
     };
 
@@ -35,7 +36,7 @@ export default function StyledMenu() {
                 display="flex"
                 alignItems="center"
             >
-               Lowest Price
+               {nameList[selectIndex]?.name}
                <KeyboardArrowDownRoundedIcon />
             </CustomButton>
             <Menu
@@ -52,12 +53,15 @@ export default function StyledMenu() {
                     vertical: 'top',
                     horizontal: 'right',
                 }}
-            >
-                <MenuItem onClick={handleClose}>Lowest ID</MenuItem>
-                <MenuItem onClick={handleClose}>Highest ID</MenuItem>
-                <MenuItem onClick={handleClose}>Lowest Price</MenuItem>
-                <MenuItem onClick={handleClose}>Highest Price</MenuItem>
-                <MenuItem onClick={handleClose}>Latest</MenuItem>
+            >   
+                {
+                    nameList.map((item, key)=> (
+                        <MenuItem key={item.name} onClick={()=>{
+                            handleClose()
+                            handleChange(key, item.sortBy, item.asc)
+                        }}>{item.name}</MenuItem>
+                    ))
+                }
             </Menu>
         </div>
     );
