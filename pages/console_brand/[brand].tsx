@@ -22,7 +22,7 @@ const FilterButton = styled(Box)<{ active?: boolean }>(({active}) => ({
 
 const filterList = [
   {name: "All", brand: 'all', src: "/console_brand/all" },
-  {name: "Play station", brand: "playstation", src: "/console_brand/playstation" },
+  {name: "Play station", brand: "ps", src: "/console_brand/ps" },
   {name: "Nintendo", brand: "nintendo", src: "/console_brand/nintendo" },
   {name: "X Box", brand: "xbox", src: "/console_brand/xbox" },
 ]
@@ -108,7 +108,7 @@ const FilterRow = ({brand}: FilterRowProps) => {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-          {response.gameSalePostList.content?.map(({id,user_name, game_name , game_sale_post}: GameListProps)=>{
+          {response.gameSalePostList.content?.map(({id,user_name, game_name ,game_sale_post, image_url}: GameListProps)=>{
             return (
               <Grid item xs={12} sm={6} md={3} lg={2} key={id}>
                 <GameItem 
@@ -118,13 +118,13 @@ const FilterRow = ({brand}: FilterRowProps) => {
                   game_name={game_name} 
                   price={game_sale_post.price} 
                   created_date={game_sale_post.created_date} 
-                  src="/game_sample.png" 
+                  src={image_url} 
                 />
               </Grid>
             )})}
       </Grid>
       <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
-        <GameListPagination color="primary" count={Math.ceil(response.gameSalePostList?.pageable?.pageSize) || 10 } page={page} onChange={handleChange} showFirstButton showLastButton/>
+        <GameListPagination color="primary" count={Math.ceil(response.gameSalePostList?.totalPages / 16) || 1 } page={page} onChange={handleChange} showFirstButton showLastButton/>
       </Grid>
       </>
   )

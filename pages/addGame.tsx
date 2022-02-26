@@ -2,7 +2,8 @@ import React,{useEffect, useState} from 'react';
 import { useForm , SubmitHandler} from 'react-hook-form';
 import axios from 'axios';
 import { server } from '../config'
-import { Typography } from '@mui/material';
+import { Autocomplete, Typography, TextField } from '@mui/material';
+import StyledButton from '../components/StyledButton';
 
 interface AddGameFormInput {
   game_id: number;
@@ -91,72 +92,86 @@ export default function AddGame() {
   useEffect (()=>{
     fetchGameList();
   },[])
+
+  
   return (
     <div style={{justifyContent:'center', width:'100%' , display:'flex', flexDirection:'column', alignItems:'center'}}>
       <h2 style={{color:'var(--white'}}>ADD GAME</h2>
-      <form onSubmit={handleSubmit(onSubmit)} style={addGameFromStyle} id="addGameForm">
+      <form onSubmit={handleSubmit(onSubmit)} style={addGameFormStyle} id="addGameForm">
         {/* Game */}
-        <Typography>Game :</Typography>
-        <select {...register("game_id", { required: true,min: 1 })} style={addGameInputStyle}>
-          <>
-            <option>find your game</option>
-            {gameList.map((game,index)=><option key={index} value={game.id}>{game.name}</option>)}
-          </>
-        </select>
+        <Typography style={addGameSubTitleTextStyle}>Game name:</Typography>
+        <Autocomplete {...register("game_id", { required: true,min: 1 })} 
+          style={addGameInputStyle}
+          disablePortal
+          size="small"
+          renderInput={(params) => <TextField {...params} label="Game" />}
+          options={gameList.map((game)=>{
+            let newGame:any = {}
+            newGame['label'] = game.name
+            return newGame
+          })}
+        />
         {errors.game_id && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
         {/* Price */}
-        <Typography>Price :</Typography>
-        <input type="number" {...register("price", {required: true, max: 2000, min: 0})} style={addGameInputStyle}/>
+        <Typography style={addGameSubTitleTextStyle}>Price :</Typography>
+        <TextField size="small" type="number" {...register("price", {required: true, max: 2000, min: 0})} style={addGameInputStyle}/>
         {errors.price && <Typography style={addGameWarningFont}>⚠ This field is required</Typography> }
         {/* Place for Transaction */}
-        <Typography>Place for Transaction :</Typography>
-        <input type="text" {...register("place_for_transaction", {required: true})} style={addGameInputStyle}/>
+        <Typography style={addGameSubTitleTextStyle}>Place for Transaction :</Typography>
+        <TextField size="small" placeholder='e.g. Kowloon' type="text" {...register("place_for_transaction", {required: true})} style={addGameInputStyle}/>
         {errors.place_for_transaction && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
         {/* Contact Method */}
-        <Typography>Contact Method : </Typography>
-        <input type="text" {...register("contact_method", { required: true })}  style={addGameInputStyle}/>
+        <Typography style={addGameSubTitleTextStyle}>Contact Method : </Typography>
+        <TextField size="small" placeholder='e.g. (+852) 12345678' type="text" {...register("contact_method", { required: true })}  style={addGameInputStyle}/>
         {errors.contact_method && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
         {/* Description */}
-        <h4>Description : </h4>
+        <Typography style={addGameSubTitleTextStyle}>Description : </Typography>
         <textarea {...register("description", {})} placeholder="Optional" style={addGameInputTextStyle}/>
-
-        
+        <StyledButton type="submit" form="addGameForm">Submit</StyledButton>
       </form>
-      <button type="submit" form="addGameForm" style={addGameSubmitStyle}>Submit</button>
+      
     </div>
   );
 }
 
-const addGameFromStyle : React.CSSProperties={
+const addGameFormStyle : React.CSSProperties={
   backgroundColor:'var(--mainGrey)',
   justifyContent: 'center',
   display:'flex',
   flexDirection:'column',
-  padding:'20px',
-  borderRadius:'30px',
+  padding:'20px 20px 32px 20px',
+  borderRadius:'12px',
   width:'60%',
   maxWidth:'600px'
 }
 
 const addGameInputStyle : React.CSSProperties={
   backgroundColor:'var(--mainBackground)',
+  borderWidth: 0,
   borderRadius:'4px',
-  color: 'var(--white)',
-  padding:'5px',
+  color: 'var(--white) !important',
+  padding:'8px',
 }
 //Todo
 // const addGameInputStyle :-internal-autofill-selected : React.CSSProperties={
 
 // }
 
+const addGameSubTitleTextStyle : React.CSSProperties={
+  fontSize: 12,
+  margin: '4px 0px',
+  color: 'var(--mainDarkerGrey)'
+}
 
 const addGameInputTextStyle : React.CSSProperties={
   backgroundColor:'var(--mainBackground)',
   borderRadius:'10px',
+  borderWidth: 0,
+  minHeight: 80,
   color: 'var(--white)',
-  padding:'5px',
+  padding:'12px',
+  marginBottom: 12,
   resize: 'none',
-  marginBottom: '50px'
 }
 
 const addGameSubmitStyle : React.CSSProperties={
