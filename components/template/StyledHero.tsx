@@ -10,7 +10,8 @@ const Title = styled(Typography)({
     fontSize: 36,
     textAlign: 'center',
     zIndex: 2,
-    textShadow: '0px 1px 2px #000',
+    textShadow: '0px 3px 2px #000',
+    // backgroundColor: 'rgb(181, 181, 181,30%)'
 })
 
 const useStyles = makeStyles({
