@@ -86,7 +86,7 @@ const FilterRow = ({brand}: FilterRowProps) => {
           <Grid item sm={8} display="flex">
             {
               filterList.map((item)=>(
-                  <Link href={item.src} key={item.src}>
+                  <Link href={item.src} key={item.src} passHref>
                       <FilterButton key={item.src}  active={brand===item.brand}>{item.name}</FilterButton>
                   </Link>
               ))

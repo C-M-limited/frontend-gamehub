@@ -52,7 +52,7 @@ const Home: NextPage = ({latestGames}:any) => {
             const { game_sale_post,user_name,game_name,image_url } = game;
             const {id,price,place_for_transaction,created_date,description,contact_method,user_Id,games_ID } = game_sale_post
             return(
-              <Grid item>
+              <Grid item key={id}>
               <TodaysPickGameItem name={game_name} image_src={image_url} price={price} location={place_for_transaction}/>
               </Grid>
             )

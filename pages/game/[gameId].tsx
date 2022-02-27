@@ -60,7 +60,7 @@ export default function ResponsiveDrawer(props: Props) {
       <Divider/>
       <List sx={{justifyContent:'center',display:'flex'}}>
         <Box>
-          <Image layout="intrinsic" src="/game_sample.png" width={'150px'} height={'200px'} />
+          <Image layout="intrinsic" src="/game_sample.png" alt="game image" width={'150px'} height={'200px'} />
         </Box>
       </List>
       <Divider />

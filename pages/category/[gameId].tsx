@@ -33,7 +33,7 @@ const Game = (gameDetails: gameDetailsProps) => {
         <Grid container display='flex' justifyContent='center' my={1} spacing={2}>
             <Grid item xs={12} md={12} lg={8} sx={{ height: '100vh', overflowY: 'hidden' }}>
                 <Box display="flex" flexDirection="column" alignItems="center">
-                    <Image layout="intrinsic" src="/game_sample.png" width={'150px'} height={'200px'} />
+                    <Image layout="intrinsic" src="/game_sample.png" alt="game image" width={'150px'} height={'200px'} />
                     <Typography ml={2} fontSize={36}>{game_name}</Typography>
                 </Box>
                 <Box display="flex" alignItems='center'>
