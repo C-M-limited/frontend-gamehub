@@ -62,13 +62,13 @@ const StyledHero = () => {
                 <Grid item sm={12} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                     <Title>All your games in one place.</Title>
                     <Box className={classes.imageContainer} zIndex={1}>
-                        <Image src="/banner.jpg" layout="fill" />
+                        <Image priority={true} src="/banner.jpg" layout="fill" />
                     </Box>
                     <Box display="flex" zIndex={2}>
                         {[gameConsoleList.map((item, key) => (
                             <Box key={key} mr={5} mt={3} className={classes.gameIconButton}>
                                 <Link href={item.url} passHref>
-                                    <Image src={item.src} alt={`${item.src}`} layout="intrinsic" width={60} height={60} />
+                                    <Image priority={true} src={item.src} alt={`${item.src}`} layout="intrinsic" width={60} height={60} />
                                 </Link>
                             </Box>
                         ))]}
