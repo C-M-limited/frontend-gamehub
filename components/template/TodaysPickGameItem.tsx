@@ -2,12 +2,15 @@ import React from 'react'
 import { Grid, Typography, Box, Divider, Pagination } from '@mui/material';
 import { styled } from '@mui/system';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface StyledGameItemProps {
+    game_id: number;
     image_src: string;
     name: string;
     price: number;
-    location : string
+    location : string;
+    brand: string;
 }
 
 const GameItemContainer = styled(Box)({
@@ -20,7 +23,7 @@ const GameItemContainer = styled(Box)({
     borderRadius: 20,
     width: '200px',
     height: '380px',
-    border: '3px solid #007ABE'
+
 })
 
 const GameItemTitle = styled(Typography)({
@@ -37,18 +40,25 @@ const GameItemSubTitle = styled(Typography)({
 const Tags = styled(Typography)({
 })
 
-export default function TodaysPickGameItem({image_src, name, price, location }: StyledGameItemProps) {
+export default function TodaysPickGameItem({game_id,image_src, name, price, location, brand }: StyledGameItemProps) {
+    const colorCode = () =>{
+        if(brand==="Ps") { return "#007ABE"}
+        else if (brand==="Xbox") { return "#169A00"}
+        else if (brand==="ns") {return "#B70505"}
+
+    }
   return (
     <Grid item xs={12} sm={6} md={3} lg={2}>
-        <GameItemContainer>
+        <Link href={`/game/${game_id}`}>
+        <GameItemContainer style={{    border: `3px solid ${colorCode()}` , cursor:'pointer'}} >
             <Image src={image_src} layout="responsive" width={180} height={200} />
             <GameItemTitle>{name}</GameItemTitle>
             <Divider style={{ backgroundColor: '#999999'}}/>
             <>
-                <Box display={'flex'} justifyContent='space-between'>
+                <Box display={'flex'} justifyContent='space-between' >
                     <GameItemSubTitle>Price</GameItemSubTitle>
-                    <Box display={'flex'} justifyContent='center' alignItems='center' bgcolor={"#007ABE"} borderRadius={2} width={50} mt={1} position={'absolute'} ml={14}>
-                        <Tags>PS</Tags>
+                    <Box display={'flex'} justifyContent='center' alignItems='center' bgcolor={colorCode} borderRadius={2} width={50} mt={1} position={'absolute'} ml={14}>
+                        <Tags>{brand}</Tags>
                     </Box>
                 </Box>
                 <Typography >{price} HKD</Typography>
@@ -58,6 +68,7 @@ export default function TodaysPickGameItem({image_src, name, price, location }: 
                 <Typography>{location}</Typography>
             </>
         </GameItemContainer>
+        </Link>
     </Grid>
 
   )

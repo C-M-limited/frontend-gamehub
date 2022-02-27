@@ -18,6 +18,7 @@ interface gameProps{
   user_name: string;
   game_name: string;
   image_url: string;
+  console_brand_name: string;
 }
 interface postDetailProps{
   id: number;
@@ -28,25 +29,23 @@ interface postDetailProps{
   contact_method: string;
   user_Id: number;
   games_ID: number;
-  user_name: string;
-  game_name: string;
-  image_url: string;
 }
 const Home: NextPage = ({latestGames,todaysGames}:any) => {
   // console.log(latestGames.gameDetails)
   return (
     <>
       <StyledHero/>
+      {/* todays Pick */}
       <Grid container display="flex" justifyContent="center">
         <Grid item lg={10}>
           <SubTitle>Today{"'"}s Picks</SubTitle>
           <Grid container spacing={2} display={"flex"} justifyContent="center">
           {todaysGames.map((game:gameProps)=>{
-            const { game_sale_post,user_name,game_name,image_url } = game;
+            const { game_sale_post,user_name,game_name,image_url,console_brand_name } = game;
             const {id,price,place_for_transaction,created_date,description,contact_method,user_Id,games_ID } = game_sale_post
             return(
               <Grid item key={id}>
-              <TodaysPickGameItem name={game_name} image_src={image_url} price={price} location={place_for_transaction}/>
+              <TodaysPickGameItem game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}/>
               </Grid>
             )
           })}
@@ -59,11 +58,11 @@ const Home: NextPage = ({latestGames,todaysGames}:any) => {
           <SubTitle>Latest Posts</SubTitle>
           <Grid container spacing={2} display={"flex"} justifyContent="center">
           {latestGames.map((game:gameProps)=>{
-            const { game_sale_post,user_name,game_name,image_url } = game;
+            const { game_sale_post,user_name,game_name,image_url,console_brand_name } = game;
             const {id,price,place_for_transaction,created_date,description,contact_method,user_Id,games_ID } = game_sale_post
             return(
               <Grid item key={id}>
-              <TodaysPickGameItem name={game_name} image_src={image_url} price={price} location={place_for_transaction}/>
+              <TodaysPickGameItem game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}/>
               </Grid>
             )
           })}
