@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/styles';
 const Title = styled(Typography)({
     color: '#ffffff',
     fontSize: 36,
+    textAlign: 'center',
     zIndex: 2,
     textShadow: '0px 1px 2px #000',
 })
@@ -24,8 +25,8 @@ const useStyles = makeStyles({
     },
     imageContainer: {
         position: 'absolute',
-        width: '100vw !important',
-        height: '33.3vw',
+        width: '100vw',
+        height: '50vw',
     },
     gameIconButton: {
         position: 'relative',
@@ -57,7 +58,7 @@ const StyledHero = () => {
     const classes = useStyles();
     return (
         <>
-            <Grid container position='relative' height="33.3vw" mb={2}>
+            <Grid container position='relative' height="50vw" mb={2}>
                 <Grid item sm={12} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                     <Title>All your games in one place.</Title>
                     <Box className={classes.imageContainer} zIndex={1}>

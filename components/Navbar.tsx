@@ -362,10 +362,9 @@ export default function Navbar() {
   }
 
   return (
-    <Box>
-      <Box sx={{ flexGrow: 1 }}>
+    <>
         <AppBar position="sticky">
-          <Toolbar style={{ backgroundColor: '#151520' }}>
+          <Toolbar  style={{ backgroundColor: '#151520', position: 'sticky' }}>
             <Grid container display='flex' justifyContent='center'>
               <Grid item sm={8} display='flex' alignItems='center'>
                 <Box display='flex' alignItems='center'>
@@ -427,8 +426,7 @@ export default function Navbar() {
         <RegisterForm />
         {renderMobileMenu}
         {renderMenu}
-      </Box>
-    </Box>
+    </>
   );
 }
 

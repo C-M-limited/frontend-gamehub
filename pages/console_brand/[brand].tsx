@@ -81,8 +81,8 @@ const FilterRow = ({brand}: FilterRowProps) => {
   };
   return (
     <>
-      <Grid container>
-        <Grid item sm={12} display="flex" alignItems="center" mt={3}>
+      <Grid container display="flex" justifyContent="center">
+        <Grid item sm={10} display="flex" alignItems="center" mt={3}>
           <Grid item sm={8} display="flex">
             {
               filterList.map((item)=>(
@@ -107,7 +107,9 @@ const FilterRow = ({brand}: FilterRowProps) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} display="flex" justifyContent="center">
+        <Grid item lg={10} display="flex">
+          <Grid container spacing={1}>
           {response.gameSalePostList.content?.map(({id,user_name, game_name ,game_sale_post, image_url}: GameListProps)=>{
             return (
               <Grid item xs={12} sm={6} md={3} lg={2} key={id}>
@@ -122,6 +124,8 @@ const FilterRow = ({brand}: FilterRowProps) => {
                 />
               </Grid>
             )})}
+            </Grid>
+            </Grid>
       </Grid>
       <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
         <GameListPagination color="primary" count={Math.ceil(response.gameSalePostList?.totalPages / 16) || 1 } page={page} onChange={handleChange} showFirstButton showLastButton/>
