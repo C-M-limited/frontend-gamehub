@@ -15,14 +15,24 @@ const CustomButton = styled(Box)<{ active?: boolean }>(({active}) => ({
     cursor: 'pointer'
   }))
 
-export default function StyledMenu({ nameList, selectIndex, handleChange }) {
+interface nameListProps {
+    sortBy: string;
+    asc: boolean;
+    name: string;
+}
+  interface styledMenuProps {
+    nameList: nameListProps[];
+    selectIndex: number;
+    handleChange: (key:number, sortBy:string, asc:boolean) => void;
+}
+
+export default function StyledMenu({ nameList, selectIndex, handleChange }: styledMenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
-        handleChange()
         setAnchorEl(null);
     };
 
@@ -58,7 +68,8 @@ export default function StyledMenu({ nameList, selectIndex, handleChange }) {
                     nameList.map((item, key)=> (
                         <MenuItem key={item.name} onClick={()=>{
                             handleClose()
-                            handleChange(key, item.sortBy, item.asc)
+                            const { sortBy, asc } = item
+                            handleChange(key, sortBy, asc)
                         }}>{item.name}</MenuItem>
                     ))
                 }

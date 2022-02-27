@@ -5,7 +5,16 @@ let auth;
 if (typeof window !== 'undefined') {
     auth = localStorage.getItem('login')
 }
-const initialState = auth ? {
+
+interface stateProps {
+    loading?: boolean;
+    isLogin?: boolean;
+    username?: string;
+    error?: boolean;
+    errMsg?: string;
+}
+
+const initialState: stateProps = auth ? {
     loading: false,
     isLogin: true,
     username: auth,

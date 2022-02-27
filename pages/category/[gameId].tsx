@@ -5,6 +5,7 @@ import Image from 'next/image';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import axios from 'axios';
 import { server } from '../../config';
+import { GetServerSideProps } from 'next'
 
 interface postProps {
     seller: string,
@@ -15,8 +16,17 @@ interface postProps {
     date: string
 }
 
-const Game = ({ gameDetails }) => {
-    console.log(gameDetails)
+interface gameDetailsProps {
+    contact_method: string;
+    created_date: Date;
+    description: string;
+    place_for_transaction: string;
+    price: number;
+    user_name: string;
+    game_name: string;
+}
+
+const Game = (gameDetails: gameDetailsProps) => {
     const { contact_method, created_date, description, place_for_transaction, price, user_name, game_name } = gameDetails
 
     return (
@@ -65,8 +75,7 @@ const Game = ({ gameDetails }) => {
 }
 export default Game;
 
-export const getServerSideProps = async (context) => {
-    console.log(context.query)
+export const getServerSideProps: GetServerSideProps = async (context) => {
     const { gameId } = context.query
 
     const [gameDetails] = await (await axios.get(`${server}/api/v1/game_sale_post/id/${gameId}`)).data

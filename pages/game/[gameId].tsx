@@ -14,6 +14,7 @@ import Image from 'next/image';
 import Navbar from '../../components/Navbar';
 import axios from 'axios';
 import { server } from '../../config';
+import { GetServerSideProps } from 'next';
 const drawerWidth = 375;
 // const drawerWidth = 240;
 
@@ -200,7 +201,7 @@ export default function ResponsiveDrawer(props: Props) {
 }
 
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   // console.log(context.query)
   const { gameId } = context.query
 

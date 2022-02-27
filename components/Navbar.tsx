@@ -257,7 +257,7 @@ export default function Navbar() {
               error={errors.password}
               helperText="Password is required"
             />
-            <p>Don't have an account? <a  style={{cursor: 'pointer', borderBottom: '2px solid white'}} onClick={() => {
+            <p>Don{"'"}t have an account? <a  style={{cursor: 'pointer', borderBottom: '2px solid white'}} onClick={() => {
               handleDialogClose('login')
               handleDialogOpen('register')
             }}>Register</a></p>
@@ -266,13 +266,7 @@ export default function Navbar() {
           <DialogActions style={{ backgroundColor: '#000' }}>
             <StyledButton onClick={() => handleDialogClose('login')}>Cancel</StyledButton>
             <StyledButton type="submit">
-              {
-                loginStatus.loading
-                ?
-                <CircularProgress size={16} color="inherit" />
-                :
-                "Submit"
-              }
+              Submit
             </StyledButton>
           </DialogActions>
         </form>
@@ -347,13 +341,7 @@ export default function Navbar() {
           <DialogActions style={{ backgroundColor: '#000' }}>
             <StyledButton onClick={() => handleDialogClose('register')}>Cancel</StyledButton>
             <StyledButton type="submit">
-              {
-                registerStatus.loading
-                ?
-                <CircularProgress size={16} color="inherit" />
-                :
-                "Submit"
-              }
+                Submit
             </StyledButton>
           </DialogActions>
         </form>

@@ -43,7 +43,8 @@ const GameListPagination = styled(Pagination)({
 
 const StyledGameItem = ({ src, name, price, location }: StyledGameItemProps) => {
     const [page, setPage] = React.useState(1);
-    const handleChange = (event, value) => {
+
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
       setPage(value);
     };
 

@@ -1,6 +1,10 @@
 import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED } from './../action/registration';
 
-let initialState = {
+interface stateProps {
+    loading: boolean;
+}
+
+let initialState: stateProps = {
     loading: false,
 }
 

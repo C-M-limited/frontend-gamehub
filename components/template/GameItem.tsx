@@ -32,8 +32,9 @@ const GameItemSubTitle = styled(Typography)({
     fontSize: 12,
 })
 
-function timeSince(date) {
-    var seconds = Math.floor((new Date() - new Date(date).getTime()) / 1000);
+function timeSince(date: Date) {
+    const currentDate: Date = new Date
+    var seconds = Math.floor((currentDate.getTime() - new Date(date).getTime()) / 1000);
   
     var interval = seconds / 31536000;
   
