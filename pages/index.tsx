@@ -13,8 +13,6 @@ const SubTitle = styled(Typography)({
 })
 
 const Home: NextPage = () => {
-  console.log(playstation.results.map((i:any)=>[i.name, i.background_image]))
-  console.log(nintendo.results.map((i:any)=>[i.name, i.background_image]))
   return (
     <>
       <StyledHero/>
