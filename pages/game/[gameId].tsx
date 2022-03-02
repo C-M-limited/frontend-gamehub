@@ -210,8 +210,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { gameId } = context.query
 
   const [gameDetails] = await (await axios.get(`${server}/api/v1/game_sale_post/id/${gameId}`)).data
-  console.log(gameDetails.game_sale_post.games_ID)
-  const gamePostList = await(await axios.get(`${server}/games/1`)).data
+  // console.log(gameDetails.game_sale_post.games_ID)
+  // const gamePostList = await(await axios.get(`${server}/games/1`)).data
   return {
       props: {
           gameDetails: {
