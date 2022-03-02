@@ -2,7 +2,7 @@
 //     content: []
 // };
 
-const initialState: any[] =[];
+const initialState: any =[];
 
 interface actionProps {
     type: string;

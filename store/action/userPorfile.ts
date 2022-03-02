@@ -3,6 +3,8 @@ interface userProfileProps{
     id    : number;
     email : string;
     name  : string;
+    imageKey: string;
+    
 }
 
 export const  setUserProfileAction =(payload : userProfileProps) =>{

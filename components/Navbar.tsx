@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Image from 'next/image';
 //material ui
 import { styled, alpha } from '@mui/material/styles';
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@mui/material';
@@ -28,6 +29,7 @@ import { login, logOut } from '../store/action/auth';
 import { registerThunk } from '../store/action/registration';
 import { RootState } from '../store/reducer';
 import { fetchSearchListThunk } from '../store/action/search';
+import { useState } from 'react';
 
 interface userProfileProps {
   role: string;
@@ -41,6 +43,25 @@ interface GamesProps {
   image_url: string;
   console_Id: number;
 }
+const CharacterImageList =[
+  { id: 1,
+    image_url: '/user_icon/blueCharactor.jpg',
+    image_key: 'blueCharactor'
+
+  },
+  { id: 2,
+    image_url: '/user_icon/brownCharactor.jpg',
+    image_key: 'brownCharactor'
+  },
+  { id: 3,
+    image_url: '/user_icon/redCharactor.jpg',
+    image_key: 'redCharactor'
+  },
+  { id: 4,
+    image_url: '/user_icon/yellowCharactor.jpg',
+    image_key: 'yellowCharactor'
+  },
+]
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -278,11 +299,34 @@ export default function Navbar() {
     const registerStatus = useSelector((state :RootState) => state.register);
     const dispatch = useDispatch()
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = (data: any) => dispatch(registerThunk(data));
+    const [imageKey,setImageKey] = useState("");
+    const onSubmit = (data:any) => {
+      if (imageKey===""){
+          alert("Please Select an User image")
+          return
+      }
+      dispatch(registerThunk(data, imageKey))
+    };
     return (
       <Dialog open={openRegisterDialog} onClose={() => handleDialogClose('register')}>
         <form onSubmit={handleSubmit(onSubmit)} style={{ width: 400 }}>
           <DialogTitle style={{ backgroundColor: '#000' }}>Register</DialogTitle>
+          <Grid container   direction="row" justifyContent="center" alignItems="center" spacing={2} style={{ backgroundColor: '#000' }}>
+              {CharacterImageList.map((charactor)=>{
+                return(
+                  <Grid item key={charactor.id} onClick={()=>{setImageKey(charactor.image_key)}}>
+                    <Box style={{border: ` ${imageKey===charactor.image_key? '5px solid purple': '3px solid white'}`, width:'60px' ,height:'60px'}} >
+                      <Image layout="intrinsic" 
+                              src={charactor.image_url} 
+                              alt={charactor.image_key} 
+                              width='100%' 
+                              height='100%' 
+                              objectFit='contain'
+                      />
+                    </Box>
+                  </Grid>
+                )})}
+            </Grid>
           <DialogContent style={{ backgroundColor: '#000' }}>
             {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We

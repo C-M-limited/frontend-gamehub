@@ -30,14 +30,15 @@ interface registerProps {
     password: string;
 }
 
-export const registerThunk = ({ firstName, lastName, email, password}: registerProps) => {
+export const registerThunk = ({ firstName, lastName, email, password}:registerProps,imageKey: string) => {
     return (dispatch: any) => {
         dispatch(registerRequest())
         axios.post(`${server}/api/v1/registration`, {
             firstName,
             lastName,
             email,
-            password
+            password,
+            imageKey
         })
         .then((res) => {
             alert(`Congrats ${firstName}! Register Success`)
@@ -45,6 +46,7 @@ export const registerThunk = ({ firstName, lastName, email, password}: registerP
             window.location.reload()
         })
         .catch((err) => {
+            console.log(err)
             alert("Register Failed")
             dispatch(registerFailed())
         })

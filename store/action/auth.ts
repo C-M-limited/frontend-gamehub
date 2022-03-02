@@ -57,6 +57,7 @@ interface userProfileProps{
     id    : number;
     email : string;
     name  : string;
+    imageKey: string;
 }
 
 export const login = ({ email, password }: logInProps) => {
@@ -78,7 +79,7 @@ export const login = ({ email, password }: logInProps) => {
             
             dispatch(logInSuccess());
             const user:userProfileProps = jwt(response.data.AUTHORIZATION);
-            dispatch(setUserProfileAction({name: user.name, role: user.role, email: user.email, id :user.id}))
+            dispatch(setUserProfileAction({name: user.name, role: user.role, email: user.email, id :user.id, imageKey: user.imageKey}))
             localStorage.setItem('login', String(user.name))
             alert('Login Success')
             window.location.reload()
