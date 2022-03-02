@@ -15,6 +15,7 @@ import Navbar from '../../components/Navbar';
 import axios from 'axios';
 import { server } from '../../config';
 import { GetServerSideProps } from 'next';
+import Link from 'next/link';
 const drawerWidth = 375;
 // const drawerWidth = 240;
 
@@ -30,11 +31,12 @@ interface Props {
 export default function ResponsiveDrawer(props: Props) {
   const { window, gameDetails } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
+  const [currentPost, setCurrentPost] = React.useState<any>([]);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
   const posts = {
+    id:8,
     seller: 'mandy',
     location: 'yau tong',
     price: 200,
@@ -66,9 +68,10 @@ export default function ResponsiveDrawer(props: Props) {
       <Divider />
       <List sx={{justifyContent:'center',display:'flex', flexDirection:'column', alignItems:'center'}}>
       {Array.from(Array(9)).map((item) => {
-                    const { seller, location, price, image, decription, date } = posts;
+                    const { id,seller, location, price, image, decription, date } = posts;
                     return (
-                        <Box key={image} sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 }} bgcolor={"var(--mainGrey)"} mt={5}>
+                      <Link href={`/game/${posts.id}`}>
+                        <Box key={image} sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 ,cursor: 'pointer'}} bgcolor={"var(--mainGrey)"} mt={5}>
                             <Box sx={{ position: 'relative', width: 50, height: 50, borderRadius: 2, overflow: 'hidden' }} ml={-3} mt={-3}>
                                 <Image layout="fill" src={image} alt="user icon" />
                             </Box>
@@ -85,6 +88,7 @@ export default function ResponsiveDrawer(props: Props) {
                                 <Typography ml={2}>${price}</Typography>
                             </Box>
                         </Box>
+                      </Link>
                     )
                 })}
       </List>
@@ -206,6 +210,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { gameId } = context.query
 
   const [gameDetails] = await (await axios.get(`${server}/api/v1/game_sale_post/id/${gameId}`)).data
+  console.log(gameDetails.game_sale_post.games_ID)
+  const gamePostList = await(await axios.get(`${server}/games/1`)).data
   return {
       props: {
           gameDetails: {

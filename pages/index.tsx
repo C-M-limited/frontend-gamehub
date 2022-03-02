@@ -86,7 +86,7 @@ export const getServerSideProps = async () => {
   return {
       props: {
             latestGames,
-            todaysGames: []
+            todaysGames
       }
   }
 }
