@@ -5,6 +5,10 @@ import type { NextPage } from 'next'
 import StyledHero from '../components/template/StyledHero'
 import TodaysPickGameItem from '../components/template/TodaysPickGameItem'
 import { server } from '../config'
+import Carousel from 'react-material-ui-carousel'
+import { Paper, Button ,Box} from '@mui/material'
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 const playstation = require('../public/game_list/playstation.json')
 const nintendo = require('../public/game_list/nintendo_test.json')
 
@@ -39,24 +43,40 @@ const Home: NextPage = ({latestGames,todaysGames}:any) => {
       <Grid container display="flex" justifyContent="center">
         <Grid item lg={10}>
           <SubTitle>Today{"'"}s Picks</SubTitle>
-          <Grid container spacing={2} display={"flex"} justifyContent="center">
-          {todaysGames.map((game:gameProps)=>{
-            const { game_sale_post,user_name,game_name,image_url,console_brand_name } = game;
-            const {id,price,place_for_transaction,created_date,description,contact_method,user_Id,games_ID } = game_sale_post
-            return(
-              <Grid item key={id}>
-              <TodaysPickGameItem game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}/>
-              </Grid>
-            )
-          })}
-          </Grid>
+            {/* show 5 on xl */}
+            <Grid container spacing={2} sx={{ display: { xs: 'none',md:'flex',lg:'flex', xl: 'flex' } }} justifyContent="center" >
+            {todaysGames.map((game:gameProps)=>{
+              const { game_sale_post,user_name,game_name,image_url,console_brand_name } = game;
+              const {id,price,place_for_transaction,created_date,description,contact_method,user_Id,games_ID } = game_sale_post
+              return(
+                <Grid item key={id}>
+
+                  <TodaysPickGameItem game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}/>
+
+                </Grid> 
+              )
+            })}
+            </Grid>
+            {/* show carousel on small screen */}
+            <Box sx={{ display: { xs: 'block',md:'none',lg:'none', xl: 'none' } , width: '200px'}}>
+              <Carousel     NextIcon={<KeyboardArrowRightIcon/>} PrevIcon={<KeyboardArrowLeftIcon/>}>
+              {todaysGames.map((game:gameProps)=>{
+                const { game_sale_post,user_name,game_name,image_url,console_brand_name } = game;
+                const {id,price,place_for_transaction,created_date,description,contact_method,user_Id,games_ID } = game_sale_post
+                return(
+                    <TodaysPickGameItem game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}/>
+                )
+              })}
+              </Carousel>
+            </Box>
+
         </Grid>
       </Grid>
       {/* Latest Post */}
-      <Grid container display="flex" justifyContent="center">
+      <Grid container display="flex" justifyContent="center" mt={5}>
         <Grid item lg={10}>
           <SubTitle>Latest Posts</SubTitle>
-          <Grid container spacing={2} display={"flex"} justifyContent="center">
+          <Grid container spacing={2} sx={{ display: { xs: 'none',md:'flex',lg:'flex', xl: 'flex' } }} justifyContent="center">
           {latestGames.map((game:gameProps)=>{
             const { game_sale_post,user_name,game_name,image_url,console_brand_name } = game;
             const {id,price,place_for_transaction,created_date,description,contact_method,user_Id,games_ID } = game_sale_post
@@ -67,6 +87,20 @@ const Home: NextPage = ({latestGames,todaysGames}:any) => {
             )
           })}
           </Grid>
+            {/* show carousel on small screen */}
+            <Box sx={{ display: { xs: 'block',md:'none',lg:'none', xl: 'none' } , width: '200px'}}>
+              <Carousel     NextIcon={<KeyboardArrowRightIcon/>} PrevIcon={<KeyboardArrowLeftIcon/>}>
+                {latestGames.map((game:gameProps)=>{
+                  const { game_sale_post,user_name,game_name,image_url,console_brand_name } = game;
+                  const {id,price,place_for_transaction,created_date,description,contact_method,user_Id,games_ID } = game_sale_post
+                  return(
+                    <Grid item key={id}>
+                    <TodaysPickGameItem game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}/>
+                    </Grid>
+                  )
+                })}
+              </Carousel>
+            </Box>
 
         </Grid>
       </Grid>
