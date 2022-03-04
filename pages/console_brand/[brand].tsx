@@ -1,4 +1,4 @@
-import { Box, Grid, Pagination } from '@mui/material';
+import { Box, CircularProgress, Grid, Pagination, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -79,8 +79,6 @@ const FilterRow = ({ brand }: FilterRowProps) => {
   useEffect(() => {
     const { sortBy, asc } = filterData
     dispatch(fetchGameSalePostListThunk({ page: page - 1, size: 16, sortBy, asc, category: brand }));
-    // dispatch(fetchGameListThunk({page:page-1,size:16,sortBy:'id', category: "all"}));
-    console.log(response)
   }, [page, brand, filterData])
 
   const handleUpdateFilterData = (index: number, sortBy: string, asc: boolean) => {
@@ -122,8 +120,15 @@ const FilterRow = ({ brand }: FilterRowProps) => {
       </Grid>
       <Grid container spacing={1} display="flex" justifyContent="center">
         <Grid item lg={10} display="flex">
-          <Grid container spacing={3} mt={1}>
-            {response.gameSalePostList.content?.map(({ id, user_name, game_name, game_sale_post, image_url }: GameListProps) => {
+          <Grid container spacing={3} mt={1} minHeight="60vh">
+            {
+            response.gameSalePostList.content.length === 0
+            ?
+            <Grid item lg={12} display="flex" justifyContent="center" alignItems="center">
+              <Typography>There is no game here</Typography>
+            </Grid>
+            :
+            response.gameSalePostList.content?.map(({ id, user_name, game_name, game_sale_post, image_url }: GameListProps) => {
               return (
                 <Grid item xs={12} sm={6} md={3} lg={2} key={id}>
                   <GameItem

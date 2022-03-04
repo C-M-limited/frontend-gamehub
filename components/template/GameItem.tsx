@@ -25,7 +25,7 @@ const GameItemContainer = styled(Box)({
 })
 
 const GameItemTitle = styled(Typography)({
-  fontSize: 20,
+  fontSize: 16,
   marginTop: 10,
 })
 
@@ -46,7 +46,7 @@ export default function GameItem({ src, user_name, game_name, game_id, price, cr
                     <Divider style={{ backgroundColor: '#999999'}}/>
                     {price && <GameItemTitle>HKD ${price}</GameItemTitle>}
                     <Typography sx={{color:'#C0C0C0', fontSize:12, marginTop:'5px'}}>Provided By:</Typography>
-                    {user_name && <GameItemTitle sx={{marginTop:0, marginLeft: 1}}>{user_name}</GameItemTitle>}
+                    {user_name && <GameItemTitle sx={{marginTop:0}}>{user_name}</GameItemTitle>}
                     <Box sx={{display:'flex', justifyContent:"space-between"}}>
                       <Box></Box>
                       {created_date && <GameItemSubTitle>{timeSince(created_date)} ago</GameItemSubTitle>}
