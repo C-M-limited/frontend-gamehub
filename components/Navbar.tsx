@@ -40,6 +40,7 @@ import { registerThunk } from "../store/action/registration";
 import { RootState } from "../store/reducer";
 import { fetchSearchListThunk } from "../store/action/search";
 import { useState } from "react";
+import {CharacterImageList} from '../public/user_icon/user_icon'
 
 interface userProfileProps {
   role: string;
@@ -53,28 +54,6 @@ interface GamesProps {
   image_url: string;
   console_Id: number;
 }
-const CharacterImageList = [
-  {
-    id: 1,
-    image_url: "/user_icon/blueCharactor.jpg",
-    image_key: "blueCharactor",
-  },
-  {
-    id: 2,
-    image_url: "/user_icon/brownCharactor.jpg",
-    image_key: "brownCharactor",
-  },
-  {
-    id: 3,
-    image_url: "/user_icon/redCharactor.jpg",
-    image_key: "redCharactor",
-  },
-  {
-    id: 4,
-    image_url: "/user_icon/yellowCharactor.jpg",
-    image_key: "yellowCharactor",
-  },
-];
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -188,6 +167,14 @@ export default function Navbar() {
     if (type === "login") setOpenLoginDialog(false);
     if (type === "register") setOpenRegisterDialog(false);
   };
+  const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
+  const handleUserImage = ()=>{
+    CharacterImageList.forEach(data =>{
+      if (data.image_key===userProfile.imageKey){
+        setImagLocation(data.image_url);  
+      }
+    } )
+  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -272,7 +259,10 @@ export default function Navbar() {
       watch,
       formState: { errors },
     } = useForm();
-    const onSubmit = (data: any) => dispatch(login(data));
+    const onSubmit = (data: any) => {
+      dispatch(login(data))
+      handleDialogClose("login")
+    };
 
     return (
       <Dialog open={openLoginDialog} onClose={() => handleDialogClose("login")}>
@@ -519,7 +509,7 @@ export default function Navbar() {
                   }}
                 >
                   <Typography sx={{ marginRight: "20px" }}>
-                    {loginStatus.username}
+                    <img src={imageLocation} onLoad={()=>handleUserImage()} width={50} height={50} />
                   </Typography>
                   <Box mr={1}>
                     <Link href="/add_game">

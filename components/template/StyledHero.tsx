@@ -67,7 +67,7 @@ const StyledHero = () => {
                     </Box>
                     <Box display="flex" zIndex={2}>
                         {[gameConsoleList.map((item, key) => (
-                            <Box key={key} mr={5} mt={3} className={classes.gameIconButton}>
+                            <Box key={key} mx={2} mt={3} className={classes.gameIconButton}>
                                 <Link href={item.url} passHref>
                                     <Image priority={true} src={item.src} alt={`${item.src}`} layout="intrinsic" width={60} height={60} />
                                 </Link>

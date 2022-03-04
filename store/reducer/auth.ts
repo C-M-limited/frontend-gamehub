@@ -16,7 +16,7 @@ interface stateProps {
 
 const initialState: stateProps = auth ? {
     loading: false,
-    isLogin: true,
+    isLogin: false,
     username: auth,
     error: false,
     errMsg: "",

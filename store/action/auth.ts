@@ -77,12 +77,13 @@ export const login = ({ email, password }: logInProps) => {
             localStorage.setItem('access-token',response.data.AUTHORIZATION);
             localStorage.setItem('refresh-token',response.data.refreshToken);
             
-            dispatch(logInSuccess());
-            const user:userProfileProps = jwt(response.data.AUTHORIZATION);
+            dispatch(logInSuccess());            
+            const token:string=localStorage.getItem("access-token") || "";
+            const user:userProfileProps = jwt(token);
             dispatch(setUserProfileAction({name: user.name, role: user.role, email: user.email, id :user.id, imageKey: user.imageKey}))
-            localStorage.setItem('login', String(user.name))
+            // localStorage.setItem('login', String(user.name))
             alert('Login Success')
-            window.location.reload()
+            // window.location.reload()
           })
           .catch(function (error){
             dispatch(logInFailed("Login Failed"));
