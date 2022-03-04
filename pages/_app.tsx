@@ -10,6 +10,7 @@ import { CssBaseline } from '@mui/material';
 import { ThemeProvider, useTheme, createTheme } from '@mui/material/styles';
 import { amber, deepOrange, grey } from '@mui/material/colors';
 import { PaletteMode } from '@mui/material';
+import NextNProgress from "nextjs-progressbar";
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -49,6 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ThemeProvider theme={darkModeTheme}>
       <CssBaseline />
       <Provider store={store}>
+        <NextNProgress />
         <Layout>
           <Head>
             <title>GameHub</title>

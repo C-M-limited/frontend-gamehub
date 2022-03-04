@@ -8,10 +8,10 @@ import { Box } from '@mui/material';
 
 const CustomButton = styled(Box)<{ active?: boolean }>(({active}) => ({
     position: 'relative',
-    backgroundColor: active ? '#6100FF' : '#353545',
+    backgroundColor: active ? 'var(--mainPurple)' : 'var(--mainGrey)',
     color: '#ffffff',
-    padding: '10px 20px',
-    borderRadius: '10px',
+    padding: 'var(--space-8) var(--space-20)',
+    borderRadius: 'var(--space-4)',
     cursor: 'pointer'
   }))
 

@@ -430,7 +430,7 @@ export default function Navbar() {
                       {loginStatus.username}
                     </Typography>
                     <Box mr={1}>
-                      <Link href="/addGame">
+                      <Link href="/add_game">
                         <StyledButton>
                           add games
                         </StyledButton>

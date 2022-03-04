@@ -7,7 +7,7 @@ const Layout = ({children}: React.PropsWithChildren<{}>) => {
   return (
       <div style={{ backgroundColor: 'var(--color-gray-6)'}}>
           <Navbar />
-            <Grid container display='flex' justifyContent='center'  minHeight="100vh">
+            <Grid container display='flex' justifyContent='center'  minHeight="100vh" style={{ overflowX: 'hidden' }}>
               <Grid item sm={12}>
                 {children}
               </Grid>

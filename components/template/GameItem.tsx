@@ -39,9 +39,9 @@ const GameItemSubTitle = styled(Typography)({
 export default function GameItem({ src, user_name, game_name, game_id, price, created_date }: StyledGameItemProps) {
     return (
         <Box>
-            <Link href={`/game/${game_id}`}>
+            <Link href={`/game/${game_id}`} passHref>
                 <GameItemContainer>
-                    <Image src={src} layout="responsive" width={180} height={200} />
+                    <Image src={src} layout="responsive" alt={src} width={180} height={200} />
                     <GameItemTitle>{game_name}</GameItemTitle>
                     <Divider style={{ backgroundColor: '#999999'}}/>
                     {price && <GameItemTitle>HKD ${price}</GameItemTitle>}
@@ -51,9 +51,6 @@ export default function GameItem({ src, user_name, game_name, game_id, price, cr
                       <Box></Box>
                       {created_date && <GameItemSubTitle>{timeSince(created_date)} ago</GameItemSubTitle>}
                     </Box>
-
-
-
                 </GameItemContainer>
             </Link>
         </Box>
