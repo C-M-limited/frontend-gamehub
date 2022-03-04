@@ -70,7 +70,7 @@ export default function ResponsiveDrawer(props: Props) {
       {Array.from(Array(9)).map((item) => {
                     const { id,seller, location, price, image, decription, date } = posts;
                     return (
-                      <Link href={`/game/${posts.id}`}>
+                      <Link href={`/game/${posts.id}`} key={item}>
                         <Box key={image} sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 ,cursor: 'pointer'}} bgcolor={"var(--mainGrey)"} mt={5}>
                             <Box sx={{ position: 'relative', width: 50, height: 50, borderRadius: 2, overflow: 'hidden' }} ml={-3} mt={-3}>
                                 <Image layout="fill" src={image} alt="user icon" />

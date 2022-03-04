@@ -12,7 +12,7 @@ interface postProps {
     location: string,
     price: number,
     image: string,
-    decription?: string,
+    description?: string,
     date: string
 }
 
@@ -38,7 +38,7 @@ const Game = (gameDetails: gameDetailsProps) => {
                 </Box>
                 <Box display="flex" alignItems='center'>
                     <Image src="/user_icon/user_1.svg" alt="user icon" width={'150px'} height={'200px'} />
-                        <Typography ml={2}>{user_name}</Typography>
+                    <Typography ml={2}>{user_name}</Typography>
                     {contact_method &&
                         <a href={`https://wa.me/${contact_method}`}>
                             <WhatsAppIcon style={{ width: 50, height: 50, marginLeft: 40, color: '#fff', backgroundColor: 'var(--mainGrey)', padding: 4, borderRadius: 4 }} />
