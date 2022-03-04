@@ -62,7 +62,7 @@ const Footer = () => {
         <Grid item xs={12} lg={3} display="flex"  flexDirection={'column'} alignItems="center">
           <Grid>
             <FooterTitle>My account</FooterTitle>
-            <FooterContent>Profile</FooterContent>
+            <Link href={'/profile/me'} passHref><FooterContent>Profile</FooterContent></Link>
             <FooterContent><Link href="/add_game">Sell my game</Link></FooterContent>
             <FooterContent>Browse random game</FooterContent>
           </Grid>

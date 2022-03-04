@@ -509,7 +509,9 @@ export default function Navbar() {
                   }}
                 >
                   <Typography sx={{ marginRight: "20px" }}>
-                    <img src={imageLocation} onLoad={()=>handleUserImage()} width={50} height={50} />
+                    <Link href={'/profile/me'} passHref>
+                      <img src={imageLocation} onLoad={()=>handleUserImage()} width={50} height={50} />
+                    </Link>
                   </Typography>
                   <Box mr={1}>
                     <Link href="/add_game">

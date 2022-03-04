@@ -122,7 +122,7 @@ const FilterRow = ({ brand }: FilterRowProps) => {
         <Grid item lg={10} display="flex">
           <Grid container spacing={3} mt={1} minHeight="60vh">
             {
-            response.gameSalePostList.content.length === 0
+            response.gameSalePostList.content?.length === 0
             ?
             <Grid item lg={12} display="flex" justifyContent="center" alignItems="center">
               <Typography>There is no game here</Typography>

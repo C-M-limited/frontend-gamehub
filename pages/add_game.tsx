@@ -142,6 +142,7 @@ const addGameFormStyle : React.CSSProperties={
   padding:'20px 20px 32px 20px',
   borderRadius:'12px',
   width:'60%',
+  minWidth: '300px',
   maxWidth:'600px'
 }
 
