@@ -14,6 +14,7 @@ interface AddGameFormInput {
 }
 
 export default function AddGame() {
+
   const { register, handleSubmit, getValues, formState: { errors }} = useForm({
     defaultValues: {
       game_id: 0,
@@ -35,7 +36,7 @@ export default function AddGame() {
           "id":game_id
       }
   }
-    console.log(dataToSend)
+    // console.log(dataToSend)
     addPost(dataToSend);
   
   };
@@ -47,7 +48,7 @@ export default function AddGame() {
     };
     axios.post(`${server}/api/v1/game_sale_post`, dataToSend, { headers })
     .then(response => {
-      console.log(response)
+      // console.log(response)
       window.alert("Successfully Added Post")
     })
     .catch((error) => {
@@ -60,7 +61,7 @@ export default function AddGame() {
   }
   const refreshToken =async(dataToSend:any)=>{
     const refreshToken = `Bearer ${localStorage.getItem('refresh-token')}`;
-    console.log(refreshToken)
+    // console.log(refreshToken)
     const headers:any = { 
       'refreshToken': refreshToken,
     };
@@ -85,7 +86,7 @@ export default function AddGame() {
     axios.get(`${server}/api/v1/games/all`)
     .then(response =>{
       setGameList(response.data);
-      console.log(response.data)
+      // console.log(response.data)
     })
     .catch((error)=> window.alert("Sorry, Server is down right now"))
   }
