@@ -63,7 +63,7 @@ const StyledHero = () => {
                 <Grid item sm={12} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                     <Title>All your games in one place.</Title>
                     <Box className={classes.imageContainer} zIndex={1}>
-                        <Image priority={true} src="/banner.jpg" layout="fill" />
+                        <Image priority={true} src="/banner.jpg" layout="fill" alt={"banner"}/>
                     </Box>
                     <Box display="flex" zIndex={2}>
                         {[gameConsoleList.map((item, key) => (

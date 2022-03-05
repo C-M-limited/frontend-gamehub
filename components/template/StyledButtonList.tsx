@@ -31,12 +31,13 @@ const StyledButtonList = () => {
         data.map((item, key)=>(
           <Grid item sm={4}  key={key}>
             <Paper style={{ height: 200, display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer'}}>
-              <Link href={`/console_brand/${item.url}`}>
+              <Link href={`/console_brand/${item.url}`} passHref>
                 <Image 
                   src={item.src}
                   layout="intrinsic"
                   height={item.height}
                   width={item.width}
+                  alt={"Brand Image"}
                 />
               </Link>
             </Paper>

@@ -63,7 +63,7 @@ const Footer = () => {
           <Grid>
             <FooterTitle>My account</FooterTitle>
             <Link href={'/profile/me'} passHref><FooterContent>Profile</FooterContent></Link>
-            <FooterContent><Link href="/add_game">Sell my game</Link></FooterContent>
+            <FooterContent><Link href="/add_game" passHref>Sell my game</Link></FooterContent>
             <FooterContent>Browse random game</FooterContent>
           </Grid>
         </Grid>
@@ -72,7 +72,7 @@ const Footer = () => {
             <FooterTitle>Resource</FooterTitle>
             {
               filterList.map((item)=>(
-                <Link key={item.src} href={item.src}>
+                <Link key={item.src} href={item.src} passHref>
                   <FooterContent>{item.name}</FooterContent>
                 </Link>
               ))

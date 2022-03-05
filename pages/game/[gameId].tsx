@@ -70,7 +70,7 @@ export default function ResponsiveDrawer(props: Props) {
       {Array.from(Array(9)).map((item) => {
                     const { id,seller, location, price, image, decription, date } = posts;
                     return (
-                      <Link href={`/game/${posts.id}`} key={item}>
+                      <Link href={`/game/${posts.id}`} key={item} passHref>
                         <Box key={image} sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 ,cursor: 'pointer'}} bgcolor={"var(--mainGrey)"} mt={5}>
                             <Box sx={{ position: 'relative', width: 50, height: 50, borderRadius: 2, overflow: 'hidden' }} ml={-3} mt={-3}>
                                 <Image layout="fill" src={image} alt="user icon" />
@@ -165,7 +165,7 @@ export default function ResponsiveDrawer(props: Props) {
           <Box padding={5}>
           <Box display="flex" alignItems='center'>
             <Image src="/user_icon/user_1.svg" alt="user icon" width={'150px'} height={'200px'} />
-                <Typography ml={2}>{user_name}</Typography>
+            <Typography ml={2}>{user_name}</Typography>
             {contact_method &&
                 <a href={`https://wa.me/${contact_method}`}>
                     <WhatsAppIcon style={{ width: 50, height: 50, marginLeft: 40, color: '#fff', backgroundColor: 'var(--mainGrey)', padding: 4, borderRadius: 4 }} />

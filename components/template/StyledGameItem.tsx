@@ -54,7 +54,7 @@ const StyledGameItem = ({ src, name, price, location }: StyledGameItemProps) => 
         {Array.from(Array(100).keys()).slice(12*(page-1), 12*page).map((item, key)=>(
             <Grid key={key} item xs={12} sm={6} md={3} lg={2}>
                 <GameItemContainer>
-                    <Image src={src} layout="responsive" width={180} height={200} />
+                    <Image src={src} layout="responsive" width={180} height={200} alt={"Game Image"}/>
                     <GameItemTitle>{name} - {item}</GameItemTitle>
                     <Divider style={{ backgroundColor: '#fff'}}/>
                     <>

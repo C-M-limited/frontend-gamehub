@@ -28,7 +28,7 @@ interface postDetailProps {
     user_Id: number;
     games_ID: number;
 }
-export default function me() {
+export default function Me() {
     const fetchData= async()=>{
         // ${userProfile.id}
         await axios.get(`${server}/api/v1/game_sale_post/user/${userProfile.id}`)
