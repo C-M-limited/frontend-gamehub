@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Grid, Typography, Box, Divider, Pagination,Autocomplete } from '@mui/material';
 import { styled } from '@mui/system';
 import Image from 'next/image';
@@ -65,15 +65,15 @@ const GameItemSubTitle = styled(Typography)({
 const Tags = styled(Typography)({
 })
 
-export default function userProfileItem({post_id, game_id,image_src, name, price, location, brand, contact_method,description }: StyledGameItemProps) {
+export default function UserProfileItem({post_id, game_id,image_src, name, price, location, brand, contact_method,description }: StyledGameItemProps) {
     const colorCode = () =>{
         if(brand==="Ps") { return "#007ABE"}
         else if (brand==="Xbox") { return "#169A00"}
         else if (brand==="ns") {return "#B70505"}
 
     }
-    const [openEdit, setOpenEdit] = React.useState(false);
-    const [openDelete, setOpenDelete] = React.useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
     const handleClickOpenEdit = () => {
         setOpenEdit(true);
       };
