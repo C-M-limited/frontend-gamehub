@@ -160,7 +160,7 @@ const FilterRow = ({ brand }: FilterRowProps) => {
             <Grid container spacing={3} mt={1} minHeight="60vh"  paddingX={{xs:5}} display="flex">
               {response.gameSalePostList.content?.map(({ id, user_name, game_name, game_sale_post, image_url }: GameListProps) => {
               return (
-                <Grid item xs={12} sm={4} md={3} lg={2} key={id} >
+                <Grid item xs={12} sm={4} md={3} lg={2.4} key={id} >
                   <GameItem
                     key={game_sale_post.id}
                     game_id={game_sale_post.id}
