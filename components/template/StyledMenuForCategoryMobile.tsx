@@ -82,8 +82,8 @@ export default function StyledMenuForCategoryMobile({ nameList}: styledMenuProps
             >   
                 {
                     nameList.map(({name,brand,src}:filterListProps, index:number)=> (
-                        <Link href={`/console_brand/${brand}`} passHref>
-                            <MenuItem key={index} onClick={(e)=>{
+                        <Link href={`/console_brand/${brand}`} passHref key={index}>
+                            <MenuItem  onClick={(e)=>{
                                 handleClose();
                             }}>{name}</MenuItem>
                         </Link>
