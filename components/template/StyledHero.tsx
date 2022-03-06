@@ -24,35 +24,34 @@ const useStyles = makeStyles({
         height: 48,
         padding: '0 30px',
     },
-    imageContainer: {
-        position: 'absolute',
-        width: '100vw',
-        height: '50vw',
-    },
-    gameIconButton: {
-        position: 'relative',
-        width: 80,
-        height: 80,
-        borderRadius: 'var(--space-8)',
-        padding: 'var(--space-8)',
-        backgroundColor: 'var(--color-gray-5)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        cursor: 'pointer',
-        bottom: 0,
-        transition: 'bottom .2s',
-        '&:hover': {
-            backgroundColor: 'var(--color-gray-6)',
-            bottom: 'var(--space-8)'
-        }
-    }
 });
-
+const BannerWrapper = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    width: '100vw',
+    height: '50vw',
+  }));
+const ButtonWrapper =styled(Box)(({ theme }) => ({
+    position: 'relative',
+    width: 80,
+    height: 80,
+    borderRadius: 'var(--space-8)',
+    padding: 'var(--space-8)',
+    backgroundColor: 'var(--color-gray-5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'pointer',
+    bottom: 0,
+    transition: 'bottom .2s',
+    '&:hover': {
+        backgroundColor: 'var(--color-gray-6)',
+        bottom: 'var(--space-8)'
+    }
+  }));
 const gameConsoleList = [
     { src: "/xbox_logo.png", url: "/console_brand/xbox" },
     { src: "/nintendo_logo.svg", url: "/console_brand/nintendo" },
-    { src: "/play_station_logo.png", url: "/console_brand/playstation" },
+    { src: "/play_station_logo.png", url: "/console_brand/ps" },
 ]
 
 const StyledHero = () => {
@@ -62,16 +61,16 @@ const StyledHero = () => {
             <Grid container position='relative' height="50vw" mb={2}>
                 <Grid item sm={12} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                     <Title>All your games in one place.</Title>
-                    <Box className={classes.imageContainer} zIndex={1}>
+                    <BannerWrapper zIndex={1}>
                         <Image priority={true} src="/banner.jpg" layout="fill" alt={"banner"}/>
-                    </Box>
+                    </BannerWrapper>
                     <Box display="flex" zIndex={2}>
                         {[gameConsoleList.map((item, key) => (
-                            <Box key={key} mx={2} mt={3} className={classes.gameIconButton}>
-                                <Link href={item.url} passHref>
-                                    <Image priority={true} src={item.src} alt={`${item.src}`} layout="intrinsic" width={60} height={60} />
-                                </Link>
-                            </Box>
+                            <Link key={key} href={item.url} passHref>
+                                <ButtonWrapper  mx={2} mt={3} >                   
+                                        <Image priority={true} src={item.src} alt={`${item.src}`} layout="intrinsic" width={60} height={60} />                                
+                                </ButtonWrapper>
+                            </Link>
                         ))]}
                     </Box>
                 </Grid>
