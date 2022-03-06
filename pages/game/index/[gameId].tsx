@@ -24,6 +24,7 @@ const drawerWidth = 375;
 interface Props {
   window?: () => Window;
   postList: any;
+  gameInfo: gameInfoProps;
 }
 interface postProps  {
   id: number;
@@ -31,10 +32,16 @@ interface postProps  {
   location: string;
   price: number;
   imageKey: string,
+  gameImageUrl: string;
 }
-
+interface gameInfoProps{
+  id: number;
+  name: string;
+  image_url: string;
+  console_Id: number;
+}
 export default function ResponsiveDrawer(props: Props) {
-  const { window, postList } = props;
+  const { window, postList,gameInfo } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [currentPost, setCurrentPost] = React.useState<any>([]);
   const handleDrawerToggle = () => {
@@ -67,7 +74,7 @@ export default function ResponsiveDrawer(props: Props) {
       <Divider/>
       <List sx={{justifyContent:'center',display:'flex'}}>
         <Box>
-          <Image layout="intrinsic" src="/game_sample.png" alt="game image" width={'150px'} height={'200px'} />
+          <Image layout="intrinsic" src={gameInfo.image_url} alt="game image" width={'150px'} height={'200px'} />
         </Box>
       </List>
       <Divider />
@@ -197,13 +204,14 @@ export default function ResponsiveDrawer(props: Props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // console.log(context.query)
   const { gameId } = context.query
-
+  const gameInfo = await (await axios.get(`${server}/api/v1/games/byId/${gameId}`)).data
   const postList = await (await axios.get(`${server}/api/v1/game_sale_post/games/${gameId}`)).data
   // console.log(gameDetails.game_sale_post.games_ID)
   // const gamePostList = await(await axios.get(`${server}/games/1`)).data
   return {
       props: {
-          postList
+          postList,
+          gameInfo
       }
   }
 }

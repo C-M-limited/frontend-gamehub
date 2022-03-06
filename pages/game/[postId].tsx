@@ -28,6 +28,7 @@ interface Props {
   window?: () => Window;
   gameDetails: any;
   postList: any;
+  gameInfo: gameInfoProps;
 }
 
 interface postProps  {
@@ -35,25 +36,23 @@ interface postProps  {
   seller: string;
   location: string;
   price: number;
-  imageKey: string,
+  imageKey: string;
+}
+interface gameInfoProps{
+  id: number;
+  name: string;
+  image_url: string;
+  console_Id: number;
 }
 
 export default function ResponsiveDrawer(props: Props) {
-  const { window, gameDetails,postList } = props;
+  const { window, gameDetails,postList,gameInfo } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [currentPost, setCurrentPost] = React.useState<any>([]);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const posts = {
-    id:8,
-    seller: 'mandy',
-    location: 'yau tong',
-    price: 200,
-    image: '/user_sample.jpg',
-    decription: 'find me on whatsapp',
-    date: '18/9/21'
-}
+
 const [imageLocation,setImagLocation] = React.useState("/user_icon/noUserImage.jpeg");
 const handleUserImage = (imageKey:string)=>{
   CharacterImageList.forEach(data =>{
@@ -80,7 +79,7 @@ const handleUserImage = (imageKey:string)=>{
       <Divider/>
       <List sx={{justifyContent:'center',display:'flex'}}>
         <Box>
-          <Image layout="intrinsic" src="/game_sample.png" alt="game image" width={'150px'} height={'200px'} />
+          <Image layout="intrinsic" src={gameInfo.image_url} alt="game image" width={'150px'} height={'200px'} />
         </Box>
       </List>
       <Divider />
@@ -115,7 +114,7 @@ const handleUserImage = (imageKey:string)=>{
 
   const container = window !== undefined ? () => window().document.body : undefined;
   // console.log(gameDetails)
-  const { contact_method, created_date, description, place_for_transaction, price, user_name, game_name } = gameDetails;
+  const { contact_method, created_date, description, place_for_transaction, price, user_name, imageKey } = gameDetails;
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -182,8 +181,13 @@ const handleUserImage = (imageKey:string)=>{
         <Grid item xs={12} md={12} lg={8} sx={{ height: '100vh', overflowY: 'hidden' }}>
           <Box padding={5}>
           <Box display="flex" alignItems='center'>
-            <Image src="/user_icon/user_1.svg" alt="user icon" width={'150px'} height={'200px'} />
-            <Typography ml={2}>{user_name}</Typography>
+            <Box display="flex" alignItems='center' flexDirection="column" mb={2}>
+              <Box sx={{ position: 'relative', width: 150, height: 150, borderRadius: 5, overflow: 'hidden' }}  >
+              <Image src={imageLocation} onLoad={()=>handleUserImage(imageKey)} alt="user icon" width={'200px'} height={'200px'}/>
+              </Box>
+              <Typography bgcolor='var(--mainPurple)' paddingX={1} mt={-1} zIndex={2} sx={{borderRadius:2}}>{user_name}</Typography>
+            </Box>
+
             {contact_method &&
                 <a href={`https://wa.me/${contact_method}`}>
                     <WhatsAppIcon style={{ width: 50, height: 50, marginLeft: 40, color: '#fff', backgroundColor: 'var(--mainGrey)', padding: 4, borderRadius: 4 }} />
@@ -228,7 +232,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { postId } = context.query
 
   const [gameDetails] = await (await axios.get(`${server}/api/v1/game_sale_post/id/${postId}`)).data
-
+  const gameInfo = await (await axios.get(`${server}/api/v1/games/byId/${gameDetails.game_sale_post.games_ID}`)).data
   const postList = await (await axios.get(`${server}/api/v1/game_sale_post/games/${gameDetails.game_sale_post.games_ID}`)).data
   // console.log(gameDetails.game_sale_post.games_ID)
   // const gamePostList = await(await axios.get(`${server}/games/1`)).data
@@ -238,8 +242,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
               ...gameDetails.game_sale_post,
               user_name: gameDetails.user_name,
               game_name: gameDetails.game_name,
+              imageKey: gameDetails.user_image_key
           },
-          postList
+          postList,
+          gameInfo
       }
   }
 }
