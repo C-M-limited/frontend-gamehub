@@ -41,6 +41,7 @@ import { RootState } from "../store/reducer";
 import { fetchSearchListThunk } from "../store/action/search";
 import { useState } from "react";
 import {CharacterImageList} from '../public/user_icon/user_icon'
+import SearchComponent from "./SearchComponent";
 
 interface userProfileProps {
   role: string;
@@ -487,17 +488,8 @@ export default function Navbar() {
                     GameHUB
                   </Typography>
                 </Link>
-                <Search>
-                  <SearchIconWrapper>
-                    <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ "aria-label": "search" }}
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                  />
-                </Search>
+                <SearchComponent/>
+
               </Box>
               <Box sx={{ flexGrow: 1 }} />
               {loginStatus.isLogin ? (
@@ -556,3 +548,14 @@ export default function Navbar() {
 // </Grid>
 // </Grid>
 // */}
+                {/* <Search>
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    placeholder="Search…"
+                    inputProps={{ "aria-label": "search" }}
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                  />
+                </Search> */}
