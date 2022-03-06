@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Grid, Pagination, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import Link from 'next/link';
 import StyledMenu from '../../components/template/StyledMenu';
 import { fetchGameSalePostListThunk } from '../../store/action/gameSalePost';
 import GameItem from '../../components/template/GameItem';
+import StyledMenuForCategoryMobile from '../../components/template/StyledMenuForCategoryMobile';
 
 const FilterButton = styled(Box)<{ active?: boolean }>(({ active }) => ({
   position: 'relative',
@@ -67,6 +68,7 @@ const GameListPagination = styled(Pagination)({
 })
 
 const FilterRow = ({ brand }: FilterRowProps) => {
+  const router = useRouter();
   const response = useSelector((state: RootState) => state.gameSalePostList);
   const [page, setPage] = React.useState(1);
   const [filterData, setFilterData] = React.useState({
@@ -86,13 +88,15 @@ const FilterRow = ({ brand }: FilterRowProps) => {
     dispatch(fetchGameSalePostListThunk({ page: page - 1, size: 16, sortBy, asc, category: brand }));
   }
 
+
   const handleChange = (_event: any, value: number) => {
     setPage(value);
     window.scrollTo(0, 0)
   };
   return (
     <>
-      <Grid container display="flex" justifyContent="center">
+      {/* Button Show on Large Screen */}
+      <Grid container justifyContent="center" sx={{display:{xs: 'none',sm:'none',md:'flex'}}}>
         <Grid item sm={10} display="flex" alignItems="center" mt={3}>
           <Grid item sm={8} display="flex">
             {
@@ -118,19 +122,45 @@ const FilterRow = ({ brand }: FilterRowProps) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid container spacing={1} display="flex" justifyContent="center">
-        <Grid item lg={10} display="flex">
-          <Grid container spacing={3} mt={1} minHeight="60vh">
-            {
+      {/* Button Show on Small Screen */}
+      <Box flexDirection={"column"} sx={{display:{xs: 'flex',sm:'flex',md:'none'}}}  mt={2} paddingX={5}>
+          <Box display={'flex'} >
+            <StyledMenuForCategoryMobile
+              nameList={
+                filterList
+              }
+            />
+          </Box>
+          <Box display={'flex'} mt={2}>
+            <StyledMenu
+              selectIndex={filterData.index}
+              handleChange={handleUpdateFilterData}
+              nameList={[
+                { name: "Lowest ID", asc: true, sortBy: 'id' },
+                { name: "Highest ID", asc: false, sortBy: 'id' },
+                { name: "Lowest Price", asc: true, sortBy: 'price' },
+                { name: "Highest Price", asc: false, sortBy: 'price' },
+                { name: "Latest", asc: false, sortBy: 'created_date' },
+              ]}
+            />
+          </Box>
+      </Box>
+      {/* Post */}
+      <Grid container spacing={1} display="flex" justifyContent="center" >
+        <Grid item xs={12} sm={12} md={11} lg={9} xl={6} display="flex" >
+          {
             response.gameSalePostList.content?.length === 0
             ?
-            <Grid item lg={12} display="flex" justifyContent="center" alignItems="center">
-              <Typography>There is no game here</Typography>
+            <Grid container spacing={3} mt={1} minHeight="60vh"  paddingX={{xs:5}} display="flex" justifyContent={'center'}>
+              <Grid item lg={12} display="flex" justifyContent="center" alignItems="center">
+                <Typography>There is no game here</Typography>
+              </Grid>
             </Grid>
             :
-            response.gameSalePostList.content?.map(({ id, user_name, game_name, game_sale_post, image_url }: GameListProps) => {
+            <Grid container spacing={3} mt={1} minHeight="60vh"  paddingX={{xs:5}} display="flex">
+              {response.gameSalePostList.content?.map(({ id, user_name, game_name, game_sale_post, image_url }: GameListProps) => {
               return (
-                <Grid item xs={12} sm={6} md={3} lg={2} key={id}>
+                <Grid item xs={12} sm={4} md={3} lg={2} key={id} >
                   <GameItem
                     key={game_sale_post.id}
                     game_id={game_sale_post.id}
@@ -140,10 +170,9 @@ const FilterRow = ({ brand }: FilterRowProps) => {
                     created_date={game_sale_post.created_date}
                     src={image_url}
                   />
-                </Grid>
-              )
-            })}
-          </Grid>
+                </Grid>)})}
+            </Grid>
+          }
         </Grid>
       </Grid>
       <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
