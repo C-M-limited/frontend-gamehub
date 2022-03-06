@@ -12,9 +12,14 @@ interface AddGameFormInput {
   description?: String;
   contact_method: String
 }
-
+interface GameListProps{
+  id: number;
+  name: string;
+  image_url: string;
+}
 export default function AddGame() {
-
+  const [newGameId,setNewGameId] = useState<any>(-1);
+  const [gameError,setGameError] = useState<boolean>(false);
   const { register, handleSubmit, getValues, formState: { errors }} = useForm({
     defaultValues: {
       game_id: 0,
@@ -25,23 +30,31 @@ export default function AddGame() {
     }
   });
   const onSubmit : SubmitHandler<AddGameFormInput> = data => {
-    const {game_id,price,place_for_transaction,description,contact_method}= data
+    const {price,place_for_transaction,description,contact_method}= data
+    if (newGameId===-1){
+      setGameError(true);
+    }else {
+      setGameError(false);
+    }
     const dataToSend = 
     {
       "price": price,
       "place_for_transaction": place_for_transaction,
       "description" : description,
       "contact_method": contact_method,
-      "games":{
-          "id":game_id
-      }
-  }
-    // console.log(dataToSend)
+    }
     addPost(dataToSend);
   
   };
-  console.log(errors);
-  const addPost = async(dataToSend:any) =>{
+
+  const addPost = async(dataToSendWithoutGameId:any) =>{
+    const id= newGameId
+    const dataToSend={
+      ...dataToSendWithoutGameId,
+      games:{
+        id
+      }
+    }
     const accessToken = localStorage.getItem('access-token');
     const headers:any = { 
       'Authorization': accessToken,
@@ -52,6 +65,7 @@ export default function AddGame() {
       window.alert("Successfully Added Post")
     })
     .catch((error) => {
+      console.log(error)
       if(error.response.status === 403){
         if (error.response.data==='Expired JWT token'){
             refreshToken(dataToSend);
@@ -81,11 +95,11 @@ export default function AddGame() {
         }
       }))
   }
-  const [gameList,setGameList] = useState<any[]>([]);
+  const [options,setOptions] = useState<GameListProps[]>([]);
   const fetchGameList=async()=>{
     axios.get(`${server}/api/v1/games/all`)
     .then(response =>{
-      setGameList(response.data);
+      setOptions(response.data);
       // console.log(response.data)
     })
     .catch((error)=> window.alert("Sorry, Server is down right now"))
@@ -101,18 +115,17 @@ export default function AddGame() {
       <form onSubmit={handleSubmit(onSubmit)} style={addGameFormStyle} id="addGameForm">
         {/* Game */}
         <Typography style={addGameSubTitleTextStyle}>Game name:</Typography>
-        <Autocomplete {...register("game_id", { required: true,min: 1 })} 
+        <Autocomplete 
           style={addGameInputStyle}
           disablePortal
           size="small"
-          renderInput={(params) => <TextField {...params} label="Game" />}
-          options={gameList.map((game)=>{
-            let newGame:any = {}
-            newGame['label'] = game.name
-            return newGame
-          })}
+          renderInput={(params) => <TextField {...params}  label="Game" />}
+          isOptionEqualToValue={(option, value) => option.name === value.name}
+          onChange={(event, value) => setNewGameId(value?.id)}
+          getOptionLabel={(option) => option.name}
+          options={options}
         />
-        {errors.game_id && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
+        {gameError && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
         {/* Price */}
         <Typography style={addGameSubTitleTextStyle}>Price :</Typography>
         <TextField size="small" type="number" {...register("price", {required: true, max: 2000, min: 0})} style={addGameInputStyle}/>

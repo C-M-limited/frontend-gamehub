@@ -16,7 +16,12 @@ import StyledButton from '../StyledButton';
 import { useForm , SubmitHandler} from 'react-hook-form';
 import axios from 'axios';
 import { server } from '../../config';
-
+import Router from 'next/router'
+interface GameListProps{
+  id: number;
+  name: string;
+  image_url: string;
+}
 interface AddGameFormInput {
   newGame_id: number;
   newPrice: number;
@@ -66,6 +71,10 @@ const Tags = styled(Typography)({
 })
 
 export default function UserProfileItem({post_id, game_id,image_src, name, price, location, brand, contact_method,description }: StyledGameItemProps) {
+  const [newGameId,setNewGameId] = useState<any>(-1);
+  const [gameError,setGameError] = useState<boolean>(false);
+  const [options,setOptions] = useState<GameListProps[]>([]);
+
     const colorCode = () =>{
         if(brand==="Ps") { return "#007ABE"}
         else if (brand==="Xbox") { return "#169A00"}
@@ -101,6 +110,11 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
       });
     const onSubmit : SubmitHandler<AddGameFormInput> = data => {
         const {newGame_id,newPrice,new_place_for_transaction,new_description,new_contact_method}= data
+        if (newGameId===-1){
+          setGameError(true);
+        }else {
+          setGameError(false);
+        }
         const dataToSend = 
         {
             "id" : post_id,
@@ -108,23 +122,29 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
           "place_for_transaction": new_place_for_transaction,
           "description" : new_description,
           "contact_method": new_contact_method,
-          "games":{
-              "id":newGame_id
-          }
       }
-        console.log(dataToSend)
+        // console.log(dataToSend)
         editPost(dataToSend);
       
     };
-    const editPost = async(dataToSend:any) =>{
+    const editPost = async(dataToSendWithoutGameId:any) =>{
+        // console.log(dataToSend.games)
+        const id= newGameId
+        const dataToSend={
+          ...dataToSendWithoutGameId,
+          games:{
+            id
+          }
+        }
         const accessToken = localStorage.getItem('access-token');
         const headers:any = { 
           'Authorization': accessToken,
         };
         axios.put(`${server}/api/v1/game_sale_post`, dataToSend, { headers })
         .then(response => {
-          window.alert("Successfully Added Post")
+          window.alert("Successfully Edited Post")
           setOpenEdit(false);
+          Router.reload();
         })
         .catch((error) => {
           if(error.response.status === 403){
@@ -164,6 +184,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
         .then(response => {
           window.alert("Successfully Delete Post")
           setOpenDelete(false);
+          Router.reload();
         })
         .catch((error) => {
           if(error.response.status === 403){
@@ -192,32 +213,12 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
         })
     }
 
-
-    //   const onSubmit : SubmitHandler<AddGameFormInput> = data => {
-    //     const {game_id,price,place_for_transaction,description,contact_method}= data
-    //     const dataToSend = 
-    //     {
-    //       "price": price,
-    //       "place_for_transaction": place_for_transaction,
-    //       "description" : description,
-    //       "contact_method": contact_method,
-    //       "games":{
-    //           "id":game_id
-    //       }
-    //   }
-
-    //     addPost(dataToSend);
-      
-    //   };
-
-
-    const [gameList,setGameList] = useState<any[]>([]);
     const fetchGameList=async()=>{
-    axios.get(`${server}/api/v1/games/all`)
-    .then(response =>{
-        setGameList(response.data);
-    })
-    .catch((error)=> window.alert("Sorry, Server is down right now"))
+      axios.get(`${server}/api/v1/games/all`)
+      .then(response =>{
+          setOptions(response.data);
+      })
+      .catch((error)=> window.alert("Sorry, Server is down right now"))
     }
     useEffect (()=>{
     fetchGameList();
@@ -260,18 +261,17 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
             <form onSubmit={handleSubmit(onSubmit)} style={addGameFormStyle} id="addGameForm">
                 {/* Game */}
                 <Typography style={addGameSubTitleTextStyle}>Game name:</Typography>
-                <Autocomplete {...register("newGame_id", { required: true,min: 1 })} 
-                style={addGameInputStyle}
-                disablePortal
-                size="small"
-                renderInput={(params) => <TextField {...params} label="Game" />}
-                options={gameList.map((game)=>{
-                    let newGame:any = {}
-                    newGame['label'] = game.name
-                    return newGame
-                })}
+                <Autocomplete 
+                  style={addGameInputStyle}
+                  disablePortal
+                  size="small"
+                  renderInput={(params) => <TextField {...params}  label="Game" />}
+                  isOptionEqualToValue={(option, value) => option.name === value.name}
+                  onChange={(event, value) => setNewGameId(value?.id)}
+                  getOptionLabel={(option) => option.name}
+                  options={options}
                 />
-                {errors.newGame_id && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
+                {gameError && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
                 {/* Price */}
                 <Typography style={addGameSubTitleTextStyle}>Price :</Typography>
                 <TextField size="small" type="number" {...register("newPrice", {required: true, max: 2000, min: 0})} style={addGameInputStyle}/>
