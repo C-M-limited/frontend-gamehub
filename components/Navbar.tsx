@@ -502,7 +502,7 @@ export default function Navbar() {
                 >
                   <Typography sx={{ marginRight: "20px" }}>
                     <Link href={'/profile/me'} passHref>
-                      <img src={imageLocation} onLoad={()=>handleUserImage()} width={50} height={50} />
+                      <Image src={imageLocation} onLoad={()=>handleUserImage()} width={50} height={50} />
                     </Link>
                   </Typography>
                   <Box mr={1}>

@@ -188,9 +188,9 @@ export default function SearchComponent() {
             />
           </Search>
           <div style={{display: 'absolute'}}>
-            {open && searchList.searchList.content?.map((game:GameListProps)=>{
+            {open && searchList.searchList.content?.map((game:GameListProps,index: number)=>{
               return(
-                <Link href={`/game/index/${game.id}`}>
+                <Link href={`/game/index/${game.id}`} key={index} passHref>
                   {/* <Divider/> */}
                   <SearchItem>{game.name}</SearchItem>
                 </Link>
