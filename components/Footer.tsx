@@ -46,7 +46,7 @@ const Footer = () => {
           <Grid>
             <FooterTitle>Game Hub</FooterTitle>
             <Typography>Help you find your dream game</Typography>
-            <Box>
+            <Box display="flex" alignItems="center" sx={{flexDirection: { xs: 'column', sm: 'row'}}} >
               <IconButton>
                 <TwitterIcon />
               </IconButton>

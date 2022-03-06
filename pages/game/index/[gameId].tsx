@@ -9,7 +9,8 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import Toolbar from '@mui/material/Toolbar';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { Grid, Typography, Box, Divider } from '@mui/material';
-
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import Image from 'next/image';
 import Navbar from '../../../components/Navbar';
 import axios from 'axios';
@@ -19,13 +20,8 @@ import Link from 'next/link';
 import { string } from 'yup';
 import { CharacterImageList } from '../../../public/user_icon/user_icon';
 const drawerWidth = 375;
-// const drawerWidth = 240;
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window;
   postList: any;
 }
@@ -54,16 +50,15 @@ export default function ResponsiveDrawer(props: Props) {
     } )
   }
 
-  // React.useEffect(()=>{console.log(postList)},[])
   const drawer = (
-    <div>
+    <div >
       <Toolbar >          
         <IconButton
             color="inherit"
-            aria-label="open drawer"
+            aria-label="close drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { md: 'none' } }}
           >            
           <ArrowLeftIcon sx={{fontSize:'36px'}} />
         </IconButton>
@@ -84,7 +79,6 @@ export default function ResponsiveDrawer(props: Props) {
                         <Box sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 ,cursor: 'pointer'}} bgcolor={"var(--mainGrey)"} mt={5}>
                             <Box sx={{ position: 'relative', width: 50, height: 50, borderRadius: 2, overflow: 'hidden' }} ml={-3} mt={-3}>
                                 <Image layout="fill" src={imageLocation} onLoad={()=>handleUserImage(imageKey)} alt="user icon" />
-                                {/* <img src={imageLocation} onLoad={()=>handleUserImage()} width={50} height={50} /> */}
                             </Box>
                             <Box>
                                 <Typography color={"#C0C0C0"}>Seller</Typography>
@@ -115,28 +109,27 @@ export default function ResponsiveDrawer(props: Props) {
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          width: { md: `calc(100% - ${drawerWidth}px)` },
+          ml: { md: `${drawerWidth}px` },
         }}
       >
         <Navbar/>
-        <Toolbar sx={{ display: { xs: 'flex', md: 'none',lg:'none', xl: 'none' } ,alignItems:'center'}}>
+        <Toolbar sx={{ display: { xs: 'flex',sm: 'flex', md: 'none',lg:'none', xl: 'none' } ,alignItems:'center',position:'absolute', top:{xs: '7vh', sm: '8vh'},backgroundColor:'var(--mainGrey)',width:'100%' ,borderBottom:'2px solid black'}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2 }}
           >
             <MenuIcon />
           </IconButton>
 
         </Toolbar>
-
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ width: {md: drawerWidth }, flexShrink: { md: 0 } }}
         aria-label="mailbox folders"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -149,7 +142,7 @@ export default function ResponsiveDrawer(props: Props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
+            display: { xs: 'block', sm: 'block', md: 'none',lg:'none', xl: 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
         >
@@ -158,7 +151,7 @@ export default function ResponsiveDrawer(props: Props) {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
+            display: { xs: 'none', sm: 'none' , md: 'block',lg:'block', xl: 'block'},
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
           open
@@ -173,9 +166,27 @@ export default function ResponsiveDrawer(props: Props) {
       >
         <Toolbar />
         {/* Right Hand side */}
-        <Grid item xs={12} md={12} lg={8} sx={{ height: '100vh', overflowY: 'hidden' }}>
-            <Image src="/user_icon/user_1.svg" alt="user icon" width={'150px'} height={'200px'} />
-            <Typography>Add Log Here later</Typography>
+        <Grid item xs={12} md={12} lg={8} sx={{ height: '100vh', overflowY: 'hidden'}}>
+          {/* Big Screen */}
+          {<Box sx={{display: { xs: 'none',sm: 'none', md: 'flex',lg:'flex', xl: 'flex' }, justifyContent:'center', alignItems:'center',height:'60vh'}}>
+            <Box mr={5}>
+             <KeyboardDoubleArrowLeftIcon fontSize='large'/>
+            </Box>
+            <Box sx={{display:'flex', justifyContent:'center', alignItems:'center',flexDirection:'column'}}>
+              <Typography>Start Browssing</Typography>
+              <Typography> Post Here</Typography>
+            </Box>
+          </Box>}
+          {/* Screen Screen */}
+          {<Box sx={{display: { xs: 'flex',sm: 'flex', md: 'none',lg:'none', xl: 'none' },flexDirection:'column', justifyContent:'center', alignItems:'center',height:'60vh'}}>
+            <Box sx={{transform: 'rotate(315deg)'}}mb={2}>
+             <KeyboardDoubleArrowUpIcon fontSize='large'/>
+            </Box>
+            <Box sx={{display:'flex', justifyContent:'center', alignItems:'center',flexDirection:'column'}}>
+              <Typography>Start Browssing</Typography>
+              <Typography> Post Here</Typography>
+            </Box>
+          </Box>}
         </Grid>
       </Box>
     </Box>

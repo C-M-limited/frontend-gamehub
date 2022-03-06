@@ -71,7 +71,7 @@ const handleUserImage = (imageKey:string)=>{
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { md: 'none' } }}
           >            
           <ArrowLeftIcon sx={{fontSize:'36px'}} />
         </IconButton>
@@ -122,18 +122,18 @@ const handleUserImage = (imageKey:string)=>{
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          width: { md: `calc(100% - ${drawerWidth}px)` },
+          ml: { md: `${drawerWidth}px` },
         }}
       >
         <Navbar/>
-        <Toolbar sx={{ display: { xs: 'flex', md: 'none',lg:'none', xl: 'none' } ,alignItems:'center'}}>
+        <Toolbar sx={{ display: { xs: 'flex',sm: 'flex', md: 'none',lg:'none', xl: 'none' } ,alignItems:'center',position:'absolute', top:{xs: '7vh', sm: '8vh'},backgroundColor:'var(--mainGrey)',width:'100%' ,borderBottom:'2px solid black'}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2 }}
           >
             <MenuIcon />
           </IconButton>
@@ -143,7 +143,7 @@ const handleUserImage = (imageKey:string)=>{
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
         aria-label="mailbox folders"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -156,7 +156,7 @@ const handleUserImage = (imageKey:string)=>{
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
+            display: { xs: 'block', md: 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
         >
@@ -165,7 +165,7 @@ const handleUserImage = (imageKey:string)=>{
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
+            display: { xs: 'none', md: 'block' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
           open
@@ -176,7 +176,7 @@ const handleUserImage = (imageKey:string)=>{
       {/* Game Post Detail */}
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
         <Grid item xs={12} md={12} lg={8} sx={{ height: '100vh', overflowY: 'hidden' }}>
@@ -209,8 +209,8 @@ const handleUserImage = (imageKey:string)=>{
                         Description:
                         <br /><br />
                         {description === "" ? "This guy didn't say anything left" : description}
-                        <Box position="absolute" bottom={8} right={8}>
-                            Updated at {new Date(new Date(created_date).getTime()).toLocaleString("en-US")}
+                        <Box position="absolute" bottom={-18} right={-18} sx={{backgroundColor:'var(--mainPurple)'}} padding={1}>
+                            {new Date(new Date(created_date).getTime()).toLocaleString("en-US")}
                         </Box>
                     </Box>
                 </Grid>
