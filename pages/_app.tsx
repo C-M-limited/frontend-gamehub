@@ -6,11 +6,25 @@ import Head from 'next/head'
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from '../store'
-import { CssBaseline } from '@mui/material';
-import { ThemeProvider, useTheme, createTheme } from '@mui/material/styles';
+import { CssBaseline,ThemeProvider, useTheme, createTheme } from '@mui/material';
+// import {  } from '@mui/material/styles';
 import { amber, deepOrange, grey } from '@mui/material/colors';
 import { PaletteMode } from '@mui/material';
 import NextNProgress from "nextjs-progressbar";
+import { CacheProvider,EmotionCache } from '@emotion/react';
+import createEmotionCache from '../utility/CreateEmotionCache';
+
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import '../styles/globals.css';
+
+interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+const clientSideEmotionCache = createEmotionCache();
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -40,25 +54,27 @@ const getDesignTokens = (mode: PaletteMode) => ({
     },
   },
 });
-
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const theme = useTheme();
 
   const darkModeTheme = createTheme(getDesignTokens('dark'));
   
   return (
-    <ThemeProvider theme={darkModeTheme}>
-      <CssBaseline />
-      <Provider store={store}>
-        <NextNProgress />
-        <Layout>
-          <Head>
-            <title>GameHub</title>
-          </Head>
-          <Component {...pageProps} />
-        </Layout>
-      </Provider>
-    </ThemeProvider>
+    <CacheProvider value={emotionCache}>
+      <ThemeProvider theme={darkModeTheme}>
+        <Provider store={store}>
+          <NextNProgress />
+          <Layout>
+            <Head>
+              <title>GameHub</title>
+            </Head>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </Layout>
+        </Provider>
+      </ThemeProvider>
+    </CacheProvider>
   )
 }
 

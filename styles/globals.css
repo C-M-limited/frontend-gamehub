@@ -65,7 +65,7 @@ p {
   --color-danger-3: #fe4c52;
   --color-danger-4: #fe383f;
   --color-danger-5: #be3637;
-  --shadow-4: 0px 3px 8px 0px rgba(17,19,27,.3);
+  --shadow-4: 0px 3px 8px 0px rgba(17, 19, 27, 0.3);
   --space-0: 0px;
   --space-4: 4px;
   --space-8: 8px;
@@ -102,16 +102,16 @@ p {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--mainBackground); 
+  background: var(--mainBackground);
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #555; 
+  background: #555;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--mainDarkerGrey); 
+  background: var(--mainDarkerGrey);
 }
