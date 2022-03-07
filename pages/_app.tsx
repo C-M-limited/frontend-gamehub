@@ -68,6 +68,7 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
           <Layout>
             <Head>
               <title>GameHub</title>
+              <meta property="og:image" content="https://www.gamehub.link/favicon.png" />
             </Head>
             <CssBaseline />
             <Component {...pageProps} />
