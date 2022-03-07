@@ -12,7 +12,7 @@ import { amber, deepOrange, grey } from '@mui/material/colors';
 import { PaletteMode } from '@mui/material';
 import NextNProgress from "nextjs-progressbar";
 import { CacheProvider,EmotionCache } from '@emotion/react';
-import createEmotionCache from '../utility/CreateEmotionCache';
+import createEmotionCache from '../utility/CreateEmotionCache2';
 
 
 import '@fontsource/roboto/300.css';
