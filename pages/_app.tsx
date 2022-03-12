@@ -20,6 +20,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import '../styles/globals.css';
+import ProtectRoute from '../components/ProtectRoute';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -56,12 +57,14 @@ const getDesignTokens = (mode: PaletteMode) => ({
 });
 const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  console.log(props)
   const theme = useTheme();
 
   const darkModeTheme = createTheme(getDesignTokens('dark'));
   const queryClient = new QueryClient()
 
   return (
+    
       <QueryClientProvider client={queryClient}>
         <CacheProvider value={emotionCache}>
           <ThemeProvider theme={darkModeTheme}>
@@ -73,7 +76,9 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
                   <meta property="og:image" content="https://www.gamehub.link/favicon.png" />
                 </Head>
                 <CssBaseline />
-                <Component {...pageProps} />
+                <ProtectRoute pathname={props.router.pathname}>
+                  <Component {...pageProps} />
+                </ProtectRoute>
               </Layout>
             </Provider>
           </ThemeProvider>
