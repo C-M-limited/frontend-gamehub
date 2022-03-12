@@ -57,7 +57,6 @@ const getDesignTokens = (mode: PaletteMode) => ({
 });
 const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  console.log(props)
   const theme = useTheme();
 
   const darkModeTheme = createTheme(getDesignTokens('dark'));

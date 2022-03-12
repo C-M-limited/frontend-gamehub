@@ -32,6 +32,7 @@ import { fetchSearchListThunk } from "../store/action/search";
 import { useState } from "react";
 import {CharacterImageList} from '../public/user_icon/user_icon'
 import SearchComponent from "./SearchComponent";
+import { useRouter } from "next/router";
 
 interface userProfileProps {
   role: string;
@@ -108,6 +109,7 @@ const validationSchema = yup.object({
 });
 
 export default function Navbar() {
+  const router = useRouter()
   const loginStatus = useSelector((state: RootState) => state.auth);
   const userProfile = useSelector((state: RootState) => state.userProfile);
   //search function
@@ -158,6 +160,11 @@ export default function Navbar() {
     if (type === "login") setOpenLoginDialog(false);
     if (type === "register") setOpenRegisterDialog(false);
   };
+
+  React.useEffect(()=>{
+    console.log(loginStatus)
+    if (router.query?.showLoginForm) setOpenLoginDialog(true)
+  },[router.query])
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -474,7 +481,7 @@ export default function Navbar() {
 
               </Box>
               <Box sx={{ flexGrow: 1 }} />
-              {Object.keys(loginStatus).length ? (
+              {Object.keys(loginStatus).length > 1 ? (
                 <Box
                   sx={{
                     display: "flex",
