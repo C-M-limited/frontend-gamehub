@@ -1,23 +1,39 @@
 import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILED, LOG_OUT_SUCCESS } from './../action/auth';
+import jwt_decode, { JwtPayload } from "jwt-decode";
 
-let auth;
+let username;
+let imageKey;
+interface decodeJWTProps {
+    email: string;
+    id: number;
+    exp: number;
+    imageKey: string;
+    name: string;
+    role: string | null;
+}
 
 if (typeof window !== 'undefined') {
-    auth = localStorage.getItem('login')
+    let auth = localStorage.getItem('access-token')
+    if (auth) {
+        username = jwt_decode<decodeJWTProps>(auth).name 
+        imageKey = jwt_decode<decodeJWTProps>(auth).imageKey 
+        console.log(imageKey)
+    }
 }
 
 interface stateProps {
     loading?: boolean;
     isLogin?: boolean;
     username?: string;
+    imageKey?: string;
     error?: boolean;
     errMsg?: string;
 }
-
-const initialState: stateProps = auth ? {
+console.log(imageKey)
+const initialState: stateProps = username ? {
     loading: false,
-    isLogin: false,
-    username: auth,
+    username,
+    imageKey: `/user_icon/${imageKey}.jpg`,
     error: false,
     errMsg: "",
 } : {}
@@ -38,7 +54,7 @@ const authReducer = (state = initialState, action: {type: string; payload?: stri
         case LOG_IN_FAILED:
             return {}
         case LOG_OUT_SUCCESS:
-            return {...initialState,isLogin:false}
+            return {}
         default:
             return state
     }

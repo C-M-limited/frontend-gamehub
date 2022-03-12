@@ -13,7 +13,7 @@ import { PaletteMode } from '@mui/material';
 import NextNProgress from "nextjs-progressbar";
 import { CacheProvider,EmotionCache } from '@emotion/react';
 import createEmotionCache from '../utility/CreateEmotionCache2';
-
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -59,23 +59,26 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
   const theme = useTheme();
 
   const darkModeTheme = createTheme(getDesignTokens('dark'));
-  
+  const queryClient = new QueryClient()
+
   return (
-    <CacheProvider value={emotionCache}>
-      <ThemeProvider theme={darkModeTheme}>
-        <Provider store={store}>
-          <NextNProgress />
-          <Layout>
-            <Head>
-              <title>GameHub</title>
-              <meta property="og:image" content="https://www.gamehub.link/favicon.png" />
-            </Head>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </Layout>
-        </Provider>
-      </ThemeProvider>
-    </CacheProvider>
+      <QueryClientProvider client={queryClient}>
+        <CacheProvider value={emotionCache}>
+          <ThemeProvider theme={darkModeTheme}>
+            <Provider store={store}>
+              <NextNProgress />
+              <Layout>
+                <Head>
+                  <title>GameHub</title>
+                  <meta property="og:image" content="https://www.gamehub.link/favicon.png" />
+                </Head>
+                <CssBaseline />
+                <Component {...pageProps} />
+              </Layout>
+            </Provider>
+          </ThemeProvider>
+        </CacheProvider>
+      </QueryClientProvider>
   )
 }
 

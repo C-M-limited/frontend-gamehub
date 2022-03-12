@@ -27,6 +27,8 @@ const useStyles = makeStyles({
 });
 const BannerWrapper = styled(Box)(({ theme }) => ({
     position: 'absolute',
+    backgroundImage: 'url(banner.jpg)',
+    backgroundSize: 'cover',
     width: '100vw',
     height: '50vw',
   }));
@@ -61,9 +63,7 @@ const StyledHero = () => {
             <Grid container position='relative' height="50vw" mb={2}>
                 <Grid item sm={12} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                     <Title>All your games in one place.</Title>
-                    <BannerWrapper zIndex={1}>
-                        <Image priority={true} src="/banner.jpg" layout="fill" alt={"banner"}/>
-                    </BannerWrapper>
+                    <BannerWrapper zIndex={1} />
                     <Box display="flex" zIndex={2}>
                         {[gameConsoleList.map((item, key) => (
                             <Link key={key} href={item.url} passHref>

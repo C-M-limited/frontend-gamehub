@@ -1,4 +1,6 @@
-import { Grid, Typography } from '@mui/material'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 import { styled } from '@mui/system'
 import axios from 'axios'
 import type { NextPage } from 'next'
@@ -6,11 +8,10 @@ import StyledHero from '../components/template/StyledHero'
 import TodaysPickGameItem from '../components/template/TodaysPickGameItem'
 import { axiosInstance, server } from '../config'
 import Carousel from 'react-material-ui-carousel'
-import { Paper, Button, Box } from '@mui/material'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-const playstation = require('../public/game_list/playstation.json')
-const nintendo = require('../public/game_list/nintendo_test.json')
+// const playstation = require('../public/game_list/playstation.json')
+// const nintendo = require('../public/game_list/nintendo_test.json')
 
 const SubTitle = styled(Typography)({
   fontSize: 24,
@@ -26,7 +27,6 @@ const SubTitle = styled(Typography)({
   marginBottom: '30px',
   border: '2px solid gold'
 })
-
 
 interface gameProps {
   game_sale_post: postDetailProps;
@@ -45,6 +45,7 @@ interface postDetailProps {
   user_Id: number;
   games_ID: number;
 }
+
 const Home: NextPage = ({ latestGames, todaysGames }: any) => {
   // console.log(latestGames.gameDetails)
   return (
@@ -74,8 +75,8 @@ const Home: NextPage = ({ latestGames, todaysGames }: any) => {
             <Box sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none', xl: 'none' } }}>
               <Carousel NextIcon={<KeyboardArrowRightIcon />} PrevIcon={<KeyboardArrowLeftIcon />}>
                 {todaysGames.map((game: gameProps) => {
-                  const { game_sale_post, user_name, game_name, image_url, console_brand_name } = game;
-                  const { id, price, place_for_transaction, created_date, description, contact_method, user_Id, games_ID } = game_sale_post
+                  const { game_sale_post, game_name, image_url, console_brand_name } = game;
+                  const { id, price, place_for_transaction } = game_sale_post
                   return (
                     <TodaysPickGameItem key={id} game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} />
                   )
@@ -131,6 +132,7 @@ export const getServerSideProps = async () => {
     todaysGames = todaysRes.data.content;
   }
   catch (err) {
+    console.log(err)
   }
 
   return {

@@ -80,7 +80,7 @@ export const login = ({ email, password }: logInProps) => {
             dispatch(logInSuccess());            
             const token:string=localStorage.getItem("access-token") || "";
             const user:userProfileProps = jwt(token);
-            dispatch(setUserProfileAction({name: user.name, role: user.role, email: user.email, id :user.id, imageKey: user.imageKey}))
+            dispatch(setUserProfileAction({name: user.name, role: user.role, email: user.email, id :user.id, imageKey: `/user_icon/${user.imageKey}.jpg`}))
             // localStorage.setItem('login', String(user.name))
             alert('Login Success')
             // window.location.reload()
@@ -100,6 +100,7 @@ export const logOut = () => {
         const headers:any = { 
             'refreshToken': refreshTokenCopy,
           };
+        console.log('logout')
         axios.post(`${server}/api/v1/logOut`, {}, { headers }).then((res)=>{
             localStorage.removeItem('access-token')
             localStorage.removeItem('refresh-token');

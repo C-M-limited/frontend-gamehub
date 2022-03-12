@@ -2,17 +2,11 @@ import * as React from "react";
 import Image from "next/image";
 //material ui
 import { styled, alpha } from "@mui/material/styles";
-import {
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Grid,
-  TextField,
-} from "@mui/material";
+import Dialog from '@mui/material/Dialog'
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Grid from '@mui/material/Grid'
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -22,16 +16,12 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import axios from "axios";
 import StyledButton from "./StyledButton";
 import StyledInput from "./StyledInput";
 import { useDispatch, useSelector } from "react-redux";
@@ -168,14 +158,6 @@ export default function Navbar() {
     if (type === "login") setOpenLoginDialog(false);
     if (type === "register") setOpenRegisterDialog(false);
   };
-  const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
-  const handleUserImage = ()=>{
-    CharacterImageList.forEach(data =>{
-      if (data.image_key===userProfile.imageKey){
-        setImagLocation(data.image_url);  
-      }
-    } )
-  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -492,7 +474,7 @@ export default function Navbar() {
 
               </Box>
               <Box sx={{ flexGrow: 1 }} />
-              {loginStatus.isLogin ? (
+              {Object.keys(loginStatus).length ? (
                 <Box
                   sx={{
                     display: "flex",
@@ -502,11 +484,11 @@ export default function Navbar() {
                 >
                   <Typography sx={{ marginRight: "20px" }}>
                     <Link href={'/profile/me'} passHref>
-                      <Image src={imageLocation} onLoad={()=>handleUserImage()} width={50} height={50} />
+                      <Image src={loginStatus?.imageKey || "/user_icon/noUserImage.jpg"} alt='user icon' width={50} height={50} />
                     </Link>
                   </Typography>
                   <Box mr={1}>
-                    <Link href="/add_game">
+                    <Link href="/add_game" passHref>
                       <StyledButton>add games</StyledButton>
                     </Link>
                   </Box>
@@ -530,32 +512,3 @@ export default function Navbar() {
     </>
   );
 }
-
-// removed code
-// {/* <Grid container display='flex' justifyContent='center'>
-// <Grid item xs={12} sm={6} md={3} lg={2} display='flex' alignItems='center'>
-// {searchList.searchList.content?.map((game:GamesProps)=>{
-//       return(
-//         <Link href={`/game/${game.id}`}>
-//           <Box>
-//             <Typography>{game.name}</Typography>
-//             <img src="/game_sample.png"/>
-//             {/* <Image src="/game_sample.png" layout="responsive" width={100} height={100} /> */}
-//           </Box>
-//         </Link>
-//         )
-//     })}
-// </Grid>
-// </Grid>
-// */}
-                {/* <Search>
-                  <SearchIconWrapper>
-                    <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ "aria-label": "search" }}
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                  />
-                </Search> */}

@@ -1,5 +1,8 @@
-import { Button, Grid, Typography } from '@mui/material';
-import { Box, styled } from '@mui/system';
+import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box'
+import { styled } from '@mui/system';
 import React from 'react';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -33,7 +36,7 @@ const FooterContent = styled(Typography)({
 
 const filterList = [
   { name: "All", brand: 'all', src: "/console_brand/all" },
-  { name: "Play station", brand: "playstation", src: "/console_brand/playstation" },
+  { name: "Play station", brand: "playstation", src: "/console_brand/ps" },
   { name: "Nintendo", brand: "nintendo", src: "/console_brand/nintendo" },
   { name: "X Box", brand: "xbox", src: "/console_brand/xbox" },
 ]

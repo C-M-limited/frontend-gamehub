@@ -102,7 +102,7 @@ export default function AddGame() {
       setOptions(response.data);
       // console.log(response.data)
     })
-    .catch((error)=> window.alert("Sorry, Server is down right now"))
+    .catch((error)=> {})
   }
   useEffect (()=>{
     fetchGameList();
