@@ -93,7 +93,7 @@ const handleUserImage = ()=>{
                 return (
                 <Grid item key={id}>
                     <Box>
-                        <TodaysPickGameItem post_id={id} game_id={games_ID} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} contact_method={contact_method} description={description}/>
+                        <TodaysPickGameItem  game_id={games_ID} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}  />
                     </Box>
 
                 </Grid>
@@ -110,7 +110,7 @@ const handleUserImage = ()=>{
                 return (
                 <Grid item key={id}>
                     <Box>
-                        <TodaysPickGameItem post_id={id} game_id={games_ID} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} contact_method={contact_method} description={description}/>
+                        <TodaysPickGameItem  game_id={games_ID} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}  />
                     </Box>
                 </Grid>
                 )
