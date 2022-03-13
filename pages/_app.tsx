@@ -21,6 +21,8 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import '../styles/globals.css';
 import ProtectRoute from '../components/ProtectRoute';
+import { SnackbarUtilsConfigurator } from '../components/SnackBarUtilsConfigurator';
+import { SnackbarProvider } from 'notistack';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -75,9 +77,15 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
                   <meta property="og:image" content="https://www.gamehub.link/favicon.png" />
                 </Head>
                 <CssBaseline />
+                <SnackbarProvider
+                    maxSnack={5}
+                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                  >
+                <SnackbarUtilsConfigurator />
                 <ProtectRoute pathname={props.router.pathname}>
                   <Component {...pageProps} />
                 </ProtectRoute>
+                </SnackbarProvider>
               </Layout>
             </Provider>
           </ThemeProvider>

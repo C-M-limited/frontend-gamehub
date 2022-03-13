@@ -130,6 +130,7 @@ export const getServerSideProps = async () => {
     const todaysRes = await axiosInstance.get('post_click_rate')
     latestGames = latestRes.data.content;
     todaysGames = todaysRes.data.content;
+    console.log(latestRes)
   }
   catch (err) {
     console.log(err)
