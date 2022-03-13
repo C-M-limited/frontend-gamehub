@@ -17,7 +17,6 @@ if (typeof window !== 'undefined') {
     if (auth) {
         username = jwt_decode<decodeJWTProps>(auth).name 
         imageKey = jwt_decode<decodeJWTProps>(auth).imageKey 
-        console.log(imageKey)
     }
 }
 
@@ -29,7 +28,7 @@ interface stateProps {
     error?: boolean;
     errMsg?: string;
 }
-console.log(imageKey)
+
 const initialState: stateProps = username ? {
     loading: false,
     username,
