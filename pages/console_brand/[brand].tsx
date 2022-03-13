@@ -36,9 +36,9 @@ const FilterButton = styled(Box)<{ active?: boolean }>(({ active }) => ({
 
 const filterList = [
   { name: "All", brand: 'all', src: "/console_brand/all" },
-  { name: "Play station", brand: "ps", src: "/console_brand/ps" },
-  { name: "Nintendo", brand: "nintendo", src: "/console_brand/nintendo" },
-  { name: "X Box", brand: "xbox", src: "/console_brand/xbox" },
+  { name: "Play station", brand: "Play Station", src: "/console_brand/ps" },
+  { name: "Nintendo", brand: "Nintendo", src: "/console_brand/nintendo" },
+  { name: "X Box", brand: "Xbox", src: "/console_brand/xbox" },
 ]
 
 interface FilterRowProps {
@@ -184,8 +184,13 @@ const FilterRow = ({ brand }: FilterRowProps) => {
 
 const ConsoleBrand = () => {
   const router = useRouter()
-
-  return <FilterRow brand={String(router.query.brand)} />
+  const consoleCode = (brand : any)=>{
+    if(brand==="ps") { return "Play Station"}
+    else if (brand==="xbox") { return "Xbox"}
+    else if (brand==="nintendo") {return "Nintendo"} 
+    else if (brand==="all") {return "all"}
+}
+  return <FilterRow brand={String(consoleCode(router.query.brand))} />
 };
 
 export default ConsoleBrand;
