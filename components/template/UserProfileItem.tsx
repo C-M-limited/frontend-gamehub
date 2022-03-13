@@ -245,10 +245,10 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
                 <Typography>{location}</Typography>
             </>
             <Box sx={{display: 'flex', justifyContent:'space-around',marginY:'10px' }}>
-                <Box onClick={handleClickOpenEdit} sx={{cursor: 'pointer'}}>
-                    <EditIcon sx={{color:'green'}}/>
+                <Box onClick={handleClickOpenEdit} sx={{cursor: 'pointer',padding:'5px', '&:hover': {backgroundColor:'#35354584',borderRadius:'3px'}}}>
+                    <EditIcon sx={{color:'green',}}/>
                 </Box>
-                <Box onClick={handleClickOpenDelete} sx={{cursor: 'pointer'}}>
+                <Box onClick={handleClickOpenDelete} sx={{cursor: 'pointer',padding:'5px', '&:hover': {backgroundColor:'#35354584',borderRadius:'3px'}}}>
                     <DeleteForeverIcon sx={{color:'#c80303'}}/>
                 </Box>
             </Box>
