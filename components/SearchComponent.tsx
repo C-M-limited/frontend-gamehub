@@ -106,6 +106,7 @@ export default function SearchComponent() {
           function handleClickOutside(event:any) {
               if (ref.current && !ref.current.contains(event.target)) {
                   setOpen(false);
+                  setOpenSearchBox(false)
               }
           }
     
@@ -121,6 +122,7 @@ export default function SearchComponent() {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState<GameListProps[]>([]);
     const [keywordId, setKeywordId] = React.useState<any>(-1);
+    const [openSearchBox,setOpenSearchBox] =React.useState(false);
     const loading = open && options.length === 0;
     const router = useRouter();
     const [keyword, setKeyword] = React.useState("");
@@ -154,40 +156,9 @@ export default function SearchComponent() {
     }, [open]);
 
     return (
-        //   <Autocomplete
-        //   id="asynchronous-demo"
-        //   sx={{ width: 200 }}
-        //   open={open}
-        //   onOpen={() => {
-        //     setOpen(true);
-        //   }}
-        //   onClose={() => {
-        //     setOpen(false);
-        //   }}
-        //   isOptionEqualToValue={(option, value) => option.name === value.name}
-        //   getOptionLabel={(option) => option.name}
-        //   options={options}
-        //   loading={loading}
-        //   autoSelect={true}
-        //   onChange={(event, value) => setKeywordId(value?.id)}
-        //   renderInput={(params) => (
-        //       <TextField
-        //         {...params}
-        //         label="Search…"
-        //         // onSubmit={handleSubmit}
-        //         InputProps={{
-        //           ...params.InputProps,
-        //           endAdornment: (
-        //             <React.Fragment>
-        //               {loading ? <CircularProgress color="inherit" size={20} /> : null}
-        //               {/* {params.InputProps.endAdornment} */}
-        //             </React.Fragment>
-        //           ),
-        //         }}
-        //       />
-        //   )}
-        // />
-        <Box ref={wrapperRef}>
+      <>
+      {/* Big Screen */}
+        <Box ref={wrapperRef} sx={{display:{xs:'none',sm:'block'}}}>
           <Search >
             <SearchIconWrapper>
               <SearchIcon />
@@ -213,7 +184,45 @@ export default function SearchComponent() {
               )
             })}
           </SearchItemWraper>
-
         </Box>
+        {/* Small Screen */}
+        <Box ref={wrapperRef} sx={{display:{xs:'block',sm:'none'}}}>
+          <Box mx={2} onClick={()=>setOpenSearchBox(true)} sx={{display:'flex', justifyContent:'center',alignItems:'center', cursor: 'pointer'}}>
+            <SearchIcon />
+          </Box>
+
+          {openSearchBox && 
+          <>
+          <Box position={'absolute'} bgcolor={'black'}>
+            <Search >
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                onClick = {()=>{setOpen(true)}}
+              />
+            </Search>
+          </Box>
+          <SearchItemWraper sx={{marginTop: '35px'}}>
+          {searchList.searchList.content?.map((game:GameListProps,index: number)=>{
+            return(
+              <Link href={`/game/index/${game.id}`} key={index} passHref >
+                <Box sx={{width: '100%'}}>
+                  <Divider/>
+                  <SearchItem onClick={()=>setOpenSearchBox(false)}>{game.name}</SearchItem>
+                </Box>
+
+              </Link>
+            )
+          })}
+            </SearchItemWraper>
+          </>
+        }
+        </Box>
+      </>
     )
 }
