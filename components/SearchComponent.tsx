@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/reducer';
 import { fetchSearchListSuccessAction, fetchSearchListThunk } from '../store/action/search';
 import InputBase from "@mui/material/InputBase";
-import { Box, Divider } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { SettingsPowerRounded } from '@mui/icons-material';
 interface GameListProps{
   id: number;
@@ -106,7 +106,7 @@ export default function SearchComponent() {
           function handleClickOutside(event:any) {
               if (ref.current && !ref.current.contains(event.target)) {
                   setOpen(false);
-                  setOpenSearchBox(false)
+                  // setOpenSearchBox(false)
               }
           }
     
@@ -116,7 +116,7 @@ export default function SearchComponent() {
               // Unbind the event listener on clean up
               document.removeEventListener("mousedown", handleClickOutside);
           };
-      }, [ref]);
+      }, [wrapperRef]);
     }
     
     const [open, setOpen] = React.useState(false);
@@ -186,8 +186,8 @@ export default function SearchComponent() {
           </SearchItemWraper>
         </Box>
         {/* Small Screen */}
-        <Box ref={wrapperRef} sx={{display:{xs:'block',sm:'none'}}}>
-          <Box mx={2} onClick={()=>setOpenSearchBox(true)} sx={{display:'flex', justifyContent:'center',alignItems:'center', cursor: 'pointer'}}>
+        <Box  sx={{display:{xs:'block',sm:'none'}}}>
+          <Box mx={2} onClick={()=>setOpenSearchBox(!openSearchBox)} sx={{display:'flex', justifyContent:'center',alignItems:'center', cursor: 'pointer'}}>
             <SearchIcon />
           </Box>
 

@@ -64,11 +64,9 @@ export default function OthersProfile({postList,userInfo}:any) {
 const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
 const userProfile = useSelector((state: RootState) => state.userProfile);
 const handleUserImage = ()=>{
-    console.log("ABCD")
     CharacterImageList.forEach(data =>{
     console.log(userInfo.imageKey)
     if (data.image_key===userInfo.imageKey){
-        console.log("iam")
         setImagLocation(data.image_url);  
     }
     } )
