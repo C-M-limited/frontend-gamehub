@@ -10,5 +10,6 @@ export const axiosInstance = axios.create({
     headers: {
         'X-Custom-Header': 'foobar',
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
     },
 })
