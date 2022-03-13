@@ -41,7 +41,7 @@ export const registerThunk = ({ firstName, lastName, email, password}:registerPr
             imageKey
         })
         .then((res) => {
-            alert(`Congrats ${firstName}! Register Success`)
+            alert(`Congrats ${firstName}! Register Success. Please check your email to validate the account !`)
             dispatch(registerSuccess())
             window.location.reload()
         })
