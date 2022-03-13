@@ -35,23 +35,40 @@ const Search = styled("div")(({ theme }) => ({
     width: "auto",
   },
 }));
-
+const SearchItemWraper = styled("div")(({ theme }) => ({
+  position:'absolute' , 
+  marginLeft: '30px', 
+  marginTop:'10px',
+  width: '200px',
+  display:'flex',
+  justifyContent:'center',
+  alignItems:'center', 
+  flexDirection:'column',
+  borderRadius:'4px',
+  backgroundColor: alpha(theme.palette.common.black, 1),
+}));
 const SearchItem = styled("div")(({ theme }) => ({
+  cursor:'pointer',
   position: "relative",
-  borderRadius: 4,
+  borderRadius: 0,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
+  // marginRight: theme.spacing(2),
+  // marginLeft: 0,
   width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
+  display:'flex',
+  justifyContent:'center',
+  alignItems:'center', 
+  flexDirection:'column',
+
 }));
 
+  // [theme.breakpoints.up("sm")]: {
+  //   marginLeft: theme.spacing(3),
+  //   width: "auto",
+// },
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   color: alpha(theme.palette.common.white, 1),
   padding: theme.spacing(0, 2),
@@ -89,6 +106,7 @@ export default function SearchComponent() {
           function handleClickOutside(event:any) {
               if (ref.current && !ref.current.contains(event.target)) {
                   setOpen(false);
+                  setOpenSearchBox(false)
               }
           }
     
@@ -104,6 +122,7 @@ export default function SearchComponent() {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState<GameListProps[]>([]);
     const [keywordId, setKeywordId] = React.useState<any>(-1);
+    const [openSearchBox,setOpenSearchBox] =React.useState(false);
     const loading = open && options.length === 0;
     const router = useRouter();
     const [keyword, setKeyword] = React.useState("");
@@ -135,46 +154,11 @@ export default function SearchComponent() {
             setOptions([]);
         }
     }, [open]);
-    const handleSubmit = (e: { preventDefault: () => void; target: any; })=>{
-      console.log("hello")
-      e.preventDefault()
-      router.push( `/game/index/${keywordId}`);
-    }
+
     return (
-        //   <Autocomplete
-        //   id="asynchronous-demo"
-        //   sx={{ width: 200 }}
-        //   open={open}
-        //   onOpen={() => {
-        //     setOpen(true);
-        //   }}
-        //   onClose={() => {
-        //     setOpen(false);
-        //   }}
-        //   isOptionEqualToValue={(option, value) => option.name === value.name}
-        //   getOptionLabel={(option) => option.name}
-        //   options={options}
-        //   loading={loading}
-        //   autoSelect={true}
-        //   onChange={(event, value) => setKeywordId(value?.id)}
-        //   renderInput={(params) => (
-        //       <TextField
-        //         {...params}
-        //         label="Search…"
-        //         // onSubmit={handleSubmit}
-        //         InputProps={{
-        //           ...params.InputProps,
-        //           endAdornment: (
-        //             <React.Fragment>
-        //               {loading ? <CircularProgress color="inherit" size={20} /> : null}
-        //               {/* {params.InputProps.endAdornment} */}
-        //             </React.Fragment>
-        //           ),
-        //         }}
-        //       />
-        //   )}
-        // />
-        <Box ref={wrapperRef}>
+      <>
+      {/* Big Screen */}
+        <Box ref={wrapperRef} sx={{display:{xs:'none',sm:'block'}}}>
           <Search >
             <SearchIconWrapper>
               <SearchIcon />
@@ -187,17 +171,58 @@ export default function SearchComponent() {
               onClick = {()=>{setOpen(true)}}
             />
           </Search>
-          <div style={{display: 'absolute'}}>
+          <SearchItemWraper>
             {open && searchList.searchList.content?.map((game:GameListProps,index: number)=>{
               return(
-                <Link href={`/game/index/${game.id}`} key={index} passHref>
-                  {/* <Divider/> */}
-                  <SearchItem>{game.name}</SearchItem>
+                <Link href={`/game/index/${game.id}`} key={index} passHref >
+                  <Box sx={{width: '100%'}}>
+                    <Divider/>
+                    <SearchItem onClick={()=>setOpen(false)}>{game.name}</SearchItem>
+                  </Box>
+
                 </Link>
               )
             })}
-          </div>
-
+          </SearchItemWraper>
         </Box>
+        {/* Small Screen */}
+        <Box ref={wrapperRef} sx={{display:{xs:'block',sm:'none'}}}>
+          <Box mx={2} onClick={()=>setOpenSearchBox(true)} sx={{display:'flex', justifyContent:'center',alignItems:'center', cursor: 'pointer'}}>
+            <SearchIcon />
+          </Box>
+
+          {openSearchBox && 
+          <>
+          <Box position={'absolute'} bgcolor={'black'}>
+            <Search >
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                onClick = {()=>{setOpen(true)}}
+              />
+            </Search>
+          </Box>
+          <SearchItemWraper sx={{marginTop: '35px'}}>
+          {searchList.searchList.content?.map((game:GameListProps,index: number)=>{
+            return(
+              <Link href={`/game/index/${game.id}`} key={index} passHref >
+                <Box sx={{width: '100%'}}>
+                  <Divider/>
+                  <SearchItem onClick={()=>setOpenSearchBox(false)}>{game.name}</SearchItem>
+                </Box>
+
+              </Link>
+            )
+          })}
+            </SearchItemWraper>
+          </>
+        }
+        </Box>
+      </>
     )
 }

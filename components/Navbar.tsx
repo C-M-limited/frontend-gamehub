@@ -162,7 +162,7 @@ export default function Navbar() {
   };
 
   React.useEffect(()=>{
-    console.log(loginStatus)
+    // console.log(loginStatus)
     if (router.query?.showLoginForm) setOpenLoginDialog(true)
   },[router.query])
 
@@ -465,7 +465,7 @@ export default function Navbar() {
       <AppBar position="sticky">
         <Toolbar style={{ backgroundColor: "#151520", position: "sticky" }}>
           <Grid container display="flex" justifyContent="center">
-            <Grid item sm={8} display="flex" alignItems="center">
+            <Grid item sm={10} display="flex" alignItems="center">
               <Box display="flex" alignItems="center">
                 <Link href="/" passHref={true}>
                   <Typography
@@ -489,7 +489,7 @@ export default function Navbar() {
                     alignItems: "center",
                   }}
                 >
-                  <Typography sx={{ marginRight: "20px" }}>
+                  <Typography sx={{ marginRight: "20px", borderRadius: 5, overflow: 'hidden' }}>
                     <Link href={'/profile/me'} passHref>
                       <Image src={loginStatus?.imageKey || "/user_icon/noUserImage.jpg"} alt='user icon' width={50} height={50} />
                     </Link>

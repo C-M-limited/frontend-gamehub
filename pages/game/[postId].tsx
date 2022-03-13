@@ -114,7 +114,7 @@ const handleUserImage = (imageKey:string)=>{
 
   const container = window !== undefined ? () => window().document.body : undefined;
   // console.log(gameDetails)
-  const { contact_method, created_date, description, place_for_transaction, price, user_name, imageKey } = gameDetails;
+  const { contact_method, created_date, description, place_for_transaction, price, user_name, imageKey, user_Id } = gameDetails;
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -185,7 +185,10 @@ const handleUserImage = (imageKey:string)=>{
               <Box sx={{ position: 'relative', width: 150, height: 150, borderRadius: 5, overflow: 'hidden' }}  >
               <Image src={imageLocation} onLoad={()=>handleUserImage(imageKey)} alt="user icon" width={'200px'} height={'200px'}/>
               </Box>
-              <Typography bgcolor='var(--mainPurple)' paddingX={1} mt={-1} zIndex={2} sx={{borderRadius:2}}>{user_name}</Typography>
+              <Link href={`/profile/${user_Id}`} passHref>
+                <Typography bgcolor='var(--mainPurple)' paddingX={1} mt={-1} zIndex={2} sx={{borderRadius:2, cursor: 'pointer'}}>{user_name}</Typography>
+              </Link>
+
             </Box>
 
             {contact_method &&
