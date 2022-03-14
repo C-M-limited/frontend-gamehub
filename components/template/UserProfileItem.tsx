@@ -11,7 +11,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import StyledButton from '../StyledButton';
+import {StyledButton} from '../StyledButton';
 
 import { useForm , SubmitHandler} from 'react-hook-form';
 import axios from 'axios';
@@ -228,7 +228,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
       <>
     <Grid item xs={12} sm={6} md={3} lg={2}>
         <GameItemContainer style={{    border: `3px solid ${colorCode()}` , cursor:'pointer'}} >
-            <Image src={image_src} layout="responsive" width={180} height={200} alt={image_src}/>
+            <Image src={image_src} layout="responsive" width={180} height={200} alt={image_src} placeholder="blur" blurDataURL="/blur.png"/>
             <GameItemTitle>{name}</GameItemTitle>
             <Divider style={{ backgroundColor: '#999999'}}/>
             <>

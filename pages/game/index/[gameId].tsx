@@ -74,7 +74,7 @@ export default function ResponsiveDrawer(props: Props) {
       <Divider/>
       <List sx={{justifyContent:'center',display:'flex'}}>
         <Box>
-          <Image layout="intrinsic" src={gameInfo.image_url} alt="game image" width={'150px'} height={'200px'} />
+          <Image layout="intrinsic" src={gameInfo.image_url} alt="game image" width={'150px'} height={'200px'} placeholder="blur" blurDataURL="/blur.png"/>
         </Box>
       </List>
       <Divider />
@@ -85,7 +85,7 @@ export default function ResponsiveDrawer(props: Props) {
                       <Link href={`/game/${id}`} key={index} passHref>
                         <Box sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 ,cursor: 'pointer'}} bgcolor={"var(--mainGrey)"} mt={5}>
                             <Box sx={{ position: 'relative', width: 50, height: 50, borderRadius: 2, overflow: 'hidden' }} ml={-3} mt={-3}>
-                                <Image layout="fill" src={imageLocation} onLoad={()=>handleUserImage(imageKey)} alt="user icon" />
+                                <Image layout="fill" src={imageLocation} onLoad={()=>handleUserImage(imageKey)} alt="user icon" placeholder="blur" blurDataURL="/blur.png"/>
                             </Box>
                             <Box>
                                 <Typography color={"#C0C0C0"}>Seller</Typography>

@@ -22,7 +22,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import StyledButton from "./StyledButton";
+import {StyledButton, StyledLoadingButton} from "./StyledButton";
 import StyledInput from "./StyledInput";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logOut } from "../store/action/auth";
@@ -312,7 +312,7 @@ export default function Navbar() {
   };
 
   const RegisterForm = () => {
-    const registerStatus = useSelector((state: RootState) => state.register);
+    const registerStatus:any = useSelector((state: RootState) => state.register);
     const dispatch = useDispatch();
     const {
       register,
@@ -375,6 +375,8 @@ export default function Navbar() {
                       width="100%"
                       height="100%"
                       objectFit="contain"
+                      placeholder="blur" 
+                      blurDataURL="/blur.png"
                     />
                   </Box>
                 </Grid>
@@ -453,7 +455,8 @@ export default function Navbar() {
             <StyledButton onClick={() => handleDialogClose("register")}>
               Cancel
             </StyledButton>
-            <StyledButton type="submit">Submit</StyledButton>
+            {/* <StyledButton type="submit">Submit</StyledButton> */}
+            <StyledLoadingButton type="submit" loading={registerStatus.loading} >Submit</StyledLoadingButton>
           </DialogActions>
         </form>
       </Dialog>
@@ -491,7 +494,7 @@ export default function Navbar() {
                 >
                   <Typography sx={{ marginRight: "20px", borderRadius: 5, overflow: 'hidden' }}>
                     <Link href={'/profile/me'} passHref>
-                      <Image src={loginStatus?.imageKey || "/user_icon/noUserImage.jpg"} alt='user icon' width={50} height={50} />
+                      <Image src={loginStatus?.imageKey || "/user_icon/noUserImage.jpg"} alt='user icon' width={50} height={50} placeholder="blur" blurDataURL="/blur.png"/>
                     </Link>
                   </Typography>
                   <Box mr={1}>
