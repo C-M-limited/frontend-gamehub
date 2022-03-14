@@ -15,6 +15,7 @@ import InputBase from "@mui/material/InputBase";
 import { Box, Divider, Typography } from '@mui/material';
 import { SettingsPowerRounded } from '@mui/icons-material';
 import { useAutocomplete } from '@mui/base/AutocompleteUnstyled';
+import { fontSize } from '@mui/system';
 interface GameListProps{
   id: number;
   name: string;
@@ -144,6 +145,9 @@ const Listbox = styled('ul')(({ theme }) => ({
 const ListItem = styled('li')(({ theme }) => ({
   // paddingLeft: `calc(1em + ${theme.spacing(4)})`,
   width:'100%',
+  transition:  theme.transitions.create(['font-size', 'transform'], {
+    duration: theme.transitions.duration.standard,
+  }),
   "&:hover": {
     // backgroundColor: alpha(theme.palette.common.white, 0.25),
     fontSize:'30px'
@@ -180,6 +184,9 @@ const ListboxSmall = styled('ul')(({ theme }) => ({
 const ListItemSmall = styled('li')(({ theme }) => ({
   // paddingLeft: `calc(1em + ${theme.spacing(4)})`,
   width:'100%',
+  transition:  theme.transitions.create(['font-size', 'transform'], {
+    duration: theme.transitions.duration.standard,
+  }),
   "&:hover": {
     // backgroundColor: alpha(theme.palette.common.white, 0.25),
     fontSize:'30px'

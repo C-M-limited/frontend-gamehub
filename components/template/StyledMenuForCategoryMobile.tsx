@@ -52,6 +52,13 @@ export default function StyledMenuForCategoryMobile({ nameList}: styledMenuProps
     
       }
 
+    const brandCode = (brand:string)=>{
+        if(brand==="Play Station") { return "ps"}
+        else if (brand==="Xbox") { return "xbox"}
+        else if (brand==="Nintendo") {return "nintendo"} 
+        else if (brand==="all") {return "all"}
+    }
+
     return (
         <div>
             <CustomButton
@@ -82,7 +89,7 @@ export default function StyledMenuForCategoryMobile({ nameList}: styledMenuProps
             >   
                 {
                     nameList.map(({name,brand,src}:filterListProps, index:number)=> (
-                        <Link href={`/console_brand/${brand}`} passHref key={index}>
+                        <Link href={`/console_brand/${brandCode(brand)}`} passHref key={index}>
                             <MenuItem  onClick={(e)=>{
                                 handleClose();
                             }}>{name}</MenuItem>

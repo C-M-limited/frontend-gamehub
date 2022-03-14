@@ -57,7 +57,7 @@ export default function TodaysPickGameItem({game_id,image_src, name, price, loca
         <Link href={`/game/${game_id}`} passHref>
         <GameItemContainer style={{    border: `3px solid ${colorCode()}` , cursor:'pointer'}} >
             <Image src={image_src} layout="responsive" width={180} height={200} alt={image_src} placeholder="blur" blurDataURL="/blur.png"/>
-            <GameItemTitle>{name}</GameItemTitle>
+            <GameItemTitle>{name.length>16? (name.substring(0,15).concat("..." )): name}</GameItemTitle>
             <Divider style={{ backgroundColor: '#999999'}}/>
             <>
                 <Box display={'flex'} justifyContent='space-between' >
