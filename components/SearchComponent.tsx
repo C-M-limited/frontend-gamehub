@@ -150,7 +150,8 @@ const ListItem = styled('li')(({ theme }) => ({
   }),
   "&:hover": {
     // backgroundColor: alpha(theme.palette.common.white, 0.25),
-    fontSize:'30px'
+    fontSize:'25px',
+    overflow:'hidden',
   },
 }));
 
@@ -189,7 +190,8 @@ const ListItemSmall = styled('li')(({ theme }) => ({
   }),
   "&:hover": {
     // backgroundColor: alpha(theme.palette.common.white, 0.25),
-    fontSize:'30px'
+    fontSize:'25px',
+    overflow: 'hidden'
   },
 }));
 

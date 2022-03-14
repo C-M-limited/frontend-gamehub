@@ -23,6 +23,7 @@ import '../styles/globals.css';
 import ProtectRoute from '../components/ProtectRoute';
 import { SnackbarUtilsConfigurator } from '../components/SnackBarUtilsConfigurator';
 import { SnackbarProvider } from 'notistack';
+import AddGameButton from '../components/AddGameButton';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -82,6 +83,7 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
                     anchorOrigin={{ vertical: "top", horizontal: "right" }}
                   >
                 <SnackbarUtilsConfigurator />
+                <AddGameButton/>
                 <ProtectRoute pathname={props.router.pathname}>
                   <Component {...pageProps} />
                 </ProtectRoute>

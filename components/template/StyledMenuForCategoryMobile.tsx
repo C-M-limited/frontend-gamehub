@@ -44,14 +44,19 @@ export default function StyledMenuForCategoryMobile({ nameList}: styledMenuProps
 
     const getCurrentCategory = () =>{       
         nameList.forEach(item => {            
-            if (item.brand===router.query.brand){
+            if (item.brand===brandDeCode(router.query.brand)){
                 setCurrentName(item.name);              
             }     
         }); 
 
     
       }
-
+    const brandDeCode = (brand:any) =>{
+        if(brand==="ps") { return "Play Station"}
+        else if (brand==="xbox") { return "Xbox"}
+        else if (brand==="nintendo") {return "Nintendo"} 
+        else if (brand==="all") {return "all"}
+    }
     const brandCode = (brand:string)=>{
         if(brand==="Play Station") { return "ps"}
         else if (brand==="Xbox") { return "xbox"}
