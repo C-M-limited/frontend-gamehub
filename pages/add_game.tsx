@@ -3,7 +3,7 @@ import { useForm , SubmitHandler} from 'react-hook-form';
 import axios from 'axios';
 import { server } from '../config'
 import { Autocomplete, Typography, TextField } from '@mui/material';
-import StyledButton from '../components/StyledButton';
+import {StyledButton} from '../components/StyledButton';
 
 interface AddGameFormInput {
   game_id: number;
