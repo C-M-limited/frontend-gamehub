@@ -88,6 +88,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const TagToChangeForm = styled("a")(({theme})=>({
+  cursor: "pointer", 
+  border: "2px solid white",
+  padding: "3px",
+  marginLeft:'4px',
+  borderRadius:'5px',
+
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.45),
+  },
+}))
+
 const FormNavigateButton = styled("a")({
   cursor: "pointer",
   textDecoration: "underline",
@@ -284,15 +296,14 @@ export default function Navbar() {
             />
             <p>
               Don{"'"}t have an account?{" "}
-              <a
-                style={{ cursor: "pointer", borderBottom: "2px solid white" }}
+              <TagToChangeForm
                 onClick={() => {
                   handleDialogClose("login");
                   handleDialogOpen("register");
                 }}
               >
                 Register
-              </a>
+              </TagToChangeForm>
             </p>
           </DialogContent>
           {problem && (
@@ -440,15 +451,14 @@ export default function Navbar() {
             />
             <p>
               Already have an account?{" "}
-              <a
-                style={{ cursor: "pointer", borderBottom: "2px solid white" }}
+              <TagToChangeForm
                 onClick={() => {
                   handleDialogClose("register");
                   handleDialogOpen("login");
                 }}
               >
                 Login
-              </a>
+              </TagToChangeForm>
             </p>
           </DialogContent>
           <DialogActions style={{ backgroundColor: "#000" }}>
@@ -468,7 +478,7 @@ export default function Navbar() {
       <AppBar position="sticky">
         <Toolbar style={{ backgroundColor: "#151520", position: "sticky" }}>
           <Grid container display="flex" justifyContent="center">
-            <Grid item sm={10} display="flex" alignItems="center">
+            <Grid item xs={12} sm={10} display="flex" alignItems="center">
               <Box display="flex" alignItems="center">
                 <Link href="/" passHref={true}>
                   <Typography
