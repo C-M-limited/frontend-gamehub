@@ -14,6 +14,7 @@ import { fetchSearchListSuccessAction, fetchSearchListThunk } from '../store/act
 import InputBase from "@mui/material/InputBase";
 import { Box, Divider, Typography } from '@mui/material';
 import { SettingsPowerRounded } from '@mui/icons-material';
+import { useAutocomplete } from '@mui/base/AutocompleteUnstyled';
 interface GameListProps{
   id: number;
   name: string;
@@ -27,11 +28,11 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  marginRight: theme.spacing(2),
+  // marginRight: theme.spacing(2),
   marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
+    // marginLeft: theme.spacing(3),
     width: "auto",
   },
 }));
@@ -93,6 +94,97 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+const Label = styled('label')({
+  display: 'block',
+});
+
+const Input = styled('input')(({ theme }) => ({
+  width: '200px',
+  color: "#fff",
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  fontSize:'15px',
+  padding: theme.spacing(1, 1, 1, 0),
+  paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  borderRadius:'5px',
+  border: 'none'
+
+  // backgroundColor: theme.palette.background.paper,
+  // color: theme.palette.getContrastText(theme.palette.background.paper),
+}));
+
+const Listbox = styled('ul')(({ theme }) => ({
+  cursor: 'pointer',
+  width: '200px',
+  margin: 0,
+  
+  zIndex: 1,
+  fontSize:'20px',
+  position: 'absolute',
+  listStyle: 'none',
+  // backgroundColor: theme.palette.background.paper,
+  overflow: 'auto',
+  maxHeight: 200,
+  border: '1px solid rgba(0,0,0,.25)',
+  '& li[data-focus="true"]': {
+    backgroundColor: '#4a8df6',
+    color: 'white',
+    cursor: 'pointer',
+  },
+  '& li:active': {
+    backgroundColor: '#2977f5',
+    color: 'white',
+  },
+  backgroundColor: alpha(theme.palette.common.black, 1),
+  borderRadius: '0 0px 20px 20px'
+}));
+
+const ListItem = styled('li')(({ theme }) => ({
+  // paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  width:'100%',
+  "&:hover": {
+    // backgroundColor: alpha(theme.palette.common.white, 0.25),
+    fontSize:'30px'
+  },
+}));
+
+
+const ListboxSmall = styled('ul')(({ theme }) => ({
+  cursor: 'pointer',
+  width: '196px',
+  margin: 0,
+  
+  zIndex: 1,
+  fontSize:'20px',
+  position: 'absolute',
+  listStyle: 'none',
+  // backgroundColor: theme.palette.background.paper,
+  overflow: 'auto',
+  maxHeight: 200,
+  border: '1px solid rgba(0,0,0,.25)',
+  '& li[data-focus="true"]': {
+    backgroundColor: '#4a8df6',
+    color: 'white',
+    cursor: 'pointer',
+  },
+  '& li:active': {
+    backgroundColor: '#2977f5',
+    color: 'white',
+  },
+  backgroundColor: alpha(theme.palette.common.black, 1),
+  borderRadius: '0 0px 20px 20px'
+}));
+
+const ListItemSmall = styled('li')(({ theme }) => ({
+  // paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  width:'100%',
+  "&:hover": {
+    // backgroundColor: alpha(theme.palette.common.white, 0.25),
+    fontSize:'30px'
+  },
+}));
 
 
 export default function SearchComponent() {
@@ -105,7 +197,7 @@ export default function SearchComponent() {
            */
           function handleClickOutside(event:any) {
               if (ref.current && !ref.current.contains(event.target)) {
-                  setOpen(false);
+                  setOpenBox(false);
                   // setOpenSearchBox(false)
               }
           }
@@ -118,20 +210,12 @@ export default function SearchComponent() {
           };
       }, [wrapperRef]);
     }
-    
+
     const [open, setOpen] = React.useState(false);
+    const [openBox, setOpenBox] = React.useState(false);
     const [options, setOptions] = React.useState<GameListProps[]>([]);
-    const [keywordId, setKeywordId] = React.useState<any>(-1);
-    const [openSearchBox,setOpenSearchBox] =React.useState(false);
-    const loading = open && options.length === 0;
     const router = useRouter();
-    const [keyword, setKeyword] = React.useState("");
-    const dispatch = useDispatch();
-    const searchList = useSelector((state: RootState) => state.searchList);
-    React.useEffect(() => {
-      dispatch(fetchSearchListThunk({ page: 0, keyword: keyword }));
-      console.log(searchList.searchList.content)
-    }, [keyword]);
+
     const fetchGameList=async()=>{
       axios.get(`${server}/api/v1/games/all`)
       .then(response =>{
@@ -139,90 +223,147 @@ export default function SearchComponent() {
       })
       .catch((error)=> window.alert("Sorry, Server is down right now"))
     }
-
-    React.useEffect(() => {
-    
-        if (!loading) {
-          return undefined;
-        }
-        fetchGameList();    
-
-      }, [loading]);
-    
-    React.useEffect(() => {
-        if (!open) {
-            setOptions([]);
-        }
-    }, [open]);
+    const {
+      getRootProps,
+      getInputLabelProps,
+      getInputProps,
+      getListboxProps,
+      getOptionProps,
+      groupedOptions,
+    } = useAutocomplete({
+      id: 'use-autocomplete-demo',
+      options: options,
+      getOptionLabel: (option) => option.name,
+    });
 
     return (
       <>
-      {/* Big Screen */}
-        <Box ref={wrapperRef} sx={{display:{xs:'none',sm:'block'}}}>
-          <Search >
+        <Box sx={{display:{xs:'none',sm:'block'}}}>
+          <Search {...getRootProps()} 
+          onClick={()=>{
+            fetchGameList()
+            setOpen(true)
+          }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              onClick = {()=>{setOpen(true)}}
-            />
-          </Search>
-          <SearchItemWraper>
-            {open && searchList.searchList.content?.map((game:GameListProps,index: number)=>{
-              return(
-                <Link href={`/game/index/${game.id}`} key={index} passHref >
-                  <Box sx={{width: '100%'}}>
-                    <Divider/>
-                    <SearchItem onClick={()=>setOpen(false)}>{game.name}</SearchItem>
-                  </Box>
+            <Input  {...getInputProps()} placeholder="Search…"/>
 
-                </Link>
-              )
-            })}
-          </SearchItemWraper>
-        </Box>
+          </Search>
+          {open && groupedOptions.length > 0 ? (
+            <Listbox {...getListboxProps()}>
+              {(groupedOptions as typeof options).map((option, index) => (
+                <ListItem {...getOptionProps({ option, index })} key={index}
+                onClick={()=>{
+                  router.push(`/game/index/${option.id}`);
+                  setOpen(false)
+                }}>{option.name}</ListItem>
+              ))}
+            </Listbox>
+          ) : null}
+        </Box >
         {/* Small Screen */}
         <Box  sx={{display:{xs:'block',sm:'none'}}}>
-          <Box mx={2} onClick={()=>setOpenSearchBox(!openSearchBox)} sx={{display:'flex', justifyContent:'center',alignItems:'center', cursor: 'pointer'}}>
+          <Box display={'flex'} justifyContent={'center'} alignItems={'center'} padding={'10px'} sx={{cursor:'pointer'}} onClick={()=>{setOpenBox(!openBox)}}>
             <SearchIcon />
           </Box>
+          {openBox && 
+            <Box ref={wrapperRef} position={'absolute'} width={'200px'} height={'200px'} bgcolor={'black'} display={'flex'} borderRadius={'0 0 20px 20px'} border='2px solid white'>
+              <Box>
+                <Search {...getRootProps()} 
+                  onClick={()=>{
+                    fetchGameList()
+                    setOpen(true)
+                  }}>
+                    <SearchIconWrapper>
+                      <SearchIcon />
+                    </SearchIconWrapper>
+                    <Input  {...getInputProps()} placeholder="Search…"/>
 
-          {openSearchBox && 
-          <>
-          <Box position={'absolute'} bgcolor={'black'}>
-            <Search >
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-                onClick = {()=>{setOpen(true)}}
-              />
-            </Search>
-          </Box>
-          <SearchItemWraper sx={{marginTop: '35px'}}>
-          {searchList.searchList.content?.map((game:GameListProps,index: number)=>{
-            return(
-              <Link href={`/game/index/${game.id}`} key={index} passHref >
-                <Box sx={{width: '100%'}}>
-                  <Divider/>
-                  <SearchItem onClick={()=>setOpenSearchBox(false)}>{game.name}</SearchItem>
-                </Box>
-
-              </Link>
-            )
-          })}
-            </SearchItemWraper>
-          </>
-        }
+                  </Search>
+                  {open && groupedOptions.length > 0 ? (
+                    <ListboxSmall {...getListboxProps()}>
+                      {(groupedOptions as typeof options).map((option, index) => (
+                        <ListItemSmall {...getOptionProps({ option, index })} key={index}
+                        onClick={()=>{
+                          router.push(`/game/index/${option.id}`);
+                          setOpen(false)
+                          setOpenBox(false)
+                        }}>{option.name}</ListItemSmall>
+                      ))}
+                    </ListboxSmall>
+                  ) : null}
+              </Box>
+            </Box>
+          }
+          
         </Box>
       </>
     )
 }
+    //   {/* Big Screen */}
+    //   <Box ref={wrapperRef} sx={{display:{xs:'none',sm:'block'}}}>
+    //   <Search >
+    //     <SearchIconWrapper>
+    //       <SearchIcon />
+    //     </SearchIconWrapper>
+    //     <StyledInputBase
+    //       placeholder="Search…"
+    //       inputProps={{ "aria-label": "search" }}
+    //       value={keyword}
+    //       onChange={(e) => setKeyword(e.target.value)}
+    //       onClick = {()=>{setOpen(true)}}
+    //     />
+    //   </Search>
+    //   <SearchItemWraper>
+    //     {open && searchList.searchList.content?.map((game:GameListProps,index: number)=>{
+    //       return(
+    //         <Link href={`/game/index/${game.id}`} key={index} passHref >
+    //           <Box sx={{width: '100%'}}>
+    //             <Divider/>
+    //             <SearchItem onClick={()=>setOpen(false)}>{game.name}</SearchItem>
+    //           </Box>
+
+    //         </Link>
+    //       )
+    //     })}
+    //   </SearchItemWraper>
+    // </Box>
+    // {/* Small Screen */}
+    // <Box  sx={{display:{xs:'block',sm:'none'}}}>
+    //   <Box mx={2} onClick={()=>setOpenSearchBox(!openSearchBox)} sx={{display:'flex', justifyContent:'center',alignItems:'center', cursor: 'pointer'}}>
+    //     <SearchIcon />
+    //   </Box>
+
+    //   {openSearchBox && 
+    //   <>
+    //   <Box position={'absolute'} bgcolor={'black'}>
+    //     <Search >
+    //       <SearchIconWrapper>
+    //         <SearchIcon />
+    //       </SearchIconWrapper>
+    //       <StyledInputBase
+    //         placeholder="Search…"
+    //         inputProps={{ "aria-label": "search" }}
+    //         value={keyword}
+    //         onChange={(e) => setKeyword(e.target.value)}
+    //         onClick = {()=>{setOpen(true)}}
+    //       />
+    //     </Search>
+    //   </Box>
+    //   <SearchItemWraper sx={{marginTop: '35px'}}>
+    //   {searchList.searchList.content?.map((game:GameListProps,index: number)=>{
+    //     return(
+    //       <Link href={`/game/index/${game.id}`} key={index} passHref >
+    //         <Box sx={{width: '100%'}}>
+    //           <Divider/>
+    //           <SearchItem onClick={()=>setOpenSearchBox(false)}>{game.name}</SearchItem>
+    //         </Box>
+
+    //       </Link>
+    //     )
+    //   })}
+    //     </SearchItemWraper>
+    //   </>
+    // }
+    // </Box>
