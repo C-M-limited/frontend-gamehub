@@ -75,12 +75,18 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
   const [gameError,setGameError] = useState<boolean>(false);
   const [options,setOptions] = useState<GameListProps[]>([]);
 
+  const consoleCode = ()=>{
+      if(brand==="Play Station") { return "PS"}
+      else if (brand==="Xbox") { return "Xbox"}
+      else if (brand==="Nintendo") {return "NS"} 
+      else {return ""}
+  }
     const colorCode = () =>{
-        if(brand==="Ps") { return "#007ABE"}
-        else if (brand==="Xbox") { return "#169A00"}
-        else if (brand==="ns") {return "#B70505"}
+      if(brand==="Play Station") { return "#007ABE"}
+      else if (brand==="Xbox") { return "#169A00"}
+      else if (brand==="Nintendo") {return "#B70505"}
 
-    }
+  }
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const handleClickOpenEdit = () => {
@@ -235,7 +241,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
                 <Box display={'flex'} justifyContent='space-between' >
                     <GameItemSubTitle>Price</GameItemSubTitle>
                     <Box display={'flex'} justifyContent='center' alignItems='center' bgcolor={colorCode} borderRadius={2} width={50} mt={1} position={'absolute'} ml={14}>
-                        <Tags>{brand}</Tags>
+                        <Tags>{consoleCode()}</Tags>
                     </Box>
                 </Box>
                 <Typography >{price} HKD</Typography>

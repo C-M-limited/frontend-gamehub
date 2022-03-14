@@ -44,7 +44,7 @@ const filterList = [
 const Footer = () => {
   return (
     <Grid container spacing={1} bgcolor="#151520" display="flex" justifyContent="center">
-      <Grid item xs={12} lg={8} display="flex" justifyContent="center" mt={2}>
+      <Grid item xs={11} lg={8} display="flex" justifyContent="center" mt={2}>
         <Grid item xs={12} lg={6} display="flex"  flexDirection={'column'} alignItems="center">
           <Grid>
             <FooterTitle>Game Hub</FooterTitle>

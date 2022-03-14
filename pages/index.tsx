@@ -56,7 +56,7 @@ const Home: NextPage = ({ latestGames, todaysGames }: any) => {
         &&
         <Grid container display="flex" justifyContent="center">
           <Grid item lg={10}>
-            <SubTitle>Today{"'"}s Picks</SubTitle>
+            <SubTitle sx={{marginTop:{xs:'30px',sm:'0'}}}>Today{"'"}s Picks</SubTitle>
             {/* show 5 on xl */}
             <Grid container spacing={2} sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex', xl: 'flex' } }} justifyContent="center" >
               {todaysGames.map((game: gameProps) => {
@@ -72,7 +72,7 @@ const Home: NextPage = ({ latestGames, todaysGames }: any) => {
               })}
             </Grid>
             {/* show carousel on small screen */}
-            <Box sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none', xl: 'none' } }}>
+            <Box sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none', xl: 'none' } }} >
               <Carousel NextIcon={<KeyboardArrowRightIcon />} PrevIcon={<KeyboardArrowLeftIcon />}>
                 {todaysGames.map((game: gameProps) => {
                   const { game_sale_post, game_name, image_url, console_brand_name } = game;
