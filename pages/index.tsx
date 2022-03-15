@@ -48,6 +48,26 @@ interface postDetailProps {
 
 const Home: NextPage = ({ latestGames, todaysGames }: any) => {
   // console.log(latestGames.gameDetails)
+  const ChangeLaterToday=()=>{
+    if(todaysGames.length>0){
+      const { game_sale_post, game_name, image_url, console_brand_name } = todaysGames[0]
+      const { id, price, place_for_transaction } = game_sale_post;
+      return (
+        <TodaysPickGameItem key={id} game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} />
+      )
+    }
+
+  }
+  const ChangeLaterLatest = ()=>{
+    if (latestGames.length>0){
+      const { game_sale_post, user_name, game_name, image_url, console_brand_name } = latestGames[0];
+      const { id, price, place_for_transaction, created_date, description, contact_method, user_Id, games_ID } = game_sale_post
+      return (
+        <TodaysPickGameItem key={id} game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} />
+      )
+    }
+
+  }
   return (
     <>
       <StyledHero />
@@ -73,7 +93,11 @@ const Home: NextPage = ({ latestGames, todaysGames }: any) => {
             </Grid>
             {/* show carousel on small screen */}
             <Box sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none', xl: 'none' } }} >
-              <Carousel NextIcon={<KeyboardArrowRightIcon />} PrevIcon={<KeyboardArrowLeftIcon />}>
+              {
+                ChangeLaterToday()
+
+              }
+              {/* <Carousel NextIcon={<KeyboardArrowRightIcon />} PrevIcon={<KeyboardArrowLeftIcon />}>
                 {todaysGames.map((game: gameProps) => {
                   const { game_sale_post, game_name, image_url, console_brand_name } = game;
                   const { id, price, place_for_transaction } = game_sale_post
@@ -81,7 +105,7 @@ const Home: NextPage = ({ latestGames, todaysGames }: any) => {
                     <TodaysPickGameItem key={id} game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} />
                   )
                 })}
-              </Carousel>
+              </Carousel> */}
             </Box>
           </Grid>
         </Grid>}
@@ -103,7 +127,10 @@ const Home: NextPage = ({ latestGames, todaysGames }: any) => {
             </Grid>
             {/* show carousel on small screen */}
             <Box sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none', xl: 'none' } }}>
-              <Carousel NextIcon={<KeyboardArrowRightIcon />} PrevIcon={<KeyboardArrowLeftIcon />}>
+              {
+                ChangeLaterLatest()
+              }
+              {/* <Carousel NextIcon={<KeyboardArrowRightIcon />} PrevIcon={<KeyboardArrowLeftIcon />}>
                 {latestGames.map((game: gameProps) => {
                   const { game_sale_post, user_name, game_name, image_url, console_brand_name } = game;
                   const { id, price, place_for_transaction, created_date, description, contact_method, user_Id, games_ID } = game_sale_post
@@ -111,7 +138,7 @@ const Home: NextPage = ({ latestGames, todaysGames }: any) => {
                     <TodaysPickGameItem key={id} game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} />
                   )
                 })}
-              </Carousel>
+              </Carousel> */}
             </Box>
           </Grid>
         </Grid>}
