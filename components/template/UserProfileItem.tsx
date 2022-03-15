@@ -235,7 +235,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
     <Grid item xs={12} sm={6} md={3} lg={2}>
         <GameItemContainer style={{    border: `3px solid ${colorCode()}` , cursor:'pointer'}} >
             <Image src={image_src} layout="responsive" width={180} height={200} alt={image_src} placeholder="blur" blurDataURL="/blur.png"/>
-            <GameItemTitle>{name.length>16? (name.substring(0,15).concat("..." )): name}</GameItemTitle>
+            <GameItemTitle>{name.length>15? (name.substring(0,14).concat("..." )): name}</GameItemTitle>
             <Divider style={{ backgroundColor: '#999999'}}/>
             <>
                 <Box display={'flex'} justifyContent='space-between' >
