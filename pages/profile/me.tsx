@@ -11,6 +11,7 @@ import { CharacterImageList } from '../../public/user_icon/user_icon';
 import { RootState } from '../../store/reducer';
 import { styled } from '@mui/system'
 import Image from "next/image";
+import jwt from 'jwt-decode';
 
 interface gameProps {
     game_sale_post: postDetailProps;
@@ -29,6 +30,15 @@ interface postDetailProps {
     user_Id: number;
     games_ID: number;
 }
+
+interface userProfileProps{
+  role  : string;
+  id    : number;
+  email : string;
+  name  : string;
+  imageKey: string;
+}
+
 const Name = styled(Typography)({
   fontSize: 24,
   color: '#ffffff',
@@ -46,7 +56,8 @@ const Name = styled(Typography)({
 export default function Me() {
     const fetchData= async()=>{
         // ${userProfile.id}
-        await axios.get(`${server}/api/v1/game_sale_post/user/${userProfile.id}`)
+
+        await axios.get(`${server}/api/v1/game_sale_post/user/${user.id}`)
 
         .then((res)=>{
             setPosts(res.data)
@@ -58,10 +69,21 @@ export default function Me() {
     useEffect(()=>{
         fetchData();
     },[])
+const ISSERVER = typeof window === "undefined";
+
+let user:userProfileProps={role:'',id:-1,email:'abc@abc.com',name:'notexist',imageKey:'abc'}
+if(!ISSERVER) {
+  if (localStorage.getItem("access-token") !== null){
+    user = jwt(localStorage.getItem("access-token") || "");
+  }
+  
+}
+
 const loginStatus = useSelector((state: RootState) => state.auth);
-const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
-const userProfile = useSelector((state: RootState) => state.userProfile);
+// const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
+// const userProfile = useSelector((state: RootState) => state.userProfile);
 const [posts,setPosts] = useState([]);
+// console.log(loginStatus.imageKey)
 
   return (
     <Box>
@@ -70,7 +92,7 @@ const [posts,setPosts] = useState([]);
             <Image src={loginStatus?.imageKey || "/user_icon/noUserImage.jpg"}  width={'200px'} height={'200px'} />
         </Box>
         <Box sx={{marginLeft:{xs:0,sm:10},display:'flex', justifyContent:'center', alignItems:'center',flexDirection:'column'}}  >
-          <Name>{userProfile.name}</Name>
+          <Name>{user.name}</Name>
           <Typography fontSize={20}>You have posted {posts.length} games</Typography>
         </Box>
         
@@ -112,6 +134,7 @@ const [posts,setPosts] = useState([]);
     </Box>
   )
 }
+
 
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //     const userProfile = useSelector((state: RootState) => state.userProfile);

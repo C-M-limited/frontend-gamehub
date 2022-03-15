@@ -123,7 +123,7 @@ const FilterRow = ({ brand }: FilterRowProps) => {
         </Grid>
       </Grid>
       {/* Button Show on Small Screen */}
-      <Box flexDirection={"column"} sx={{display:{xs: 'flex',sm:'flex',md:'none'}}}  mt={2} paddingX={5}>
+      <Box flexDirection={"column"} sx={{display:{xs: 'flex',sm:'flex',md:'none'}}}  mt={2} paddingX={5} width={'100vw'} >
           <Box display={'flex'} >
             <StyledMenuForCategoryMobile
               nameList={

@@ -478,7 +478,7 @@ export default function Navbar() {
       <AppBar position="sticky">
         <Toolbar style={{ backgroundColor: "#151520", position: "sticky" }}>
           <Grid container display="flex" justifyContent="center">
-            <Grid item xs={12} sm={10} display="flex" alignItems="center">
+            <Grid item xs={12} sm={11} display="flex" alignItems="center">
               <Box display="flex" alignItems="center">
                 <Link href="/" passHref={true}>
                   <Typography
@@ -507,12 +507,16 @@ export default function Navbar() {
                       <Image src={loginStatus?.imageKey || "/user_icon/noUserImage.jpg"} alt='user icon' width={50} height={50} placeholder="blur" blurDataURL="/blur.png"/>
                     </Link>
                   </Typography>
-                  <Box mr={1}>
+                  {/* <Box mr={1}>
                     <Link href="/add_game" passHref>
                       <StyledButton>add games</StyledButton>
                     </Link>
-                  </Box>
-                  <StyledButton onClick={() => dispatch(logOut())}>
+                  </Box> */}
+                  <StyledButton 
+                  onClick={() => {
+                    dispatch(logOut())
+                    router.push("/")
+                    }}>
                     LogOut
                   </StyledButton>
                 </Box>

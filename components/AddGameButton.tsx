@@ -17,16 +17,16 @@ const AddGameButtonWrapper =  styled('li')(({ theme }) => ({
     padding: '8px',
     justifyContent:'center',
     alignItems:'center',
-    left: '85%',
-    top: '80%',
+    right: '0%',
+    bottom: '10%',
     zIndex: 100,
-    transition:  theme.transitions.create(['top', 'transform'], {
+    transition:  theme.transitions.create(['bottom', 'transform'], {
         duration: theme.transitions.duration.standard,
       }),
       "&:hover": {
         // backgroundColor: alpha(theme.palette.common.white, 0.25),
         // padding:'15px',
-        top: '78%'
+        bottom: '12%'
        
       },
   }));

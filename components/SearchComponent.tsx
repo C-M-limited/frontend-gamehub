@@ -4,18 +4,13 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { server } from '../config';
 import axios from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/reducer';
-import { fetchSearchListSuccessAction, fetchSearchListThunk } from '../store/action/search';
 import InputBase from "@mui/material/InputBase";
 import { Box, Divider, Typography } from '@mui/material';
-import { SettingsPowerRounded } from '@mui/icons-material';
 import { useAutocomplete } from '@mui/base/AutocompleteUnstyled';
-import { fontSize } from '@mui/system';
+
 interface GameListProps{
   id: number;
   name: string;
@@ -139,12 +134,14 @@ const Listbox = styled('ul')(({ theme }) => ({
     color: 'white',
   },
   backgroundColor: alpha(theme.palette.common.black, 1),
-  borderRadius: '0 0px 20px 20px'
+  borderRadius: '0 0px 20px 20px',
+  // listStyle: 'none',
 }));
 
 const ListItem = styled('li')(({ theme }) => ({
   // paddingLeft: `calc(1em + ${theme.spacing(4)})`,
   width:'100%',
+  // backgroundColor:'red',
   transition:  theme.transitions.create(['font-size', 'transform'], {
     duration: theme.transitions.duration.standard,
   }),
@@ -160,7 +157,7 @@ const ListboxSmall = styled('ul')(({ theme }) => ({
   cursor: 'pointer',
   width: '196px',
   margin: 0,
-  
+  height: '150',
   zIndex: 1,
   fontSize:'20px',
   position: 'absolute',
@@ -277,12 +274,13 @@ export default function SearchComponent() {
             <SearchIcon />
           </Box>
           {openBox && 
-            <Box ref={wrapperRef} position={'absolute'} width={'200px'} height={'200px'} bgcolor={'black'} display={'flex'} borderRadius={'0 0 20px 20px'} border='2px solid white'>
+            <Box ref={wrapperRef} position={'absolute'} width={'200px'} height={'250px'} bgcolor={'black'} display={'flex'} borderRadius={'0 0 20px 20px'} border='2px solid white'>
+              {/* <Box position={'absolute'} border={'10px solid white'} width={'20px'} height={'20px'} mt={-2} ml={-1}/ > */}
               <Box>
                 <Search {...getRootProps()} 
                   onClick={()=>{
                     fetchGameList()
-                    setOpen(true)
+                    setOpen(!open)
                   }}>
                     <SearchIconWrapper>
                       <SearchIcon />
