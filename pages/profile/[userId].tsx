@@ -83,7 +83,8 @@ const handleUserImage = ()=>{
         </Box>
         
       </Box>
-      <Box paddingX={5} sx={{display:{xs:'none',sm:'block'}}}>
+      <Box paddingX={5} sx={{display:{xs:'none',sm:'flex'}, justifyContent:'center', alignItems:'center',flexDirection:'column'}}>
+        <Box>
         <Grid container spacing={2}  >
             {postList.map((post: gameProps) => {
                 const { game_sale_post, user_name, game_name, image_url, console_brand_name } = post;
@@ -98,6 +99,7 @@ const handleUserImage = ()=>{
                 )
             })}
         </Grid>
+        </Box>
       </Box>
       {/* small screen */}
       <Box paddingX={5} sx={{display:{xs:'block',sm:'none'}}}>

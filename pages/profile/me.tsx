@@ -97,13 +97,14 @@ const [posts,setPosts] = useState([]);
         </Box>
         
       </Box>
-      <Box paddingX={5} sx={{display:{xs:'none',sm:'block'}}}>
+      <Box paddingX={5} sx={{display:{xs:'none',sm:'flex'}, justifyContent:'center', alignItems:'center',flexDirection:'column'}}>
+        <Box >
         <Grid container spacing={2}  >
               {posts.map((post: gameProps) => {
                 const { game_sale_post, user_name, game_name, image_url, console_brand_name } = post;
                 const { id, price, place_for_transaction, created_date, description, contact_method, user_Id, games_ID } = game_sale_post
                 return (
-                  <Grid item key={id}>
+                  <Grid item key={id} >
                       <Box>
                         <UserProfileItem post_id={id} game_id={games_ID} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} contact_method={contact_method} description={description}/>
                       </Box>
@@ -112,6 +113,7 @@ const [posts,setPosts] = useState([]);
                 )
               })}
         </Grid>
+        </Box>
       </Box>
       {/* Small Screen */}
       <Box paddingX={5} sx={{display:{xs:'block',sm:'none'}}}>
