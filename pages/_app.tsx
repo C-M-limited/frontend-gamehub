@@ -24,6 +24,7 @@ import ProtectRoute from '../components/ProtectRoute';
 import { SnackbarUtilsConfigurator } from '../components/SnackBarUtilsConfigurator';
 import { SnackbarProvider } from 'notistack';
 import AddGameButton from '../components/AddGameButton';
+import FirstLoadingPage from '../components/FirstLoadingPage';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -70,29 +71,36 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
       <QueryClientProvider client={queryClient}>
         <CacheProvider value={emotionCache}>
           <ThemeProvider theme={darkModeTheme}>
-            <Provider store={store}>
-              <NextNProgress />
-              <Layout>
-                <Head>
-                  <title>GameHub</title>
-                  <meta property="og:image" content="https://www.gamehub.link/favicon.png" />
-                </Head>
-                <CssBaseline />
-                <SnackbarProvider
-                    maxSnack={5}
-                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                  >
-                <SnackbarUtilsConfigurator />
-                <AddGameButton/>
-                <ProtectRoute pathname={props.router.pathname}>
-                  <Component {...pageProps} />
-                </ProtectRoute>
-                </SnackbarProvider>
-              </Layout>
-            </Provider>
+            <FirstLoadingPage>
+              <Provider store={store}>
+                <NextNProgress />
+                <Layout>
+                  <Head>
+                    <title>GameHub</title>
+                    <meta property="og:image" content="https://www.gamehub.link/favicon.png" />
+                  </Head>
+                  <CssBaseline />
+                  <SnackbarProvider
+                      maxSnack={5}
+                      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                    >
+                  <SnackbarUtilsConfigurator />
+                  
+                    <AddGameButton/>
+
+                    <ProtectRoute pathname={props.router.pathname}>
+                      <Component {...pageProps} />
+                    </ProtectRoute>
+                  
+                  </SnackbarProvider>
+                </Layout>
+              </Provider>
+            </FirstLoadingPage>
           </ThemeProvider>
+          
         </CacheProvider>
       </QueryClientProvider>
+      
   )
 }
 
