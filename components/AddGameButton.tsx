@@ -13,7 +13,7 @@ const AddGameButtonWrapper =  styled('li')(({ theme }) => ({
     background: 'linear-gradient(90deg, rgba(102,0,255,1) 0%, rgba(180,28,255,1) 100%)',
     height: 36,
     color: 'var(--white)',
-    borderRadius: '4px',
+    borderRadius: '4px 0px 0px 4px',
     padding: '8px',
     justifyContent:'center',
     alignItems:'center',
