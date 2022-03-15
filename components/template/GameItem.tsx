@@ -42,7 +42,7 @@ export default function GameItem({ src, user_name, game_name, game_id, price, cr
             <Link href={`/game/${game_id}`} passHref>
                 <GameItemContainer>
                     <Image src={src} layout="responsive" alt={src} width={180} height={200} />
-                    <GameItemTitle>{game_name}</GameItemTitle>
+                    <GameItemTitle>{game_name.length>16? (game_name.substring(0,15).concat("..." )): game_name}</GameItemTitle>
                     <Divider style={{ backgroundColor: '#999999'}}/>
                     {price && <GameItemTitle>HKD ${price}</GameItemTitle>}
                     <Typography sx={{color:'#C0C0C0', fontSize:12, marginTop:'5px'}}>Provided By:</Typography>
