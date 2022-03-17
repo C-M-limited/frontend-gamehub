@@ -17,7 +17,7 @@ const FirstLoadingPage = ({children}: React.PropsWithChildren<{}>)=> {
         (
         <Box bgcolor={grey[900]} width={'100vw'} height={'100vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
             <Box className="animate__animated animate__bounce">
-            <Image src="/favicon.png" width={'200px'} height={'200px'} />  
+            <Image src="/favicon.png" width={'200px'} height={'200px'} priority={true}/>  
             </Box>
         </Box>
         )
