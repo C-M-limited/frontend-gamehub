@@ -7,7 +7,11 @@ import 'animate.css';
 const FirstLoadingPage = ({children}: React.PropsWithChildren<{}>)=> {
     const [loading, setLoading] = useState(true);
     useEffect(()=>{
-        setLoading(false);
+        setTimeout(()=>{
+            setLoading(false);
+        },1000)
+        // setLoading(false);
+
     })
     return !loading ? <React.Fragment>{children}</React.Fragment> :  
         (
