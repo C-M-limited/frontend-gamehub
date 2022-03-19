@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import Alert from '@mui/material/Alert';
-
-export default function StyledAlert({children}: React.PropsWithChildren<{}>,{type}:string) {
+interface alertProps{
+  children: React.PropsWithChildren<{}>;
+  type : any;
+}
+export default function StyledAlert({children,type}: alertProps) {
     const [isOpen,setIsOpen] = useState<boolean>(false);
 
     const handleClose = ()=>{
