@@ -6,7 +6,7 @@ import Head from 'next/head'
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from '../store'
-import { CssBaseline,ThemeProvider, useTheme, createTheme } from '@mui/material';
+import { CssBaseline,ThemeProvider, useTheme, createTheme, Typography } from '@mui/material';
 // import {  } from '@mui/material/styles';
 import { amber, deepOrange, grey } from '@mui/material/colors';
 import { PaletteMode } from '@mui/material';
@@ -25,6 +25,7 @@ import { SnackbarUtilsConfigurator } from '../components/SnackBarUtilsConfigurat
 import { SnackbarProvider } from 'notistack';
 import AddGameButton from '../components/AddGameButton';
 import FirstLoadingPage from '../components/FirstLoadingPage';
+import StyledAlert from '../components/alerts/StyledAlert';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -87,7 +88,7 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
                   <SnackbarUtilsConfigurator />
                   
                     <AddGameButton/>
-
+                    <StyledAlert />
                     <ProtectRoute pathname={props.router.pathname}>
                       <Component {...pageProps} />
                     </ProtectRoute>

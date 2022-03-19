@@ -17,6 +17,8 @@ import { useForm , SubmitHandler} from 'react-hook-form';
 import axios from 'axios';
 import { server } from '../../config';
 import Router from 'next/router'
+import { useDispatch } from 'react-redux';
+import { OpenAlertAction } from '../../store/action/alert';
 interface GameListProps{
   id: number;
   name: string;
@@ -74,6 +76,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
   const [newGameId,setNewGameId] = useState<any>(-1);
   const [gameError,setGameError] = useState<boolean>(false);
   const [options,setOptions] = useState<GameListProps[]>([]);
+  const dispatch = useDispatch();
 
   const consoleCode = ()=>{
       if(brand==="Play Station") { return "PS"}
@@ -148,7 +151,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
         };
         axios.put(`${server}/api/v1/game_sale_post`, dataToSend, { headers })
         .then(response => {
-          window.alert("Successfully Edited Post")
+          dispatch(OpenAlertAction({type:"success",content: "Successfully Edited Post"}))
           setOpenEdit(false);
           Router.reload();
         })
@@ -188,7 +191,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
         };
         axios.delete(`${server}/api/v1/game_sale_post/${post_id}`, { headers })
         .then(response => {
-          window.alert("Successfully Delete Post")
+          dispatch(OpenAlertAction({type:"success",content: "Successfully Delete Post"}))
           setOpenDelete(false);
           Router.reload();
         })
@@ -224,7 +227,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
       .then(response =>{
           setOptions(response.data);
       })
-      .catch((error)=> window.alert("Sorry, Server is down right now"))
+      .catch((error)=> dispatch(OpenAlertAction({type:"warning",content: "Sorry, Server is down"})))
     }
     useEffect (()=>{
     fetchGameList();

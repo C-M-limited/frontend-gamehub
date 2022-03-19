@@ -10,6 +10,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { Box, Divider, Typography } from '@mui/material';
 import { useAutocomplete } from '@mui/base/AutocompleteUnstyled';
+import { useDispatch } from 'react-redux';
+import { OpenAlertAction } from '../store/action/alert';
 
 interface GameListProps{
   id: number;
@@ -194,6 +196,7 @@ const ListItemSmall = styled('li')(({ theme }) => ({
 
 
 export default function SearchComponent() {
+  const dispatch = useDispatch();
     const wrapperRef = React.useRef(null);
     useOutsideAlerter(wrapperRef);
     function useOutsideAlerter(ref:any) {
@@ -227,7 +230,7 @@ export default function SearchComponent() {
       .then(response =>{
         setOptions(response.data);
       })
-      .catch((error)=> window.alert("Sorry, Server is down right now"))
+      .catch((error)=> dispatch(OpenAlertAction({type:"warning",content: "Sorry, Server is down"})))
     }
     const {
       getRootProps,

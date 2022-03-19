@@ -1,5 +1,6 @@
 import axios from "axios"
 import { server } from "../../config"
+import { OpenAlertAction } from "./alert"
 
 export const REGISTER_REQUEST = "REGISTER_REQUEST"
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS"
@@ -41,13 +42,15 @@ export const registerThunk = ({ firstName, lastName, email, password}:registerPr
             imageKey
         })
         .then((res) => {
-            alert(`Congrats ${firstName}! Register Success. Please check your email to validate the account !`)
+            dispatch(OpenAlertAction({type:"success",content: `Congrats ${firstName}! Please check your email to validate the account !`}))
+            // alert(`Congrats ${firstName}! Register Success. Please check your email to validate the account !`)
             dispatch(registerSuccess())
             window.location.reload()
         })
         .catch((err) => {
             console.log(err)
-            alert("Register Failed")
+            dispatch(OpenAlertAction({type:"error",content: "Register Failed, Please Try Again Later"}))
+            // alert("Register Failed")
             dispatch(registerFailed())
         })
     }

@@ -2,6 +2,7 @@ import axios from "axios"
 import { server } from '../../config'
 import jwt from 'jwt-decode';
 import { setUserProfileAction } from "./userPorfile";
+import { OpenAlertAction } from "./alert";
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST"
 export const LOG_IN_SUCCESS = "LOG_IN_SUCCESS"
 export const LOG_IN_FAILED = "LOG_IN_FAILED"
@@ -82,13 +83,15 @@ export const login = ({ email, password }: logInProps) => {
             const user:userProfileProps = jwt(token);
             dispatch(setUserProfileAction({name: user.name, role: user.role, email: user.email, id :user.id, imageKey: `/user_icon/${user.imageKey}.jpg`}))
             // localStorage.setItem('login', String(user.name))
-            alert('Login Success')
+            // alert('Login Success')
             // window.location.reload()
+            dispatch(OpenAlertAction({type:"success",content: 'Login Success'}))
           })
           .catch(function (error){
             dispatch(logInFailed("Login Failed"));
-            alert('Login Failed')
-            console.log(error.response)
+            // alert('Login Failed')
+            // console.log(error.response)
+            dispatch(OpenAlertAction({type:"error", content: 'Wrong Email or Password'}))
           })
     }
 }

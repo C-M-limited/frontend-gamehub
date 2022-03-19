@@ -33,6 +33,8 @@ import { useState } from "react";
 import {CharacterImageList} from '../public/user_icon/user_icon'
 import SearchComponent from "./SearchComponent";
 import { useRouter } from "next/router";
+import { OpenAlertAction } from "../store/action/alert";
+
 
 interface userProfileProps {
   role: string;
@@ -334,7 +336,10 @@ export default function Navbar() {
     const [imageKey, setImageKey] = useState("");
     const onSubmit = (data: any) => {
       if (imageKey === "") {
-        alert("Please Select an User image");
+        dispatch(OpenAlertAction({type:"error", content: "Please Select an User image"}))
+        return;
+      }else if (data.password !==data.confirmPassword){
+        dispatch(OpenAlertAction({type:"error", content: "Password & Confirm Password should be the same"}))
         return;
       }
       dispatch(registerThunk(data, imageKey));

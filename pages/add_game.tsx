@@ -4,6 +4,8 @@ import axios from 'axios';
 import { server } from '../config'
 import { Autocomplete, Typography, TextField } from '@mui/material';
 import {StyledButton} from '../components/StyledButton';
+import { OpenAlertAction } from '../store/action/alert';
+import { useDispatch } from 'react-redux';
 
 interface AddGameFormInput {
   game_id: number;
@@ -18,6 +20,7 @@ interface GameListProps{
   image_url: string;
 }
 export default function AddGame() {
+  const dispatch = useDispatch();
   const [newGameId,setNewGameId] = useState<any>(-1);
   const [gameError,setGameError] = useState<boolean>(false);
   const { register, handleSubmit, getValues, formState: { errors }} = useForm({
@@ -62,7 +65,7 @@ export default function AddGame() {
     axios.post(`${server}/api/v1/game_sale_post`, dataToSend, { headers })
     .then(response => {
       // console.log(response)
-      window.alert("Successfully Added Post")
+      dispatch(OpenAlertAction({type:"success",content: "Successfully Added Post"}))
     })
     .catch((error) => {
       console.log(error)

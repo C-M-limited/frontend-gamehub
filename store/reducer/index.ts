@@ -9,6 +9,7 @@ import popUpWindowReducer from './popUpWindow';
 import authReducer from './auth';
 import {registerReducer} from './registration';
 import gameSalePostListReducer from './gameSalePost';
+import alertReducer from './alert';
 
 const allReducers = combineReducers({
     consoleBrand : ConsoleBrandTypeReducer,
@@ -20,6 +21,7 @@ const allReducers = combineReducers({
     todaysPick : todaysPickReducer,
     searchList: searchListReducer,
     popUpWindow: popUpWindowReducer,
+    alertRedux : alertReducer,
 
 }) 
 export default allReducers;
