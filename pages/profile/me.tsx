@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid, Rating, Typography } from '@mui/material'
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import React, { useEffect, useState } from 'react'
@@ -88,8 +88,13 @@ const [posts,setPosts] = useState([]);
   return (
     <Box>
       <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:{xs:'column',sm:'row'}}} m={5}>
-        <Box sx={{borderRadius: "20px",overflow: "hidden"}}>
-            <Image src={loginStatus?.imageKey || "/user_icon/noUserImage.jpg"}  width={'200px'} height={'200px'} />
+        <Box justifyContent={'center'} alignItems={'center'} display={'flex'} flexDirection={'column'}>
+          <Box sx={{borderRadius: "20px",overflow: "hidden"}}>
+              <Image src={loginStatus?.imageKey || "/user_icon/noUserImage.jpg"}  width={'200px'} height={'200px'} objectFit="cover" />
+          </Box>
+          {/* <Box >
+            <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
+          </Box> */}
         </Box>
         <Box sx={{marginLeft:{xs:0,sm:10},display:'flex', justifyContent:'center', alignItems:'center',flexDirection:'column'}}  >
           <Name>{user.name}</Name>

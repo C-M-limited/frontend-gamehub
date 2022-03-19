@@ -17,6 +17,10 @@ import { server } from '../../config';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { CharacterImageList } from '../../public/user_icon/user_icon';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useDispatch } from 'react-redux';
+import { OpenAlertAction } from '../../store/action/alert';
 const drawerWidth = 375;
 // const drawerWidth = 240;
 
@@ -46,9 +50,11 @@ interface gameInfoProps{
 }
 
 export default function ResponsiveDrawer(props: Props) {
+  const dispatch= useDispatch();
   const { window, gameDetails,postList,gameInfo } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [currentPost, setCurrentPost] = React.useState<any>([]);
+  const [isHoverHeart, setIsHoverHeart] = React.useState<boolean>(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -197,18 +203,31 @@ const handleUserImage = (imageKey:string)=>{
                 </a>
             }
           </Box>
-            <Grid container spacing={1} display="flex" alignItems='center'>
-                <Grid item lg={6} >
-                    <Box style={{ color: '#fff', backgroundColor: 'var(--mainGrey)', padding: 12, borderRadius: 4 }}>
-                        ${price}
-                    </Box>
-                </Grid>
-                <Grid item lg={6} >
-                    <Box style={{ color: '#fff', backgroundColor: 'var(--mainGrey)', padding: 12, borderRadius: 4 }}>
-                        {place_for_transaction}
-                    </Box>
-                </Grid>
+          <Grid container display="flex" alignItems='center' mt={2} >
+            <Grid item  xs={12} sm={12} md={10} lg={6} xl={4} display="flex">
+              <Grid container spacing={1} display="flex" alignItems='center'>
+                  <Grid item  >
+                      <Box style={{ color: '#fff', backgroundColor: 'var(--mainGrey)', padding: 12, borderRadius: 4 }}>
+                          ${price}
+                      </Box>
+                  </Grid>
+                  <Grid item  >
+                      <Box style={{ color: '#fff', backgroundColor: 'var(--mainGrey)', padding: 12, borderRadius: 4 }}>
+                          {place_for_transaction}
+                      </Box>
+                  </Grid>
+              </Grid>
+              <button  onMouseOver={()=>setIsHoverHeart(true)} onMouseLeave={()=>setIsHoverHeart(false)} style={{background:'none', border:'none'}} onClick={()=>dispatch(OpenAlertAction({type:'warning', content:'Subscribe Function Still On Progess'}))} >
+                {isHoverHeart 
+                ?
+                <FavoriteIcon sx={{ color: 'white' }}/>
+                :
+                <FavoriteBorderIcon sx={{ color: 'white' }}/>
+                }             
+              </button>
             </Grid>
+          </Grid>
+
             {/* Description */}
             <Grid container display="flex" alignItems='center' mt={2} >
                 <Grid item  xs={12} sm={12} md={10} lg={6} xl={4}>
@@ -216,7 +235,7 @@ const handleUserImage = (imageKey:string)=>{
                         Description:
                         <br /><br />
                         {description === "" ? "This guy didn't say anything left" : description}
-                        <Box position="absolute" bottom={-18} right={-18} sx={{backgroundColor:'var(--mainPurple)'}} padding={1}>
+                        <Box position="absolute" bottom={-18} right={-18} sx={{backgroundColor:'var(--mainPurple)',borderRadius: 1}} padding={1}>
                             {new Date(new Date(created_date).getTime()).toLocaleString("en-US")}
                         </Box>
                     </Box>

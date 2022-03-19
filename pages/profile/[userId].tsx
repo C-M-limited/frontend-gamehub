@@ -45,32 +45,17 @@ const Name = styled(Typography)({
   border: '2px solid gold'
 })
 export default function OthersProfile({postList,userInfo}:any) {
-    // const fetchData= async()=>{
-    //     // ${userProfile.id}
-    //     await axios.get(`${server}/api/v1/game_sale_post/user/${userProfile.id}`)
 
-    //     .then((res)=>{
-    //         setPosts(res.data)
-    //     })
-    //     .catch((err)=>{
-    //         console.log(err)
-    //     })
-    // }
-    useEffect(()=>{
-        console.log(postList)
-        console.log(userInfo)
-        // fetchData();
-    },[])
-const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
-const userProfile = useSelector((state: RootState) => state.userProfile);
-const handleUserImage = ()=>{
-    CharacterImageList.forEach(data =>{
-    console.log(userInfo.imageKey)
-    if (data.image_key===userInfo.imageKey){
-        setImagLocation(data.image_url);  
-    }
-    } )
-}
+  const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
+  const userProfile = useSelector((state: RootState) => state.userProfile);
+  const handleUserImage = ()=>{
+      CharacterImageList.forEach(data =>{
+      // console.log(userInfo.imageKey)
+      if (data.image_key===userInfo.imageKey){
+          setImagLocation(data.image_url);  
+      }
+      } )
+  }
   return (
     <Box>
       <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:{xs:'column',sm:'row'}}} m={5}>
@@ -92,7 +77,7 @@ const handleUserImage = ()=>{
                 return (
                 <Grid item key={id}>
                     <Box>
-                        <TodaysPickGameItem  game_id={games_ID} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}  />
+                        <TodaysPickGameItem  game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}  />
                     </Box>
 
                 </Grid>
@@ -110,7 +95,7 @@ const handleUserImage = ()=>{
                 return (
                 <Grid item key={id}>
                     <Box>
-                        <TodaysPickGameItem  game_id={games_ID} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}  />
+                        <TodaysPickGameItem  game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}  />
                     </Box>
                 </Grid>
                 )
