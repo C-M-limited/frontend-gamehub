@@ -3,15 +3,16 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import TodaysPickGameItem from '../../components/template/TodaysPickGameItem';
-import UserProfileItem from '../../components/template/UserProfileItem';
-import userProfileItem from '../../components/template/UserProfileItem';
-import { server } from '../../config';
-import { CharacterImageList } from '../../public/user_icon/user_icon';
-import { RootState } from '../../store/reducer';
+import TodaysPickGameItem from '../components/template/TodaysPickGameItem';
+import UserProfileItem from '../components/template/UserProfileItem';
+import userProfileItem from '../components/template/UserProfileItem';
+import { axiosInstance, server } from '../config';
+import { CharacterImageList } from '../public/user_icon/user_icon';
+import { RootState } from '../store/reducer';
 import { styled } from '@mui/system'
 import Image from "next/image";
 import jwt from 'jwt-decode';
+
 
 interface gameProps {
     game_sale_post: postDetailProps;
@@ -53,12 +54,11 @@ const Name = styled(Typography)({
   margin: '10px',
   border: '2px solid gold'
 })
-export default function Me() {
+
+export default function Likes() {
+
     const fetchData= async()=>{
-        // ${userProfile.id}
-
-        await axios.get(`${server}/api/v1/game_sale_post/user/${user.id}`)
-
+        await axiosInstance.get(`/subscribed_post/user/${user.id}`)
         .then((res)=>{
             setPosts(res.data)
         })
@@ -69,22 +69,21 @@ export default function Me() {
     useEffect(()=>{
         fetchData();
     },[])
-const ISSERVER = typeof window === "undefined";
+    const ISSERVER = typeof window === "undefined";
 
-let user:userProfileProps={role:'',id:-1,email:'abc@abc.com',name:'notexist',imageKey:'abc'}
-if(!ISSERVER) {
-  if (localStorage.getItem("access-token") !== null){
-    user = jwt(localStorage.getItem("access-token") || "");
-  }
-  
-}
+    let user:userProfileProps={role:'',id:-1,email:'abc@abc.com',name:'notexist',imageKey:'abc'}
+    if(!ISSERVER) {
+    if (localStorage.getItem("access-token") !== null){
+        user = jwt(localStorage.getItem("access-token") || "");
+    }
+    
+    }
 
-const loginStatus = useSelector((state: RootState) => state.auth);
-// const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
-// const userProfile = useSelector((state: RootState) => state.userProfile);
-const [posts,setPosts] = useState([]);
-// console.log(loginStatus.imageKey)
-
+    const loginStatus = useSelector((state: RootState) => state.auth);
+    // const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
+    // const userProfile = useSelector((state: RootState) => state.userProfile);
+    const [posts,setPosts] = useState([]);
+    // console.log(loginStatus.imageKey)
   return (
     <Box>
       <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:{xs:'column',sm:'row'}}} m={5}>
@@ -98,7 +97,7 @@ const [posts,setPosts] = useState([]);
         </Box>
         <Box sx={{marginLeft:{xs:0,sm:10},display:'flex', justifyContent:'center', alignItems:'center',flexDirection:'column'}}  >
           <Name>{user.name}</Name>
-          <Typography fontSize={20}>You have posted {posts.length} games</Typography>
+          <Typography fontSize={20}>You have liked {posts.length} games</Typography>
         </Box>
         
       </Box>
@@ -111,7 +110,7 @@ const [posts,setPosts] = useState([]);
                 return (
                   <Grid item key={id} >
                       <Box>
-                        <UserProfileItem post_id={id} game_id={games_ID} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} contact_method={contact_method} description={description}/>
+                        <TodaysPickGameItem  game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}/>
                       </Box>
 
                   </Grid>
@@ -129,7 +128,7 @@ const [posts,setPosts] = useState([]);
                 return (
                   <Grid item key={id}>
                       <Box>
-                        <UserProfileItem post_id={id} game_id={games_ID} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} contact_method={contact_method} description={description}/>
+                        <TodaysPickGameItem  game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} />
                       </Box>
 
                   </Grid>
@@ -141,5 +140,3 @@ const [posts,setPosts] = useState([]);
     </Box>
   )
 }
-
-

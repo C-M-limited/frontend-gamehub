@@ -9,11 +9,12 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import Toolbar from '@mui/material/Toolbar';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { Grid, Typography, Box, Divider } from '@mui/material';
+import jwt from 'jwt-decode';
 
 import Image from 'next/image';
 import Navbar from '../../components/Navbar';
 import axios from 'axios';
-import { server } from '../../config';
+import { axiosInstance, server } from '../../config';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { CharacterImageList } from '../../public/user_icon/user_icon';
@@ -21,6 +22,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch } from 'react-redux';
 import { OpenAlertAction } from '../../store/action/alert';
+
 const drawerWidth = 375;
 // const drawerWidth = 240;
 
@@ -49,24 +51,73 @@ interface gameInfoProps{
   console_Id: number;
 }
 
+interface userProfileProps{
+  role  : string;
+  id    : number;
+  email : string;
+  name  : string;
+  imageKey: string;
+}
+
 export default function ResponsiveDrawer(props: Props) {
   const dispatch= useDispatch();
   const { window, gameDetails,postList,gameInfo } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [currentPost, setCurrentPost] = React.useState<any>([]);
   const [isHoverHeart, setIsHoverHeart] = React.useState<boolean>(false);
+  const [isLiked,setIsLiked] = React.useState<boolean>(false);
+
+  const ISSERVER = typeof window === "undefined";
+
+  let user:userProfileProps={role:'',id:-1,email:'abc@abc.com',name:'notexist',imageKey:'abc'}
+  if(!ISSERVER) {
+    if (localStorage.getItem("access-token") !== null){
+        user = jwt(localStorage.getItem("access-token") || "");
+    }
+  }
+
+  React.useEffect(()=>{
+    fetchIsLikedPost()
+  },[gameDetails.id])
+  const fetchIsLikedPost= async()=>{
+
+    await (axiosInstance.get(`/subscribed_post/user&post/?userId=${user.id}&postId=${gameDetails.id}`))
+      .then((res)=>{
+        setIsLiked(res.data);
+      })
+      .catch((err)=>{
+        dispatch(OpenAlertAction({type:'error',content:'Sorry, Subscribe is not working'}))
+      })
+  }
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-const [imageLocation,setImagLocation] = React.useState("/user_icon/noUserImage.jpeg");
-const handleUserImage = (imageKey:string)=>{
-  CharacterImageList.forEach(data =>{
-    if (data.image_key===imageKey){
-      setImagLocation(data.image_url);  
-    }
-  } )
-}
+  const [imageLocation,setImagLocation] = React.useState("/user_icon/noUserImage.jpeg");
+  const handleUserImage = (imageKey:string)=>{
+    CharacterImageList.forEach(data =>{
+      if (data.image_key===imageKey){
+        setImagLocation(data.image_url);  
+      }
+    } )
+  }
+  const handleSubscribe = async()=>{
+
+    
+    await axiosInstance.post('/subscribed_post',{"userProfile":{"id": user.id}, "gameSalePost":{"id": gameDetails.id}})
+      .then((res)=>{
+        if (res.data==="Added"){
+          dispatch(OpenAlertAction({type:'success', content:'Liked'}))
+          setIsLiked(true)
+        }else if (res.data==="Deleted"){
+          dispatch(OpenAlertAction({type:'success',content:'Cancenled Likes'}))
+          setIsLiked(false)
+        }
+      })
+      .catch((err)=>{
+        dispatch(OpenAlertAction({type:'error',content:'Sorry, Please Try again later'}))
+      })
+  }
 
   const drawer = (
     <div>
@@ -217,8 +268,8 @@ const handleUserImage = (imageKey:string)=>{
                       </Box>
                   </Grid>
               </Grid>
-              <button  onMouseOver={()=>setIsHoverHeart(true)} onMouseLeave={()=>setIsHoverHeart(false)} style={{background:'none', border:'none'}} onClick={()=>dispatch(OpenAlertAction({type:'warning', content:'Subscribe Function Still On Progess'}))} >
-                {isHoverHeart 
+              <button  onMouseOver={()=>setIsHoverHeart(true)} onMouseLeave={()=>setIsHoverHeart(false)} style={{background:'none', border:'none'}} onClick={()=>handleSubscribe()} >
+                {isHoverHeart || isLiked
                 ?
                 <FavoriteIcon sx={{ color: 'white' }}/>
                 :

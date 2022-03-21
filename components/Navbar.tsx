@@ -34,7 +34,8 @@ import {CharacterImageList} from '../public/user_icon/user_icon'
 import SearchComponent from "./SearchComponent";
 import { useRouter } from "next/router";
 import { OpenAlertAction } from "../store/action/alert";
-
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 interface userProfileProps {
   role: string;
@@ -180,6 +181,7 @@ export default function Navbar() {
     if (router.query?.showLoginForm) setOpenLoginDialog(true)
   },[router.query])
 
+  const [isHoverHeart, setIsHoverHeart] = useState<boolean>(false);
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -512,6 +514,14 @@ export default function Navbar() {
                       <Image src={loginStatus?.imageKey || "/user_icon/noUserImage.jpg"} alt='user icon' width={50} height={50} placeholder="blur" blurDataURL="/blur.png"/>
                     </Link>
                   </Typography>
+                  <button  onMouseOver={()=>setIsHoverHeart(true)} onMouseLeave={()=>setIsHoverHeart(false)} style={{background:'none', border:'none',marginRight:'10px'}} onClick={()=>router.push("/likes")}  >
+                    {isHoverHeart 
+                    ?
+                    <FavoriteIcon sx={{ color: 'white' }}/>
+                    :
+                    <FavoriteBorderIcon sx={{ color: 'white' }}/>
+                    }             
+                  </button>
                   {/* <Box mr={1}>
                     <Link href="/add_game" passHref>
                       <StyledButton>add games</StyledButton>

@@ -14,7 +14,7 @@ const ProtectRoute = ({ children, pathname }: protectRouteProps) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (pathname === '/add_game' || pathname === '/profile/me') {
+    if (pathname === '/add_game' || pathname === '/profile/me' || pathname === '/likes') {
       if (Object.keys(auth).length <= 1) {
         router.push({
           pathname: '/',
