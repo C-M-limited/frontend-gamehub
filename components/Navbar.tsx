@@ -509,12 +509,12 @@ export default function Navbar() {
                     alignItems: "center",
                   }}
                 >
-                  <Typography sx={{ marginRight: "20px", borderRadius: 5, overflow: 'hidden' }}>
+                  <Typography sx={{ marginRight: "20px", borderRadius: 5, overflow: 'hidden' , cursor:'pointer'}}>
                     <Link href={'/profile/me'} passHref>
                       <Image src={loginStatus?.imageKey || "/user_icon/noUserImage.jpg"} alt='user icon' width={50} height={50} placeholder="blur" blurDataURL="/blur.png"/>
                     </Link>
                   </Typography>
-                  <button  onMouseOver={()=>setIsHoverHeart(true)} onMouseLeave={()=>setIsHoverHeart(false)} style={{background:'none', border:'none',marginRight:'10px'}} onClick={()=>router.push("/likes")}  >
+                  <button  onMouseOver={()=>setIsHoverHeart(true)} onMouseLeave={()=>setIsHoverHeart(false)} style={{background:'none', border:'none',marginRight:'10px',cursor:'pointer'}} onClick={()=>router.push("/likes")}  >
                     {isHoverHeart 
                     ?
                     <FavoriteIcon sx={{ color: 'white' }}/>

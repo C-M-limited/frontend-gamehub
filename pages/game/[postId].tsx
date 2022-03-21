@@ -268,7 +268,7 @@ export default function ResponsiveDrawer(props: Props) {
                       </Box>
                   </Grid>
               </Grid>
-              <button  onMouseOver={()=>setIsHoverHeart(true)} onMouseLeave={()=>setIsHoverHeart(false)} style={{background:'none', border:'none'}} onClick={()=>handleSubscribe()} >
+              <button  onMouseOver={()=>setIsHoverHeart(true)} onMouseLeave={()=>setIsHoverHeart(false)} style={{background:'none', border:'none',cursor:'pointer'}} onClick={()=>handleSubscribe()} >
                 {isHoverHeart || isLiked
                 ?
                 <FavoriteIcon sx={{ color: 'white' }}/>
