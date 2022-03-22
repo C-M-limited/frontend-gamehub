@@ -10,6 +10,7 @@ import { axiosInstance, server } from '../config'
 import Carousel from 'react-material-ui-carousel'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import StyledCarousel from '../components/StyledCarousel'
 // const playstation = require('../public/game_list/playstation.json')
 // const nintendo = require('../public/game_list/nintendo_test.json')
 
@@ -25,7 +26,7 @@ const SubTitle = styled(Typography)({
   alignItems: 'center',
   width: '200px',
   marginBottom: '30px',
-  border: '2px solid gold'
+  // border: '2px solid gold'
 })
 
 interface gameProps {
@@ -76,21 +77,21 @@ const Home: NextPage = ({ latestGames, todaysGames }: any) => {
         &&
         <Grid container display="flex" justifyContent="center">
           <Grid item lg={10}>
-            <SubTitle sx={{marginTop:{xs:'30px',sm:'0'}}}>Today{"'"}s Picks</SubTitle>
+            <SubTitle>Today{"'"}s Picks</SubTitle>
             {/* show 5 on xl */}
-            <Grid container spacing={2} sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex', xl: 'flex' } }} justifyContent="center" >
+            <StyledCarousel length={todaysGames.length}>
               {todaysGames.map((game: gameProps) => {
                 const { game_sale_post, user_name, game_name, image_url, console_brand_name } = game;
                 const { id, price, place_for_transaction, created_date, description, contact_method, user_Id, games_ID } = game_sale_post
                 return (
-                  <Grid item key={id}>
+                  <Box key={id} display='flex' justifyContent='center'>
 
                     <TodaysPickGameItem game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} />
 
-                  </Grid>
+                  </Box>
                 )
               })}
-            </Grid>
+            </StyledCarousel>
             {/* show carousel on small screen */}
             <Box sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none', xl: 'none' } }} >
               {
@@ -114,17 +115,17 @@ const Home: NextPage = ({ latestGames, todaysGames }: any) => {
         <Grid container display="flex" justifyContent="center" mt={5}>
           <Grid item lg={10}>
             <SubTitle>Latest Posts</SubTitle>
-            <Grid container spacing={2} sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex', xl: 'flex' } }} justifyContent="center">
+            <StyledCarousel length={todaysGames.length}>
               {latestGames.map((game: gameProps) => {
                 const { game_sale_post, user_name, game_name, image_url, console_brand_name } = game;
                 const { id, price, place_for_transaction, created_date, description, contact_method, user_Id, games_ID } = game_sale_post
                 return (
-                  <Grid item key={id}>
+                  <Box key={id}>
                     <TodaysPickGameItem game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} />
-                  </Grid>
+                  </Box>
                 )
               })}
-            </Grid>
+            </StyledCarousel>
             {/* show carousel on small screen */}
             <Box sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none', xl: 'none' } }}>
               {
@@ -157,7 +158,6 @@ export const getServerSideProps = async () => {
     const todaysRes = await axiosInstance.get('post_click_rate')
     latestGames = latestRes.data.content;
     todaysGames = todaysRes.data.content;
-    console.log(latestRes)
   }
   catch (err) {
     console.log(err)

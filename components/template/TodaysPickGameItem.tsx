@@ -18,21 +18,22 @@ const GameItemContainer = styled(Box)({
     color: '#ffffff',
     display: 'flex',
     flexDirection: 'column',
-    padding: '15px 15px 0px 15px',
     margin: '10px 0px',
-    borderRadius: 20,
-    width: '200px',
-    height: '380px',
-
+    borderRadius: 4,
+    width: '300px',
+    height: '460px',
+    paddingBottom: 8,
 })
 
 const GameItemTitle = styled(Typography)({
     fontSize: 20,
     marginTop: 20,
+    padding: '0px 8px',
 })
 
 const GameItemSubTitle = styled(Typography)({
     margin: '5px 0px 2px 0px',
+    padding: '0px 8px',
     fontSize: 12,
     color: '#C0C0C0',
 })
@@ -55,22 +56,22 @@ export default function TodaysPickGameItem({game_id,image_src, name, price, loca
   return (
     <Grid item xs={12} sm={6} md={3} lg={2}>
         <Link href={`/game/${game_id}`} passHref>
-        <GameItemContainer style={{    border: `3px solid ${colorCode()}` , cursor:'pointer'}} >
-            <Image src={image_src} layout="responsive" width={180} height={200} alt={image_src} placeholder="blur" blurDataURL="/blur.png"/>
+        <GameItemContainer style={{ border: `3px solid ${colorCode()}` , cursor:'pointer'}} >
+            <Image src={image_src} layout="intrinsic" width={300} height={300} alt={image_src} placeholder="blur" blurDataURL="/blur.png"/>
             <GameItemTitle>{name.length>15? (name.substring(0,14).concat("..." )): name}</GameItemTitle>
-            <Divider style={{ backgroundColor: '#999999'}}/>
+            <Divider style={{ backgroundColor: '#525252ab', height: 3 }}/>
             <>
-                <Box display={'flex'} justifyContent='space-between' >
+                <Box display={'flex'} justifyContent='space-between' alignItems='center' mt={1}>
                     <GameItemSubTitle>Price</GameItemSubTitle>
-                    <Box display={'flex'} justifyContent='center' alignItems='center' bgcolor={colorCode} borderRadius={2} width={50} mt={1} position={'absolute'} ml={14}>
+                    <Box textAlign='center' width={50} bgcolor={colorCode} borderRadius={1} mr={1}>
                         <Tags>{consoleCode()}</Tags>
                     </Box>
                 </Box>
-                <Typography >{price} HKD</Typography>
+                <Typography paddingX={1}>{price} HKD</Typography>
             </>
             <>
                 <GameItemSubTitle>Location</GameItemSubTitle>
-                <Typography>{location}</Typography>
+                <Typography paddingX={1}>{location}</Typography>
             </>
         </GameItemContainer>
         </Link>

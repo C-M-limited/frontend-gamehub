@@ -1,6 +1,6 @@
-import { Box } from '@mui/system';
+import Box from '@mui/material/Box';
 import React, { useEffect, useState } from 'react'
-import {  grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import Image from 'next/image';
 import 'animate.css';
 // import { fadeIn } from 'react-animations'

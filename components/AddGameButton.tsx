@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
+import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import Link from 'next/link';
 import { styled, alpha } from "@mui/material/styles";
-import { Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 
 const AddGameButtonWrapper =  styled('li')(({ theme }) => ({
