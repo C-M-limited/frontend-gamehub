@@ -75,14 +75,14 @@ export default function ResponsiveDrawer(props: Props) {
     fetchIsLikedPost()
   },[gameDetails.id])
   const fetchIsLikedPost= async()=>{
-
-    await (axiosInstance.get(`/subscribed_post/user&post/?userId=${user.id}&postId=${gameDetails.id}`))
-      .then((res)=>{
-        setIsLiked(res.data);
-      })
-      .catch((err)=>{
-        dispatch(OpenAlertAction({type:'error',content:'Sorry, Subscribe is not working'}))
-      })
+    if (user.id===undefined){return} 
+      await (axiosInstance.get(`/subscribed_post/user&post/?userId=${user.id}&postId=${gameDetails.id}`))
+        .then((res)=>{
+          setIsLiked(res.data);
+        })
+        .catch((err)=>{
+          dispatch(OpenAlertAction({type:"error",content:'Sorry, Subscribe is not working'}))
+        })
   }
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -113,7 +113,7 @@ export default function ResponsiveDrawer(props: Props) {
         }
       })
       .catch((err)=>{
-        dispatch(OpenAlertAction({type:'error',content:'Sorry, Please Try again later'}))
+        dispatch(OpenAlertAction({type:"error",content:'Sorry, Please Try again later'}))
       })
   }
 
