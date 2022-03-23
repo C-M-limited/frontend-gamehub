@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { grey } from "@mui/material/colors";
 import Image from "next/image";
 import "animate.css";
-import {  server } from "../config";
+import {  server } from "../../config";
 import { useDispatch } from "react-redux";
-import { OpenAlertAction } from "../store/action/alert";
-import { setUserProfileAction } from "../store/action/userPorfile";
+import { OpenAlertAction } from "../../store/action/alert";
+import { setUserProfileAction } from "../../store/action/userPorfile";
 import jwt from 'jwt-decode';
 import axios from "axios";
 // import { fadeIn } from 'react-animations'

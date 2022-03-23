@@ -11,7 +11,6 @@ import {
   ThemeProvider,
   useTheme,
   createTheme,
-  Typography,
 } from "@mui/material";
 // import {  } from '@mui/material/styles';
 import { amber, deepOrange, grey } from "@mui/material/colors";
@@ -26,11 +25,11 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "../styles/globals.css";
-import ProtectRoute from "../components/ProtectRoute";
+import ProtectRoute from "../components/utils/ProtectRoute";
 import { SnackbarUtilsConfigurator } from "../components/SnackBarUtilsConfigurator";
 import { SnackbarProvider } from "notistack";
 import AddGameButton from "../components/AddGameButton";
-import FirstLoadingPage from "../components/FirstLoadingPage";
+import FirstLoadingPage from "../components/utils/FirstLoadingPage";
 import StyledAlert from "../components/alerts/StyledAlert";
 
 interface MyAppProps extends AppProps {

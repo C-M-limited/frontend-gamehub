@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { logInFailed } from '../store/action/auth';
-import { RootState } from '../store/reducer'
+import { logInFailed } from '../../store/action/auth';
+import { RootState } from '../../store/reducer'
 
 interface protectRouteProps {
   children: React.ReactChild;

@@ -6,10 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import {StyledButton} from '../StyledButton';
 
@@ -19,6 +16,8 @@ import { server } from '../../config';
 import Router from 'next/router'
 import { useDispatch } from 'react-redux';
 import { OpenAlertAction } from '../../store/action/alert';
+import RefreshTokenFunction from '../../utility/refreshTokenFunction';
+import RefreshTokenFunctionWithOutData from '../../utility/RefreshTokenFunctionWithOutData';
 interface GameListProps{
   id: number;
   name: string;
@@ -73,7 +72,7 @@ const Tags = styled(Typography)({
 })
 
 export default function UserProfileItem({post_id, game_id,image_src, name, price, location, brand, contact_method,description }: StyledGameItemProps) {
-  const [newGameId,setNewGameId] = useState<any>(-1);
+  const [newGameId,setNewGameId] = useState<any>(game_id);
   const [gameError,setGameError] = useState<boolean>(false);
   const [options,setOptions] = useState<GameListProps[]>([]);
   const dispatch = useDispatch();
@@ -119,11 +118,11 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
       });
     const onSubmit : SubmitHandler<AddGameFormInput> = data => {
         const {newGame_id,newPrice,new_place_for_transaction,new_description,new_contact_method}= data
-        if (newGameId===-1){
-          setGameError(true);
-        }else {
-          setGameError(false);
-        }
+        // if (newGameId===-1){
+        //   setGameError(true);
+        // }else {
+        //   setGameError(false);
+        // }
         const dataToSend = 
         {
             "id" : post_id,
@@ -158,32 +157,12 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
         .catch((error) => {
           if(error.response.status === 403){
             if (error.response.data==='Expired JWT token'){
-                refreshToken(dataToSend);
+                RefreshTokenFunction(editPost ,dataToSend);
             }
           }
         })
       }
-      const refreshToken =async(dataToSend:any)=>{
-        const refreshToken = `Bearer ${localStorage.getItem('refresh-token')}`;
-        const headers:any = { 
-          'refreshToken': refreshToken,
-        };
-        axios.post(`${server}/api/v1/token/refresh`,{}, { headers })
-          .then(response => {
-            localStorage.setItem('access-token',response.data.AUTHORIZATION );
-            editPost(dataToSend);
-    
-          })
-          .catch((error =>{
-            console.log("Problem:")
-            console.log(error.response.data);
-            if(error.response.status === 403){
-              if (error.response.data==='Expired JWT token'){
-                  //send to login
-              }
-            }
-          }))
-      }
+
     const handleSubmitDelete = () =>{
         const accessToken = localStorage.getItem('access-token');
         const headers:any = { 
@@ -198,25 +177,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
         .catch((error) => {
           if(error.response.status === 403){
             if (error.response.data==='Expired JWT token'){
-                const refreshToken = `Bearer ${localStorage.getItem('refresh-token')}`;
-                const headers:any = { 
-                'refreshToken': refreshToken,
-                };
-                axios.post(`${server}/api/v1/token/refresh`,{}, { headers })
-                .then(response => {
-                    localStorage.setItem('access-token',response.data.AUTHORIZATION );
-                    handleClickOpenDelete();
-            
-                })
-                .catch((error =>{
-                    console.log("Problem:")
-                    console.log(error.response.data);
-                    if(error.response.status === 403){
-                    if (error.response.data==='Expired JWT token'){
-                        //send to login
-                    }
-                    }
-                }))
+                RefreshTokenFunctionWithOutData(handleClickOpenDelete)
             }
           }
         })
@@ -279,6 +240,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
                   onChange={(event, value) => setNewGameId(value?.id)}
                   getOptionLabel={(option) => option.name}
                   options={options}
+                  defaultValue={{id : game_id, name: name, image_url: image_src }}
                 />
                 {gameError && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
                 {/* Price */}
@@ -358,20 +320,7 @@ const addGameFormStyle : React.CSSProperties={
     resize: 'none',
   }
   
-  const addGameSubmitStyle : React.CSSProperties={
-    backgroundColor:'var(--mainPurple)',
-    borderRadius:'10px',
-    color: 'var(--white)',
-    padding:'10px 30px 10px 30px',
-    margin:'20px',
-    marginTop:'-20px',
-    maxWidth:'150px',
-    fontSize:'20px',
-    position: 'relative',
-    textDecoration: 'none',
-    border: 'none',
-    cursor: 'pointer'
-  }
+
   const addGameWarningFont : React.CSSProperties={
     color:'var(--warningRed)'
   }

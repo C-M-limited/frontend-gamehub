@@ -6,6 +6,7 @@ import { Autocomplete, Typography, TextField } from '@mui/material';
 import {StyledButton} from '../components/StyledButton';
 import { OpenAlertAction } from '../store/action/alert';
 import { useDispatch } from 'react-redux';
+import RefreshTokenFunction from '../utility/refreshTokenFunction';
 
 interface AddGameFormInput {
   game_id: number;
@@ -64,40 +65,21 @@ export default function AddGame() {
     };
     axios.post(`${server}/api/v1/game_sale_post`, dataToSend, { headers })
     .then(response => {
-      // console.log(response)
+      // console.log("I success")
       dispatch(OpenAlertAction({type:"success",content: "Successfully Added Post"}))
     })
     .catch((error) => {
       console.log(error)
+      console.log("I fail")
       if(error.response.status === 403){
         if (error.response.data==='Expired JWT token'){
-            refreshToken(dataToSend);
+          // console.log("I expired")
+            RefreshTokenFunction(addPost,dataToSend);
         }
       }
     })
   }
-  const refreshToken =async(dataToSend:any)=>{
-    const refreshToken = `Bearer ${localStorage.getItem('refresh-token')}`;
-    // console.log(refreshToken)
-    const headers:any = { 
-      'refreshToken': refreshToken,
-    };
-    axios.post(`${server}/api/v1/token/refresh`,{}, { headers })
-      .then(response => {
-        localStorage.setItem('access-token',response.data.AUTHORIZATION );
-        addPost(dataToSend);
 
-      })
-      .catch((error =>{
-        console.log("Problem:")
-        console.log(error.response.data);
-        if(error.response.status === 403){
-          if (error.response.data==='Expired JWT token'){
-              //send to login
-          }
-        }
-      }))
-  }
   const [options,setOptions] = useState<GameListProps[]>([]);
   const fetchGameList=async()=>{
     axios.get(`${server}/api/v1/games/all`)
@@ -192,20 +174,6 @@ const addGameInputTextStyle : React.CSSProperties={
   resize: 'none',
 }
 
-const addGameSubmitStyle : React.CSSProperties={
-  backgroundColor:'var(--mainPurple)',
-  borderRadius:'10px',
-  color: 'var(--white)',
-  padding:'10px 30px 10px 30px',
-  margin:'20px',
-  marginTop:'-20px',
-  maxWidth:'150px',
-  fontSize:'20px',
-  position: 'relative',
-  textDecoration: 'none',
-  border: 'none',
-  cursor: 'pointer'
-}
 const addGameWarningFont : React.CSSProperties={
   color:'var(--warningRed)'
 }
