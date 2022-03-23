@@ -23,6 +23,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch, useSelector } from 'react-redux';
 import { OpenAlertAction } from '../../store/action/alert';
 import { RootState } from '../../store/reducer';
+import timeSince from '../../utility/timeSince';
 
 const drawerWidth = 375;
 // const drawerWidth = 240;
@@ -284,7 +285,8 @@ export default function ResponsiveDrawer(props: Props) {
                         <br /><br />
                         {description === "" ? "This guy didn't say anything left" : description}
                         <Box position="absolute" bottom={-18} right={-18} sx={{backgroundColor:'var(--mainPurple)',borderRadius: 1}} padding={1}>
-                            {new Date(new Date(created_date).getTime()).toLocaleString("en-US")}
+                            {/* {new Date(new Date(created_date).getTime()).toLocaleString("en-US")} */}
+                            Posted {timeSince(created_date)} ago
                         </Box>
                     </Box>
                 </Grid>

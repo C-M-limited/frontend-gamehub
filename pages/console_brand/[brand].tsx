@@ -112,8 +112,8 @@ const FilterRow = ({ brand }: FilterRowProps) => {
               selectIndex={filterData.index}
               handleChange={handleUpdateFilterData}
               nameList={[
-                { name: "Lowest ID", asc: true, sortBy: 'id' },
-                { name: "Highest ID", asc: false, sortBy: 'id' },
+                // { name: "Lowest ID", asc: true, sortBy: 'id' },
+                // { name: "Highest ID", asc: false, sortBy: 'id' },
                 { name: "Lowest Price", asc: true, sortBy: 'price' },
                 { name: "Highest Price", asc: false, sortBy: 'price' },
                 { name: "Latest", asc: false, sortBy: 'created_date' },
