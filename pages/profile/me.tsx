@@ -71,7 +71,6 @@ export default function Me() {
     },[])
 
     const user = useSelector((state: RootState) => state.userProfile);
-    const loginStatus = useSelector((state: RootState) => state.auth);
     const [posts,setPosts] = useState([]);
 
 
@@ -80,7 +79,7 @@ export default function Me() {
       <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:{xs:'column',sm:'row'}}} m={5}>
         <Box justifyContent={'center'} alignItems={'center'} display={'flex'} flexDirection={'column'}>
           <Box sx={{borderRadius: "20px",overflow: "hidden"}}>
-              <Image src={loginStatus?.imageKey || "/user_icon/noUserImage.jpg"}  width={'200px'} height={'200px'} objectFit="cover" />
+              <Image src={user.imageKey || "/user_icon/noUserImage.jpg"}  width={'200px'} height={'200px'} objectFit="cover" />
           </Box>
           {/* <Box >
             <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
