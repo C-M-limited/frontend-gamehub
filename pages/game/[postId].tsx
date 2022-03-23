@@ -20,8 +20,9 @@ import Link from 'next/link';
 import { CharacterImageList } from '../../public/user_icon/user_icon';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { OpenAlertAction } from '../../store/action/alert';
+import { RootState } from '../../store/reducer';
 
 const drawerWidth = 375;
 // const drawerWidth = 240;
@@ -61,6 +62,7 @@ interface userProfileProps{
 
 export default function ResponsiveDrawer(props: Props) {
   const dispatch= useDispatch();
+  const loginStatus = useSelector((state: RootState) => state.auth);
   const { window, gameDetails,postList,gameInfo } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [currentPost, setCurrentPost] = React.useState<any>([]);
@@ -102,7 +104,10 @@ export default function ResponsiveDrawer(props: Props) {
     } )
   }
   const handleSubscribe = async()=>{
-
+    // return if the user haven't logIn
+    if (Object.keys(loginStatus).length <= 1){
+      return dispatch(OpenAlertAction({type:'warning',content:'Please LogIn to use the Subscribe Function'}))
+    }
     
     await axiosInstance.post('/subscribed_post',{"userProfile":{"id": user.id}, "gameSalePost":{"id": gameDetails.id}})
       .then((res)=>{
