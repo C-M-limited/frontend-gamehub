@@ -3,24 +3,26 @@ import React, { useEffect, useState } from "react";
 import { grey } from "@mui/material/colors";
 import Image from "next/image";
 import "animate.css";
-import { axiosInstance } from "../config";
+import {  server } from "../config";
 import { useDispatch } from "react-redux";
 import { OpenAlertAction } from "../store/action/alert";
+import axios from "axios";
 // import { fadeIn } from 'react-animations'
 const FirstLoadingPage = ({ children }: React.PropsWithChildren<{}>) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    setTimeout(() => {
-      axiosInstance("/").catch((err) => {
+    setTimeout(async() => {
+      await axios.get(`${server}`)
+      .then((res)=>{})
+      .catch((err) => {
         dispatch(
           OpenAlertAction({ type: "error", content: "Failed to connect to server" })
         );
       });
       setLoading(false);
     }, 1000);
-    // setLoading(false);
-  });
+  },[]);
   return !loading ? (
     <React.Fragment>{children}</React.Fragment>
   ) : (
