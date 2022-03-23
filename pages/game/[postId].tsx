@@ -63,20 +63,12 @@ interface userProfileProps{
 export default function ResponsiveDrawer(props: Props) {
   const dispatch= useDispatch();
   const loginStatus = useSelector((state: RootState) => state.auth);
+  const user = useSelector((state: RootState) => state.userProfile);
   const { window, gameDetails,postList,gameInfo } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [currentPost, setCurrentPost] = React.useState<any>([]);
   const [isHoverHeart, setIsHoverHeart] = React.useState<boolean>(false);
   const [isLiked,setIsLiked] = React.useState<boolean>(false);
-
-  const ISSERVER = typeof window === "undefined";
-
-  let user:userProfileProps={role:'',id:-1,email:'abc@abc.com',name:'notexist',imageKey:'abc'}
-  if(!ISSERVER) {
-    if (localStorage.getItem("access-token") !== null){
-        user = jwt(localStorage.getItem("access-token") || "");
-    }
-  }
 
   React.useEffect(()=>{
     fetchIsLikedPost()
@@ -327,3 +319,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
   }
 }
+
+
+  // const ISSERVER = typeof window === "undefined";
+
+  // let user:userProfileProps={role:'',id:-1,email:'abc@abc.com',name:'notexist',imageKey:'abc'}
+  // if(!ISSERVER) {
+  //   if (localStorage.getItem("access-token") !== null){
+  //       user = jwt(localStorage.getItem("access-token") || "");
+  //   }
+  // }

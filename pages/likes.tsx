@@ -56,7 +56,9 @@ const Name = styled(Typography)({
 })
 
 export default function Likes() {
-
+  const user:userProfileProps = useSelector((state: RootState) => state.userProfile);
+  const loginStatus = useSelector((state: RootState) => state.auth);
+  const [posts,setPosts] = useState([]);
     const fetchData= async()=>{
         await axiosInstance.get(`/subscribed_post/user/${user.id}`)
         .then((res)=>{
@@ -69,21 +71,8 @@ export default function Likes() {
     useEffect(()=>{
         fetchData();
     },[])
-    const ISSERVER = typeof window === "undefined";
 
-    let user:userProfileProps={role:'',id:-1,email:'abc@abc.com',name:'notexist',imageKey:'abc'}
-    if(!ISSERVER) {
-    if (localStorage.getItem("access-token") !== null){
-        user = jwt(localStorage.getItem("access-token") || "");
-    }
-    
-    }
 
-    const loginStatus = useSelector((state: RootState) => state.auth);
-    // const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
-    // const userProfile = useSelector((state: RootState) => state.userProfile);
-    const [posts,setPosts] = useState([]);
-    // console.log(loginStatus.imageKey)
   return (
     <Box>
       <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:{xs:'column',sm:'row'}}} m={5}>

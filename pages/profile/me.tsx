@@ -69,21 +69,11 @@ export default function Me() {
     useEffect(()=>{
         fetchData();
     },[])
-const ISSERVER = typeof window === "undefined";
 
-let user:userProfileProps={role:'',id:-1,email:'abc@abc.com',name:'notexist',imageKey:'abc'}
-if(!ISSERVER) {
-  if (localStorage.getItem("access-token") !== null){
-    user = jwt(localStorage.getItem("access-token") || "");
-  }
-  
-}
+    const user = useSelector((state: RootState) => state.userProfile);
+    const loginStatus = useSelector((state: RootState) => state.auth);
+    const [posts,setPosts] = useState([]);
 
-const loginStatus = useSelector((state: RootState) => state.auth);
-// const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
-// const userProfile = useSelector((state: RootState) => state.userProfile);
-const [posts,setPosts] = useState([]);
-// console.log(loginStatus.imageKey)
 
   return (
     <Box>

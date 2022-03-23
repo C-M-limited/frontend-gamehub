@@ -6,12 +6,30 @@ import "animate.css";
 import {  server } from "../config";
 import { useDispatch } from "react-redux";
 import { OpenAlertAction } from "../store/action/alert";
+import { setUserProfileAction } from "../store/action/userPorfile";
+import jwt from 'jwt-decode';
 import axios from "axios";
 // import { fadeIn } from 'react-animations'
+
+
+interface userProfileProps{
+  role  : string;
+  id    : number;
+  email : string;
+  name  : string;
+  imageKey: string;
+}
+
 const FirstLoadingPage = ({ children }: React.PropsWithChildren<{}>) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    const token:string=localStorage.getItem("access-token") || "";
+    if (token!== ""){
+      const user:userProfileProps = jwt(token);
+      dispatch(setUserProfileAction({name: user.name, role: user.role, email: user.email, id :user.id, imageKey: `/user_icon/${user.imageKey}.jpg`}))
+    }
+
     setTimeout(async() => {
       await axios.get(`${server}`)
       .then((res)=>{})
