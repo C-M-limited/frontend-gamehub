@@ -20,8 +20,10 @@ import Link from 'next/link';
 import { CharacterImageList } from '../../public/user_icon/user_icon';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { OpenAlertAction } from '../../store/action/alert';
+import { RootState } from '../../store/reducer';
+import timeSince from '../../utility/timeSince';
 
 const drawerWidth = 375;
 // const drawerWidth = 240;
@@ -61,33 +63,26 @@ interface userProfileProps{
 
 export default function ResponsiveDrawer(props: Props) {
   const dispatch= useDispatch();
+  const loginStatus = useSelector((state: RootState) => state.auth);
+  const user = useSelector((state: RootState) => state.userProfile);
   const { window, gameDetails,postList,gameInfo } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [currentPost, setCurrentPost] = React.useState<any>([]);
   const [isHoverHeart, setIsHoverHeart] = React.useState<boolean>(false);
   const [isLiked,setIsLiked] = React.useState<boolean>(false);
 
-  const ISSERVER = typeof window === "undefined";
-
-  let user:userProfileProps={role:'',id:-1,email:'abc@abc.com',name:'notexist',imageKey:'abc'}
-  if(!ISSERVER) {
-    if (localStorage.getItem("access-token") !== null){
-        user = jwt(localStorage.getItem("access-token") || "");
-    }
-  }
-
   React.useEffect(()=>{
     fetchIsLikedPost()
   },[gameDetails.id])
   const fetchIsLikedPost= async()=>{
-
-    await (axiosInstance.get(`/subscribed_post/user&post/?userId=${user.id}&postId=${gameDetails.id}`))
-      .then((res)=>{
-        setIsLiked(res.data);
-      })
-      .catch((err)=>{
-        dispatch(OpenAlertAction({type:'error',content:'Sorry, Subscribe is not working'}))
-      })
+    if (user.id===undefined){return} 
+      await (axiosInstance.get(`/subscribed_post/user&post/?userId=${user.id}&postId=${gameDetails.id}`))
+        .then((res)=>{
+          setIsLiked(res.data);
+        })
+        .catch((err)=>{
+          dispatch(OpenAlertAction({type:"error",content:'Sorry, Subscribe is not working'}))
+        })
   }
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -102,7 +97,10 @@ export default function ResponsiveDrawer(props: Props) {
     } )
   }
   const handleSubscribe = async()=>{
-
+    // return if the user haven't logIn
+    if (Object.keys(loginStatus).length <= 1){
+      return dispatch(OpenAlertAction({type:'warning',content:'Please LogIn to use the Subscribe Function'}))
+    }
     
     await axiosInstance.post('/subscribed_post',{"userProfile":{"id": user.id}, "gameSalePost":{"id": gameDetails.id}})
       .then((res)=>{
@@ -115,7 +113,7 @@ export default function ResponsiveDrawer(props: Props) {
         }
       })
       .catch((err)=>{
-        dispatch(OpenAlertAction({type:'error',content:'Sorry, Please Try again later'}))
+        dispatch(OpenAlertAction({type:"error",content:'Sorry, Please Try again later'}))
       })
   }
 
@@ -287,7 +285,8 @@ export default function ResponsiveDrawer(props: Props) {
                         <br /><br />
                         {description === "" ? "This guy didn't say anything left" : description}
                         <Box position="absolute" bottom={-18} right={-18} sx={{backgroundColor:'var(--mainPurple)',borderRadius: 1}} padding={1}>
-                            {new Date(new Date(created_date).getTime()).toLocaleString("en-US")}
+                            {/* {new Date(new Date(created_date).getTime()).toLocaleString("en-US")} */}
+                            Posted {timeSince(created_date)} ago
                         </Box>
                     </Box>
                 </Grid>
@@ -322,3 +321,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
   }
 }
+
+
+  // const ISSERVER = typeof window === "undefined";
+
+  // let user:userProfileProps={role:'',id:-1,email:'abc@abc.com',name:'notexist',imageKey:'abc'}
+  // if(!ISSERVER) {
+  //   if (localStorage.getItem("access-token") !== null){
+  //       user = jwt(localStorage.getItem("access-token") || "");
+  //   }
+  // }

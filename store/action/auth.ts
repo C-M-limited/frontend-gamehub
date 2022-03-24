@@ -82,15 +82,12 @@ export const login = ({ email, password }: logInProps) => {
             const token:string=localStorage.getItem("access-token") || "";
             const user:userProfileProps = jwt(token);
             dispatch(setUserProfileAction({name: user.name, role: user.role, email: user.email, id :user.id, imageKey: `/user_icon/${user.imageKey}.jpg`}))
-            // localStorage.setItem('login', String(user.name))
-            // alert('Login Success')
-            // window.location.reload()
+
             dispatch(OpenAlertAction({type:"success",content: 'Login Success'}))
           })
           .catch(function (error){
             dispatch(logInFailed("Login Failed"));
-            // alert('Login Failed')
-            // console.log(error.response)
+
             dispatch(OpenAlertAction({type:"error", content: 'Wrong Email or Password'}))
           })
     }

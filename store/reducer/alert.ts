@@ -4,7 +4,7 @@ interface actionProps{
 }
 const initialState ={
     isOpen: false,
-    type : "",
+    type : "info",
     content: "",
 
 };
