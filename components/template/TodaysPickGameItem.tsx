@@ -18,10 +18,8 @@ const GameItemContainer = styled(Box)({
     color: '#ffffff',
     display: 'flex',
     flexDirection: 'column',
-    margin: '10px 0px',
     borderRadius: 4,
     width: '300px',
-    height: '460px',
     paddingBottom: 8,
 })
 
@@ -54,16 +52,16 @@ export default function TodaysPickGameItem({game_id,image_src, name, price, loca
         else if (brand==="Nintendo") {return "NS"} 
     }
   return (
-    <Grid item xs={12} sm={6} md={3} lg={2}>
+    <>
         <Link href={`/game/${game_id}`} passHref>
         <GameItemContainer style={{ border: `3px solid ${colorCode()}` , cursor:'pointer'}} >
             <Image src={image_src} layout="intrinsic" width={300} height={300} alt={image_src} placeholder="blur" blurDataURL="/blur.png"/>
             <GameItemTitle>{name.length>15? (name.substring(0,14).concat("..." )): name}</GameItemTitle>
             <Divider style={{ backgroundColor: '#525252ab', height: 3 }}/>
             <>
-                <Box display={'flex'} justifyContent='space-between' alignItems='center' mt={1}>
+                <Box display={'flex'} justifyContent='space-between' alignItems='center'>
                     <GameItemSubTitle>Price</GameItemSubTitle>
-                    <Box textAlign='center' width={50} bgcolor={colorCode} borderRadius={1} mr={1}>
+                    <Box textAlign='center' width={50} bgcolor={colorCode} borderRadius={1}>
                         <Tags>{consoleCode()}</Tags>
                     </Box>
                 </Box>
@@ -75,7 +73,7 @@ export default function TodaysPickGameItem({game_id,image_src, name, price, loca
             </>
         </GameItemContainer>
         </Link>
-    </Grid>
+    </>
 
   )
 }

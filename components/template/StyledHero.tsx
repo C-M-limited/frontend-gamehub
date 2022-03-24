@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/styles';
 
 const Title = styled(Typography)({
     color: '#ffffff',
-    fontSize: 36,
+    fontSize: '2rem',
     textAlign: 'center',
     zIndex: 2,
     textShadow: '0px 3px 2px #000',
@@ -27,10 +27,12 @@ const useStyles = makeStyles({
 });
 const BannerWrapper = styled(Box)(({ theme }) => ({
     position: 'absolute',
+    top: 0,
+    left: 0,
     backgroundImage: 'url(banner.jpg)',
     backgroundSize: 'cover',
-    width: '100vw',
-    height: '50vw',
+    width: '100%',
+    height: '100%',
   }));
 const ButtonWrapper =styled(Box)(({ theme }) => ({
     position: 'relative',
@@ -57,14 +59,13 @@ const gameConsoleList = [
 ]
 
 const StyledHero = () => {
-    const classes = useStyles();
     return (
         <>
             <Grid container position='relative' height="50vw" mb={2}>
                 <Grid item sm={12} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                     <Title>All your games in one place.</Title>
                     <BannerWrapper zIndex={1} />
-                    <Box display="flex" zIndex={2}>
+                    <Box width='100vw' display="flex" zIndex={2} justifyContent="center" alignItems="center">
                         {[gameConsoleList.map((item, key) => (
                             <Link key={key} href={item.url} passHref>
                                 <ButtonWrapper  mx={2} mt={3} >                   

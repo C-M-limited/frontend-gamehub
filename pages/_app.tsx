@@ -6,12 +6,12 @@ import Head from 'next/head'
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from '../store'
-import { CssBaseline,ThemeProvider, useTheme, createTheme, Typography } from '@mui/material';
+import { CssBaseline, ThemeProvider, useTheme, createTheme, Typography } from '@mui/material';
 // import {  } from '@mui/material/styles';
 import { amber, deepOrange, grey } from '@mui/material/colors';
 import { PaletteMode } from '@mui/material';
 import NextNProgress from "nextjs-progressbar";
-import { CacheProvider,EmotionCache } from '@emotion/react';
+import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '../utility/CreateEmotionCache2';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 
@@ -50,13 +50,13 @@ const getDesignTokens = (mode: PaletteMode) => ({
     text: {
       ...(mode === 'light'
         ? {
-            primary: grey[900],
-            secondary: grey[800],
-          }
+          primary: grey[900],
+          secondary: grey[800],
+        }
         : {
-            // primary: '#fff',
-            // secondary: grey[500],
-          }),
+          // primary: '#fff',
+          // secondary: grey[500],
+        }),
     },
   },
 });
@@ -68,40 +68,38 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
   const queryClient = new QueryClient()
 
   return (
-    
-      <QueryClientProvider client={queryClient}>
-        <CacheProvider value={emotionCache}>
-          <ThemeProvider theme={darkModeTheme}>
-            <FirstLoadingPage>
-              <Provider store={store}>
-                <NextNProgress />
-                <Layout>
-                  <Head>
-                    <title>GameHub</title>
-                    <meta property="og:image" content="https://www.gamehub.link/favicon.png" />
-                  </Head>
-                  <CssBaseline />
-                  <SnackbarProvider
-                      maxSnack={5}
-                      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                    >
-                  <SnackbarUtilsConfigurator />
-                  
-                    <AddGameButton/>
-                    <StyledAlert />
-                    <ProtectRoute pathname={props.router.pathname}>
-                      <Component {...pageProps} />
-                    </ProtectRoute>
-                  
-                  </SnackbarProvider>
-                </Layout>
-              </Provider>
-            </FirstLoadingPage>
-          </ThemeProvider>
-          
-        </CacheProvider>
-      </QueryClientProvider>
-      
+
+    <QueryClientProvider client={queryClient}>
+      <CacheProvider value={emotionCache}>
+        <ThemeProvider theme={darkModeTheme}>
+          <FirstLoadingPage>
+            <Provider store={store}>
+              <NextNProgress />
+              <Head>
+                <title>GameHub</title>
+                <meta property="og:image" content="https://www.gamehub.link/favicon.png" />
+              </Head>
+              <CssBaseline />
+              <SnackbarProvider
+                maxSnack={5}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              >
+                <SnackbarUtilsConfigurator />
+                <AddGameButton />
+                <StyledAlert />
+                <ProtectRoute pathname={props.router.pathname}>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </ProtectRoute>
+              </SnackbarProvider>
+            </Provider>
+          </FirstLoadingPage>
+        </ThemeProvider>
+
+      </CacheProvider>
+    </QueryClientProvider>
+
   )
 }
 
