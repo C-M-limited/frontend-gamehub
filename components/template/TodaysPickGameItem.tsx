@@ -14,7 +14,7 @@ interface StyledGameItemProps {
 }
 
 const GameItemContainer = styled(Box)({
-    backgroundColor: '#35354584',
+    backgroundColor: '#232432',
     color: '#ffffff',
     display: 'flex',
     flexDirection: 'column',
@@ -54,7 +54,7 @@ export default function TodaysPickGameItem({game_id,image_src, name, price, loca
   return (
     <>
         <Link href={`/game/${game_id}`} passHref>
-        <GameItemContainer style={{ border: `3px solid ${colorCode()}` , cursor:'pointer'}} >
+        <GameItemContainer style={{ border: `3px solid ${colorCode()}` , cursor:'pointer',backgroundColor: '#232432', margin:'0 auto'}} >
             <Image src={image_src} layout="intrinsic" width={300} height={300} alt={image_src} placeholder="blur" blurDataURL="/blur.png"/>
             <GameItemTitle>{name.length>15? (name.substring(0,14).concat("..." )): name}</GameItemTitle>
             <Divider style={{ backgroundColor: '#525252ab', height: 3 }}/>

@@ -18,12 +18,24 @@ const StyledCarousel = ({ children, length }: styledCarouselProps) => {
           {
             breakpoint: 1600,
             settings: {
+              slidesToShow: 4,
+              slidesToScroll: 1,
+              infinite: true,
+              dots: true,
+              centerMode: true,
+              autoplay: true,
+            }
+          },
+          {
+            breakpoint: 1308,
+            settings: {
               slidesToShow: 3,
               slidesToScroll: 1,
               infinite: true,
               dots: true,
-              centerMode: false,
-            }
+              centerMode: true,
+              autoplay: true,
+            },
           },
           {
             breakpoint: 1024,
@@ -32,7 +44,8 @@ const StyledCarousel = ({ children, length }: styledCarouselProps) => {
               slidesToScroll: 2,
               infinite: true,
               dots: true,
-              centerMode: false,
+              centerMode: true,
+              autoplay: true,
             },
           },
           {
@@ -43,6 +56,8 @@ const StyledCarousel = ({ children, length }: styledCarouselProps) => {
               infinite: true,
               dots: true,
               centerMode: false,
+              autoplay: true,
+              arrows: false,
             },
           },
         ]

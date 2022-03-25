@@ -40,34 +40,18 @@ interface postDetailProps {
 }
 
 const Home: NextPage = ({ latestGames, todaysGames }: any) => {
-  const ChangeLaterToday = () => {
-    if(todaysGames.length>0){
-      const { game_sale_post, game_name, image_url, console_brand_name } = todaysGames[0]
-      const { id, price, place_for_transaction } = game_sale_post;
-      return (
-        <TodaysPickGameItem key={id} game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} />
-      )
-    }
 
-  }
-  const ChangeLaterLatest = () => {
-    if (latestGames.length>0){
-      const { game_sale_post, game_name, image_url, console_brand_name } = latestGames[0];
-      const { id, price, place_for_transaction } = game_sale_post
-      return (
-        <TodaysPickGameItem key={id} game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} />
-      )
-    }
-  }
   return (
     <>
       <StyledHero />
       {
         todaysGames.length > 0
         &&
-        <Box paddingX={10} mt={3}>
-          <SubTitle>Today{"'"}s Picks</SubTitle>
-          <Box>
+        <Box  mt={3}>
+          <Box paddingX={10}>
+            <SubTitle >Today{"'"}s Picks</SubTitle>
+          </Box>
+          <Box  >
             <StyledCarousel length={todaysGames.length}>
               {todaysGames.map((game: gameProps) => {
                 const { game_sale_post, game_name, image_url, console_brand_name } = game;
@@ -81,8 +65,13 @@ const Home: NextPage = ({ latestGames, todaysGames }: any) => {
           </Box>}
       {latestGames.length > 0
         &&
-        <Box paddingX={10} mt={4}>
-            <SubTitle>Latest Posts</SubTitle>
+
+        <Box mt={4}>
+          <Box paddingX={10}>
+            <SubTitle >Latest Posts</SubTitle>
+          </Box>
+            
+            <Box  sx={{paddingX:'auto'}} display={"block"} >
             <StyledCarousel length={todaysGames.length}>
               {latestGames.map((game: gameProps) => {
                 const { game_sale_post, game_name, image_url, console_brand_name } = game;
@@ -92,7 +81,10 @@ const Home: NextPage = ({ latestGames, todaysGames }: any) => {
                 )
               })}
             </StyledCarousel>
-        </Box>}
+            </Box>
+        </Box>
+
+        }
     </>
   )
 }
