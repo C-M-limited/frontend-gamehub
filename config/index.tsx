@@ -2,8 +2,8 @@ import axios from "axios"
 
 const dev = process.env.NODE_ENV !== 'production'
 
-export const server = dev ? 'http://localhost:8080' : 'https://app.gamehub.link'
-
+// export const server = dev ? 'http://localhost:8080' : 'https://app.gamehub.link'
+export const server = dev ? 'http://localhost:8080' : 'ec2-18-141-208-106.ap-southeast-1.compute.amazonaws.com:8080'
 export const axiosInstance = axios.create({
     baseURL: `${server}/api/v1/`,
     timeout: 1000,
