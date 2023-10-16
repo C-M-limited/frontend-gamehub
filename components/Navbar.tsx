@@ -284,7 +284,7 @@ export default function Navbar() {
               placeholder="Enter your email"
               register={register}
               required
-              error={errors.email}
+              error={!!errors.email}
               helperText="Email is required"
               type="email"
             />
@@ -294,7 +294,7 @@ export default function Navbar() {
               placeholder="Enter your password"
               register={register}
               required
-              error={errors.password}
+              error={!!errors.password}
               helperText="Password is required"
               type="password"
             />
@@ -412,7 +412,7 @@ export default function Navbar() {
               placeholder="Enter your first name"
               register={register}
               required
-              error={errors.first_name}
+              error={!!errors.first_name}
               helperText="First name is required"
               type="text"
             />
@@ -422,7 +422,7 @@ export default function Navbar() {
               placeholder="Enter your last name"
               register={register}
               required
-              error={errors.last_name}
+              error={!!errors.last_name}
               helperText="Last name is required"
               type="text"
             />
@@ -432,7 +432,7 @@ export default function Navbar() {
               placeholder="Enter your email"
               register={register}
               required
-              error={errors.email}
+              error={!!errors.email}
               helperText="Email is required"
               type="email"
             />
@@ -442,7 +442,7 @@ export default function Navbar() {
               placeholder="Enter your password"
               register={register}
               required
-              error={errors.password}
+              error={!!errors.password}
               helperText="Password is required"
               type="password"
             />
@@ -452,7 +452,7 @@ export default function Navbar() {
               placeholder="Enter your confirm password"
               register={register}
               required
-              error={errors.confirm_password}
+              error={!!errors.confirm_password}
               helperText="Confirm password is required"
               type="password"
             />
