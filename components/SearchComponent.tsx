@@ -8,8 +8,7 @@ import { useRouter } from 'next/router';
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
-import { Box, Divider, Typography } from '@mui/material';
-import { useAutocomplete } from '@mui/base/AutocompleteUnstyled';
+import { Box, Divider, Typography, useAutocomplete } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { OpenAlertAction } from '../store/action/alert';
 
