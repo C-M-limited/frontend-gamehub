@@ -14,8 +14,8 @@ interface StyledGameItemProps {
 }
 
 const GameItemContainer = styled(Box)({
-    backgroundColor: '#232432',
-    color: '#ffffff',
+    backgroundColor: 'var(--mainLightGrey)',
+    color: 'var(--black)',
     display: 'flex',
     flexDirection: 'column',
     borderRadius: 4,
@@ -27,16 +27,22 @@ const GameItemTitle = styled(Typography)({
     fontSize: 20,
     marginTop: 20,
     padding: '0px 8px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    fontWeight: 'bolder'
 })
 
 const GameItemSubTitle = styled(Typography)({
     margin: '5px 0px 2px 0px',
     padding: '0px 8px',
     fontSize: 12,
-    color: '#C0C0C0',
+    color: 'var(--black)',
+    fontWeight: 'bolder'
 })
 
 const Tags = styled(Typography)({
+    color: 'var(--white)'
 })
 
 export default function TodaysPickGameItem({game_id,image_src, name, price, location, brand }: StyledGameItemProps) {
@@ -54,10 +60,10 @@ export default function TodaysPickGameItem({game_id,image_src, name, price, loca
   return (
     <>
         <Link href={`/game/${game_id}`} passHref>
-        <GameItemContainer style={{ border: `3px solid ${colorCode()}` , cursor:'pointer',backgroundColor: '#232432', margin:'0 auto'}} >
+        <GameItemContainer style={{ border: `3px solid ${colorCode()}` , cursor:'pointer', margin:'0 auto'}} >
             <Image src={image_src} layout="intrinsic" width={300} height={300} alt={image_src} placeholder="blur" blurDataURL="/blur.png"/>
-            <GameItemTitle>{name.length>15? (name.substring(0,14).concat("..." )): name}</GameItemTitle>
-            <Divider style={{ backgroundColor: '#525252ab', height: 3 }}/>
+            <GameItemTitle>{name}</GameItemTitle>
+            <Divider style={{ backgroundColor: '#525252ab', height: 3, display: 'none' }}/>
             <>
                 <Box display={'flex'} justifyContent='space-between' alignItems='center'>
                     <GameItemSubTitle>Price</GameItemSubTitle>
@@ -65,7 +71,7 @@ export default function TodaysPickGameItem({game_id,image_src, name, price, loca
                         <Tags>{consoleCode()}</Tags>
                     </Box>
                 </Box>
-                <Typography paddingX={1}>{price} HKD</Typography>
+                <Typography paddingX={1}>{price} CAD</Typography>
             </>
             <>
                 <GameItemSubTitle>Location</GameItemSubTitle>

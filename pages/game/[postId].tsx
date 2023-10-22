@@ -61,6 +61,20 @@ interface userProfileProps{
   imageKey: string;
 }
 
+interface tagsProps {
+	tags: string;
+	variable: string | number;
+}
+
+const Tags = ({tags, variable}: tagsProps)=> {
+  return (
+	<Box>
+		<Typography color={"var(--mainGrey)"} style={{fontWeight: 'bolder'}}>{tags}</Typography>
+		<Typography ml={2} color={'var(--black)'}>{variable}</Typography>
+	</Box>
+  );
+}
+
 export default function ResponsiveDrawer(props: Props) {
   const dispatch= useDispatch();
   const loginStatus = useSelector((state: RootState) => state.auth);
@@ -143,22 +157,13 @@ export default function ResponsiveDrawer(props: Props) {
                     const { id,seller, location, price, imageKey } = post;
                     return (
                       <Link href={`/game/${id}`} key={index} passHref>
-                        <Box  sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 ,cursor: 'pointer'}} bgcolor={"var(--mainGrey)"} mt={5}>
+                        <Box  sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 ,cursor: 'pointer'}} bgcolor={"var(--mainLightGrey)"} mt={5}>
                             <Box sx={{ position: 'relative', width: 50, height: 50, borderRadius: 2, overflow: 'hidden' }} ml={-3} mt={-3}>
                               <Image layout="fill" src={imageLocation} onLoad={()=>handleUserImage(imageKey)} alt="user icon" placeholder="blur" blurDataURL="/blur.png"/>
                             </Box>
-                            <Box>
-                                <Typography color={"#C0C0C0"}>Seller</Typography>
-                                <Typography ml={2}>{seller}</Typography>
-                            </Box>
-                            <Box>
-                                <Typography color={"#C0C0C0"}>Location</Typography>
-                                <Typography ml={2}>{location}</Typography>
-                            </Box>
-                            <Box>
-                                <Typography color={"#C0C0C0"}>Price</Typography>
-                                <Typography ml={2}>${price}</Typography>
-                            </Box>
+                            <Tags tags={'Seller'} variable={seller}/>
+                            <Tags tags={'Location'} variable={location}/>
+                            <Tags tags={'Price'} variable={price}/>
                         </Box>
                       </Link>
                     )
@@ -248,7 +253,7 @@ export default function ResponsiveDrawer(props: Props) {
 
             {contact_method &&
                 <a href={`https://wa.me/${contact_method}`}>
-                    <WhatsAppIcon style={{ width: 50, height: 50, marginLeft: 40, color: '#fff', backgroundColor: 'var(--mainGrey)', padding: 4, borderRadius: 4 }} />
+                    <WhatsAppIcon style={{ width: 50, height: 50, marginLeft: 40, color: "var(--black)", backgroundColor: "var(--mainLightGrey)", padding: 4, borderRadius: 4 }} />
                 </a>
             }
           </Box>
@@ -256,12 +261,12 @@ export default function ResponsiveDrawer(props: Props) {
             <Grid item  xs={12} sm={12} md={10} lg={6} xl={4} display="flex">
               <Grid container spacing={1} display="flex" alignItems='center'>
                   <Grid item  >
-                      <Box style={{ color: '#fff', backgroundColor: 'var(--mainGrey)', padding: 12, borderRadius: 4 }}>
+                      <Box style={{ color: "var(--black)", backgroundColor: "var(--mainLightGrey)", padding: 12, borderRadius: 4 }}>
                           ${price}
                       </Box>
                   </Grid>
                   <Grid item  >
-                      <Box style={{ color: '#fff', backgroundColor: 'var(--mainGrey)', padding: 12, borderRadius: 4 }}>
+                      <Box style={{ color: "var(--black)", backgroundColor: "var(--mainLightGrey)", padding: 12, borderRadius: 4 }}>
                           {place_for_transaction}
                       </Box>
                   </Grid>
@@ -280,9 +285,9 @@ export default function ResponsiveDrawer(props: Props) {
             {/* Description */}
             <Grid container display="flex" alignItems='center' mt={2} >
                 <Grid item  xs={12} sm={12} md={10} lg={6} xl={4}>
-                    <Box position='relative' style={{ color: '#fff', backgroundColor: 'var(--mainGrey)', padding: '12px 24px 36px 12px', borderRadius: 4 }}>
-                        Description:
-                        <br /><br />
+                    <Box position='relative' style={{ color: "var(--black)", backgroundColor: "var(--mainLightGrey)", padding: '12px 24px 36px 12px', borderRadius: 4 }}>
+                        <Box style={{fontWeight: 'bolder'}}>Description:</Box>
+                        <br />
                         {description === "" ? "This guy didn't say anything left" : description}
                         <Box position="absolute" bottom={-18} right={-18} sx={{backgroundColor:'var(--mainBlue)',borderRadius: 1}} padding={1}>
                             {/* {new Date(new Date(created_date).getTime()).toLocaleString("en-US")} */}

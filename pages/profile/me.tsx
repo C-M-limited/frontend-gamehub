@@ -102,7 +102,6 @@ export default function Me() {
                       <Box>
                         <UserProfileItem post_id={id} game_id={games_ID} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} contact_method={contact_method} description={description}/>
                       </Box>
-
                   </Grid>
                 )
               })}

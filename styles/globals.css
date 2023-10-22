@@ -35,6 +35,7 @@ p {
   --mainBlue:#6ea7f5;
   --gradientBlue: linear-gradient(90deg, #6ea7f5 0%, #99c1f8 100%);
   --mainDarkerGrey: hsl(210, 4%, 80%);
+  --mainLightGrey: #e5e7eb;
   --mainGreen: var(--xbox);
   --mainRed: var(--ns);
   --warningRed: #bf1650;

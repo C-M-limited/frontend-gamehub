@@ -45,13 +45,13 @@ interface StyledGameItemProps {
 }
 
 const GameItemContainer = styled(Box)({
-    backgroundColor: '#35354584',
-    color: '#ffffff',
+  backgroundColor: 'var(--mainLightGrey)',
+  color: 'var(--black)',
     display: 'flex',
     flexDirection: 'column',
     padding: '15px 15px 0px 15px',
     margin: '10px 0px',
-    borderRadius: 20,
+    borderRadius: 10,
     width: '200px',
     height: '400px',
 
@@ -60,15 +60,21 @@ const GameItemContainer = styled(Box)({
 const GameItemTitle = styled(Typography)({
     fontSize: 20,
     marginTop: 20,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    fontWeight: 'bolder'
 })
 
 const GameItemSubTitle = styled(Typography)({
     margin: '5px 0px 2px 0px',
     fontSize: 12,
-    color: '#C0C0C0',
+    // color: 'var(--mainDarkerGrey)',
+    fontWeight: 'bolder'
 })
 
 const Tags = styled(Typography)({
+  color: 'var(--white)'
 })
 
 export default function UserProfileItem({post_id, game_id,image_src, name, price, location, brand, contact_method,description }: StyledGameItemProps) {
@@ -199,8 +205,8 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
     <Grid item xs={12} sm={6} md={3} lg={2}>
         <GameItemContainer style={{    border: `3px solid ${colorCode()}` , cursor:'pointer'}} >
             <Image src={image_src} layout="responsive" width={180} height={200} alt={image_src} placeholder="blur" blurDataURL="/blur.png"/>
-            <GameItemTitle>{name.length>15? (name.substring(0,14).concat("..." )): name}</GameItemTitle>
-            <Divider style={{ backgroundColor: '#999999'}}/>
+            <GameItemTitle>{name}</GameItemTitle>
+            <Divider style={{display: 'none'}}/>
             <>
                 <Box display={'flex'} justifyContent='space-between' >
                     <GameItemSubTitle>Price</GameItemSubTitle>
