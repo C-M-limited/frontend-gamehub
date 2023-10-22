@@ -14,7 +14,13 @@ interface GameListProps{
   image_url: string;
 }
 
+const SearchWrapper = styled("div")(({ theme }) => ({
+  width: '350px',
+}));
+
 const Search = styled("div")(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
   position: "relative",
   borderRadius: 4,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -32,7 +38,7 @@ const Search = styled("div")(({ theme }) => ({
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: 4,
   height: "100%",
-  position: "absolute",
+  // position: "absolute",
   pointerEvents: "none",
   display: "flex",
   alignItems: "center",
@@ -42,58 +48,42 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 
 const Input = styled('input')(({ theme }) => ({
   width: '320px',
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
   fontSize:'15px',
   padding: theme.spacing(1, 1, 1, 0),
-  paddingLeft: 28,
   borderRadius:'5px',
-  border: 'none'
-
-  // backgroundColor: theme.palette.background.paper,
-  // color: theme.palette.getContrastText(theme.palette.background.paper),
+  border: 'none',
+  "&:focus": {
+    outline: 'none'
+  },
 }));
 
 const Listbox = styled('ul')(({ theme }) => ({
   cursor: 'pointer',
-  width: '200px',
+  width: '350px',
+  backgroundColor: 'var(--white)',
+  color: 'var(--black)',
   margin: 0,
-  
   zIndex: 1,
   fontSize:'20px',
   position: 'absolute',
-  listStyle: 'none',
-  // backgroundColor: theme.palette.background.paper,
-  overflow: 'auto',
   maxHeight: 200,
   border: '1px solid rgb(0, 0, 0)',
-  '& li[data-focus="true"]': {
-    backgroundColor: '#4a8df6',
-    color: 'white',
-    cursor: 'pointer',
-  },
-  '& li:active': {
-    backgroundColor: '#2977f5',
-    color: 'white',
-  },
-  backgroundColor: alpha(theme.palette.common.black, 1),
-  borderRadius: '0 0px 20px 20px',
-  // listStyle: 'none',
+  borderRadius: '0 0px 5px 5px',
+  listStyle: 'none',
+  paddingLeft: 0,
 }));
 
 const ListItem = styled('li')(({ theme }) => ({
-  // paddingLeft: `calc(1em + ${theme.spacing(4)})`,
   width:'100%',
-  // backgroundColor:'red',
+  paddingLeft: '30px',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
   transition:  theme.transitions.create(['font-size', 'transform'], {
     duration: theme.transitions.duration.standard,
   }),
   "&:hover": {
-    // backgroundColor: alpha(theme.palette.common.white, 0.25),
-    fontSize:'25px',
-    overflow:'hidden',
+    backgroundColor: 'var(--mainLightGrey)'
   },
 }));
 
@@ -191,28 +181,29 @@ export default function SearchComponent() {
     return (
       <>
         <Box sx={{display:{xs:'none',sm:'block'}}}>
-          <Search {...getRootProps()} 
-          onClick={()=>{
-            fetchGameList()
-            setOpen(true)
-          }}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <Input  {...getInputProps()} placeholder="Search…"/>
-
-          </Search>
-          {open && groupedOptions.length > 0 ? (
-            <Listbox {...getListboxProps()}>
-              {(groupedOptions as typeof options).map((option, index) => (
-                <ListItem {...getOptionProps({ option, index })} key={index}
-                onClick={()=>{
-                  router.push(`/game/index/${option.id}`);
-                  setOpen(false)
-                }}>{option.name}</ListItem>
-              ))}
-            </Listbox>
-          ) : null}
+          <SearchWrapper>
+            <Search {...getRootProps()} 
+              onClick={()=>{
+                fetchGameList()
+                setOpen(true)
+            }}>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <Input  {...getInputProps()} placeholder="Search…"/>
+            </Search>
+            {open && groupedOptions.length > 0 ? (
+              <Listbox {...getListboxProps()}>
+                {(groupedOptions as typeof options).map((option, index) => (
+                  <ListItem {...getOptionProps({ option, index })} key={index}
+                  onClick={()=>{
+                    router.push(`/game/index/${option.id}`);
+                    setOpen(false)
+                  }}>{option.name}</ListItem>
+                ))}
+              </Listbox>
+            ) : null}
+          </SearchWrapper>
         </Box >
         {/* Small Screen */}
         <Box  sx={{display:{xs:'block',sm:'none'}}}>
