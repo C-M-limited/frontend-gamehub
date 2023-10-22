@@ -5,7 +5,7 @@ import React from 'react'
 
 const _Button = styled(Button)({
     height: 36,
-    background: 'linear-gradient(90deg, rgba(102,0,255,1) 0%, rgba(180,28,255,1) 100%)',
+    background: 'var(--gradientBlue)',
     color: 'var(--white)',
     borderRadius: 24,
     padding: '8px 20px'
@@ -13,7 +13,7 @@ const _Button = styled(Button)({
 
 const _LoadingButton = styled(LoadingButton)({
     height: 36,
-    background: 'linear-gradient(90deg, rgba(102,0,255,1) 0%, rgba(180,28,255,1) 100%)',
+    background: 'var(--gradientBlue)',
     color: 'var(--white)',
     borderRadius: 24,
     padding: '8px 20px'

@@ -241,7 +241,7 @@ export default function ResponsiveDrawer(props: Props) {
               <Image src={imageLocation} onLoad={()=>handleUserImage(imageKey)} alt="user icon" width={'200px'} height={'200px'}/>
               </Box>
               <Link href={`/profile/${user_Id}`} passHref>
-                <Typography bgcolor='var(--mainPurple)' paddingX={1} mt={-1} zIndex={2} sx={{borderRadius:2, cursor: 'pointer'}}>{user_name}</Typography>
+                <Typography bgcolor='var(--mainBlue)' paddingX={1} mt={-1} zIndex={2} sx={{borderRadius:2, cursor: 'pointer'}}>{user_name}</Typography>
               </Link>
 
             </Box>
@@ -284,7 +284,7 @@ export default function ResponsiveDrawer(props: Props) {
                         Description:
                         <br /><br />
                         {description === "" ? "This guy didn't say anything left" : description}
-                        <Box position="absolute" bottom={-18} right={-18} sx={{backgroundColor:'var(--mainPurple)',borderRadius: 1}} padding={1}>
+                        <Box position="absolute" bottom={-18} right={-18} sx={{backgroundColor:'var(--mainBlue)',borderRadius: 1}} padding={1}>
                             {/* {new Date(new Date(created_date).getTime()).toLocaleString("en-US")} */}
                             Posted {timeSince(created_date)} ago
                         </Box>

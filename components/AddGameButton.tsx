@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 const AddGameButtonWrapper =  styled('li')(({ theme }) => ({
     cursor: "pointer",
     position: 'fixed',
-    background: 'linear-gradient(90deg, rgba(102,0,255,1) 0%, rgba(180,28,255,1) 100%)',
+    background: 'var(--gradientBlue)',
     height: 36,
     color: 'var(--white)',
     borderRadius: '4px 0px 0px 4px',
@@ -51,7 +51,7 @@ export default function AddGameButton() {
             <Typography>ADD</Typography>
         </AddGameButtonWrapper>
       </Link>
-//   <Box sx={{ '& > :not(style)': { m: 1 } }} bgcolor={'linear-gradient(90deg, rgba(102,0,255,1) 0%, rgba(180,28,255,1) 100%)'}>
+//   <Box sx={{ '& > :not(style)': { m: 1 } }} bgcolor={'var(--gradientBlue)'}>
 //     <Fab variant="extended" size="small" color="inherit" aria-label="add">
 //     <AddIcon sx={{ mr: 1 }} />
 //     ADD

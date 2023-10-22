@@ -31,6 +31,9 @@ p {
   --mainBackground: #1e1e31;
   --mainGrey: #353545;
   --mainPurple: #6100ff;
+  --gradientPurple: linear-gradient(90deg, rgba(102,0,255,1) 0%, rgba(180,28,255,1) 100%);
+  --mainBlue:#6ea7f5;
+  --gradientBlue: linear-gradient(90deg, #6ea7f5 0%, #99c1f8 100%);
   --mainDarkerGrey: hsl(210, 4%, 80%);
   --mainGreen: var(--xbox);
   --mainRed: var(--ns);

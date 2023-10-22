@@ -14,8 +14,8 @@ import Image from 'next/image';
 
 const FilterButton = styled(Box)<{ active?: boolean }>(({ active }) => ({
   position: 'relative',
-  border: `solid 2px ${active ? 'var(--mainPurple)' : 'var(--color-gray-1)'}`,
-  backgroundColor: active ? 'var(--mainPurple)' : 'var(--color-gray-1)',
+  border: `solid 2px ${active ? 'var(--mainBlue)' : 'var(--color-gray-1)'}`,
+  backgroundColor: active ? 'var(--mainBlue)' : 'var(--color-gray-1)',
   color: '#ffffff',
   fontSize: '1rem',
   marginRight: '.5rem',
@@ -25,12 +25,12 @@ const FilterButton = styled(Box)<{ active?: boolean }>(({ active }) => ({
   transform: 'scale(1)',
   transition: 'transform .2s; background-color .2s;',
   '&:hover': {
-    backgroundColor: active ? 'var(--mainPurple)' : 'var(--color-gray-2)',
+    backgroundColor: active ? 'var(--mainBlue)' : 'var(--color-gray-2)',
     
   },
   '&:active': {
     transform: 'scale(.9)',
-    backgroundColor: 'var(--mainPurple)',
+    backgroundColor: 'var(--mainBlue)',
     borderColor: 'transparent',
   }
 }))
