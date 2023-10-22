@@ -9,7 +9,6 @@ import StyledCarousel from '../components/StyledCarousel'
 
 const SubTitle = styled(Typography)({
   fontSize: 24,
-  color: '#ffffff',
   height: 36,
   background: 'linear-gradient(90deg, rgba(102,0,255,1) 0%, rgba(180,28,255,1) 100%)',
   borderRadius: 4,

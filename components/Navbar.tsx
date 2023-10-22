@@ -37,60 +37,6 @@ import { OpenAlertAction } from "../store/action/alert";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-interface userProfileProps {
-  role: string;
-  id: number;
-  email: string;
-}
-
-interface GamesProps {
-  id: number;
-  name: string;
-  image_url: string;
-  console_Id: number;
-}
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: 4,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  color: alpha(theme.palette.common.white, 1),
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "#fff",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
-
 const TagToChangeForm = styled("a")(({theme})=>({
   cursor: "pointer", 
   border: "2px solid white",
@@ -102,26 +48,6 @@ const TagToChangeForm = styled("a")(({theme})=>({
     backgroundColor: alpha(theme.palette.common.white, 0.45),
   },
 }))
-
-const FormNavigateButton = styled("a")({
-  cursor: "pointer",
-  textDecoration: "underline",
-});
-
-const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email("Enter a valid email")
-    .required("Email is required"),
-  password: yup
-    .string()
-    .min(8, "Password should be of minimum 8 character")
-    .required("Password is required"),
-  confirm_password: yup
-    .string()
-    .oneOf([yup.ref("password"), null], "Password must match")
-    .required("Confirm password is required"),
-});
 
 export default function Navbar() {
   const router = useRouter()
@@ -276,10 +202,10 @@ export default function Navbar() {
           onSubmit={handleSubmit(onSubmit)}
           style={{ width: 400, maxWidth: "100%" }}
         >
-          <DialogTitle style={{ backgroundColor: "#000" }}>Login</DialogTitle>
-          <DialogContent style={{ backgroundColor: "#000" }}>
+          <DialogTitle>Login</DialogTitle>
+          <DialogContent>
             <StyledInput
-              label="email"
+              label="Email"
               name="email"
               placeholder="Enter your email"
               register={register}
@@ -289,7 +215,7 @@ export default function Navbar() {
               type="email"
             />
             <StyledInput
-              label="password"
+              label="Password"
               name="password"
               placeholder="Enter your password"
               register={register}
@@ -315,7 +241,7 @@ export default function Navbar() {
               {problemDetail}
             </Typography>
           )}
-          <DialogActions style={{ backgroundColor: "#000" }}>
+          <DialogActions>
             <StyledButton onClick={() => handleDialogClose("login")}>
               Cancel
             </StyledButton>
@@ -355,7 +281,7 @@ export default function Navbar() {
           onSubmit={handleSubmit(onSubmit)}
           style={{ width: 400, maxWidth: "100%" }}
         >
-          <DialogTitle style={{ backgroundColor: "#000" }}>
+          <DialogTitle>
             Register
           </DialogTitle>
           <Grid
@@ -364,7 +290,6 @@ export default function Navbar() {
             justifyContent="center"
             alignItems="center"
             spacing={2}
-            style={{ backgroundColor: "#000" }}
           >
             {CharacterImageList.map((charactor) => {
               return (
@@ -401,7 +326,7 @@ export default function Navbar() {
               );
             })}
           </Grid>
-          <DialogContent style={{ backgroundColor: "#000" }}>
+          <DialogContent>
             {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We
             will send updates occasionally.
@@ -468,7 +393,7 @@ export default function Navbar() {
               </TagToChangeForm>
             </p>
           </DialogContent>
-          <DialogActions style={{ backgroundColor: "#000" }}>
+          <DialogActions>
             <StyledButton onClick={() => handleDialogClose("register")}>
               Cancel
             </StyledButton>
@@ -483,64 +408,61 @@ export default function Navbar() {
   return (
     <>
       <AppBar position="sticky">
-        <Toolbar style={{ backgroundColor: "#151520", position: "sticky" }}>
-          <Grid container display="flex" justifyContent="center">
-            <Grid item xs={12} sm={11} display="flex" alignItems="center">
-              <Box display="flex" alignItems="center">
-                <Link href="/" passHref={true}>
+        <Toolbar style={{ position: "sticky", backgroundColor: 'white' }}>
+          <Grid item width="100%" display="flex" alignItems="center" justifyContent="space-between">
+            <div style={{ cursor: 'pointer' }}>
+              <Link href="/" passHref={true}>
+                <Box display="flex" gap={1}>
+                  <Image layout='fixed' src="/favicon.png" alt="logo" width={28} height={28} />
                   <Typography
-                    color="#fff"
                     variant="h6"
-                    component="div"
-                    sx={{ marginRight: 1, cursor: "pointer" }}
+                    color="#000"
                   >
                     GameHUB
                   </Typography>
-                </Link>
-                <SearchComponent/>
-
-              </Box>
-              <Box sx={{ flexGrow: 1 }} />
-              {Object.keys(loginStatus).length > 1 ? (
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography sx={{ marginRight: "20px", borderRadius: 5, overflow: 'hidden' , cursor:'pointer'}}>
-                    <Link href={'/profile/me'} passHref>
-                      <Image src={userProfile.imageKey || "/user_icon/noUserImage.jpg"} alt='user icon' width={50} height={50} placeholder="blur" blurDataURL="/blur.png"/>
-                    </Link>
-                  </Typography>
-                  <button  onMouseOver={()=>setIsHoverHeart(true)} onMouseLeave={()=>setIsHoverHeart(false)} style={{background:'none', border:'none',marginRight:'10px',cursor:'pointer'}} onClick={()=>router.push("/likes")}  >
-                    {isHoverHeart 
-                    ?
-                    <FavoriteIcon sx={{ color: 'white' }}/>
-                    :
-                    <FavoriteBorderIcon sx={{ color: 'white' }}/>
-                    }             
-                  </button>
-                  {/* <Box mr={1}>
-                    <Link href="/add_game" passHref>
-                      <StyledButton>add games</StyledButton>
-                    </Link>
-                  </Box> */}
-                  <StyledButton 
-                  onClick={() => {
-                    dispatch(logOut())
-                    router.push("/")
-                    }}>
-                    LogOut
-                  </StyledButton>
                 </Box>
-              ) : (
-                <StyledButton onClick={() => handleDialogOpen("login")}>
-                  Login
+              </Link>
+            </div>
+            <SearchComponent/>
+            {Object.keys(loginStatus).length > 1 ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography sx={{ marginRight: "20px", borderRadius: 5, overflow: 'hidden' , cursor:'pointer'}}>
+                  <Link href={'/profile/me'} passHref>
+                    <Image src={userProfile.imageKey || "/user_icon/noUserImage.jpg"} alt='user icon' width={50} height={50} placeholder="blur" blurDataURL="/blur.png"/>
+                  </Link>
+                </Typography>
+                <button  onMouseOver={()=>setIsHoverHeart(true)} onMouseLeave={()=>setIsHoverHeart(false)} style={{background:'none', border:'none',marginRight:'10px',cursor:'pointer'}} onClick={()=>router.push("/likes")}  >
+                  {isHoverHeart 
+                  ?
+                  <FavoriteIcon sx={{ color: 'white' }}/>
+                  :
+                  <FavoriteBorderIcon sx={{ color: 'white' }}/>
+                  }             
+                </button>
+                {/* <Box mr={1}>
+                  <Link href="/add_game" passHref>
+                    <StyledButton>add games</StyledButton>
+                  </Link>
+                </Box> */}
+                <StyledButton 
+                onClick={() => {
+                  dispatch(logOut())
+                  router.push("/")
+                  }}>
+                  LogOut
                 </StyledButton>
-              )}
-            </Grid>
+              </Box>
+            ) : (
+              <StyledButton onClick={() => handleDialogOpen("login")}>
+                Login
+              </StyledButton>
+            )}
           </Grid>
         </Toolbar>
       </AppBar>

@@ -3,20 +3,19 @@ import React, { ChangeEvent } from "react";
 import { Path, useForm, UseFormRegister, SubmitHandler } from "react-hook-form";
 
 const Label = styled("label")({
-  color: "var(--mainDarkerGrey)",
+  color: "#000000",
   fontSize: 14,
-  marginBottom: "8px",
+  fontWeight: 600,
 });
 
 const Input = styled("input")<{ error?: boolean }>(({ error }) => ({
   width: "100%",
-  height: 36,
+  height: 32,
   backgroundColor: "transparent",
   color: "var(--white)",
-  border: `solid 2px ${error ? "var(--ns)" : "var(--mainPurple)"}`,
-  borderRadius: 24,
+  border: `solid 2px ${error ? "var(--ns)" : "var(--mainDarkerGrey)"}`,
+  borderRadius: 8,
   paddingLeft: "20px",
-  margin: "8px 0px 0px 0px",
 }));
 
 const HelperText = styled("label")({

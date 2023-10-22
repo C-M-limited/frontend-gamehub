@@ -1,22 +1,8 @@
-import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box'
 import { styled } from '@mui/system';
 import React from 'react';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import GoogleIcon from '@mui/icons-material/Google';
 import Link from 'next/link';
-
-const IconButton = styled(Button)({
-  position: 'relative',
-  backgroundColor: '#8d8d8d',
-  color: '#ffffff',
-  width: 30,
-  height: 50,
-  margin: '20px 10px 20px 0px',
-})
 
 const FooterTitle = styled(Typography)({
   fontSize: 20,
@@ -43,7 +29,7 @@ const filterList = [
 // #151520
 const Footer = () => {
   return (
-    <Grid container bgcolor="#151520" display="flex" justifyContent="center" mt={5}>
+    <Grid container display="flex" justifyContent="center" mt={5}>
       <Grid item xs={11} lg={8} display="flex" justifyContent="center" mt={2}>
         <Grid item xs={12} lg={6} display="flex"  flexDirection={'column'} alignItems="center">
           <Grid>

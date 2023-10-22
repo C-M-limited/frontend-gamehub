@@ -69,7 +69,7 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const theme = useTheme();
 
-  const darkModeTheme = createTheme(getDesignTokens("dark"));
+  const darkModeTheme = createTheme(getDesignTokens("light"));
   const queryClient = new QueryClient();
 
   return (
