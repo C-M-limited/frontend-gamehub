@@ -10,11 +10,12 @@ import StyledMenu from '../../components/template/StyledMenu';
 import { fetchGameSalePostListThunk } from '../../store/action/gameSalePost';
 import GameItem from '../../components/template/GameItem';
 import StyledMenuForCategoryMobile from '../../components/template/StyledMenuForCategoryMobile';
+import Image from 'next/image';
 
 const FilterButton = styled(Box)<{ active?: boolean }>(({ active }) => ({
   position: 'relative',
-  border: `solid 2px ${active ? 'var(--mainPurple)' : 'var(--color-gray-2)'}`,
-  backgroundColor: active ? 'var(--mainPurple)' : 'transparent',
+  border: `solid 2px ${active ? 'var(--mainPurple)' : 'var(--color-gray-1)'}`,
+  backgroundColor: active ? 'var(--mainPurple)' : 'var(--color-gray-1)',
   color: '#ffffff',
   fontSize: '1rem',
   marginRight: '.5rem',
@@ -149,11 +150,16 @@ const FilterRow = ({ brand }: FilterRowProps) => {
       <Grid container spacing={1} display="flex" justifyContent="center" >
         <Grid item xs={12} sm={12} md={11} lg={9} xl={6} display="flex" >
           {
-            response.gameSalePostList.content?.length === 0
+            response.gameSalePostList?.length === 0
             ?
             <Grid container spacing={3} mt={1} minHeight="60vh"  paddingX={{xs:5}} display="flex" justifyContent={'center'}>
-              <Grid item lg={12} display="flex" justifyContent="center" alignItems="center">
-                <Typography>There is no game here</Typography>
+              <Grid item lg={12} display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap={2}>
+                <div style={{ position: 'relative', objectFit: 'contain', width: '440px', height: '240px' }}>
+                  <Image layout='fill' src="/not_found.png" alt="no_game" />
+                </div>
+                <Typography color='#000' fontWeight={700}>
+                There is no game here. Please try again later.
+                </Typography>
               </Grid>
             </Grid>
             :

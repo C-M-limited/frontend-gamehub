@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 
 const Layout = ({children}: React.PropsWithChildren<{}>) => {
   return (
-      <div style={{ backgroundColor: 'var(--color-gray-6)'}}>
+      <div>
           <Navbar />
             <Box overflow='hidden'>
               {children}
