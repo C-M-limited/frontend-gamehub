@@ -124,7 +124,7 @@ export default function Navbar() {
               Favorite
             </MenuItemWrapper>
           </Link>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={()=> {
             handleMenuClose();
             dispatch(logOut());
@@ -135,7 +135,7 @@ export default function Navbar() {
             <Logout fontSize="small" />
           </ListItemIcon>
           Logout
-        </MenuItem> */}
+        </MenuItem>
     </Menu>
   );
 
