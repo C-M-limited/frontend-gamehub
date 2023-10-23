@@ -39,6 +39,7 @@ p {
   --mainGreen: var(--xbox);
   --mainRed: var(--ns);
   --warningRed: #bf1650;
+  --mainShadow: rgb(0 0 0 / 15%) 0px 4px 24px;
   --color-white: #fff;
   --color-gray-1: #a1a6b6;
   --color-gray-2: #6b7185;

@@ -14,15 +14,24 @@ interface StyledGameItemProps {
 }
 
 const GameItemContainer = styled(Box)({
-    backgroundColor: 'var(--mainLightGrey)',
+    width: '300px',
+    boxShadow: 'var(--mainShadow)',
     color: 'var(--black)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    padding: '15px',
+    padding: '30px',
     margin: '10px 0px',
-    borderRadius: 12,
+    borderRadius: 8,
     cursor: 'pointer',
+})
+
+const TextContainer = styled(Box)({
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'    
 })
 
 const GameItemTitle = styled(Typography)({
@@ -35,7 +44,7 @@ const GameItemTitle = styled(Typography)({
 })
 
 const GameItemSubTitle = styled(Typography)({
-    fontSize: 12,
+    fontSize: 20,
     margin: '5px 0px 2px 0px',
     fontWeight: 'bolder'
 })
@@ -43,7 +52,6 @@ const GameItemSubTitle = styled(Typography)({
 const Content = styled(Typography)({
   fontSize: 14,
   color: 'var(--mainGrey)',
-  paddingLeft: '5%'
 })
 
 
@@ -52,25 +60,29 @@ export default function GameItem({ src, user_name, game_name, game_id, price, cr
         <Box>
             <Link href={`/game/${game_id}`} passHref>
                 <GameItemContainer>
-                    <Image src={src} layout="responsive" alt={src} width={180} height={200} />
-                    <GameItemTitle>{game_name}</GameItemTitle>
-                    <Divider style={{ display: 'none'}}/>
-                    {price && 
-                        <Box>
-                            <GameItemSubTitle>Price:</GameItemSubTitle>
-                            <Content>${price} CAD</Content>
-                        </Box>
-                    }
-                    {user_name && 
-                        <Box>
-                            <GameItemSubTitle>Provided By:</GameItemSubTitle>
-                            <Content sx={{marginTop:0}}>{user_name}</Content>
-                        </Box>
-                    }
-                    <Box sx={{display:'flex', justifyContent:"space-between"}}>
-                      <Box></Box>
-                      {created_date && <GameItemSubTitle>{timeSince(created_date)} ago</GameItemSubTitle>}
+                    <Box sx={{widht: '200px', height: '280px', position: 'relative'}}>
+                        <Image 
+                            src={src} 
+                            placeholder="blur" 
+                            blurDataURL="/blur.png"
+                            alt={src}
+                            layout="fill"
+                            objectFit='contain'
+                        />
                     </Box>
+                    <TextContainer>
+                        <GameItemTitle>{game_name}</GameItemTitle>
+                        <Divider style={{ display: 'none'}}/>
+                        {price && 
+                            <Box>
+                                <GameItemSubTitle>${price}</GameItemSubTitle>
+                            </Box>
+                        }
+                        <Box sx={{display:'flex', justifyContent:"space-between", width: '100%', marginTop: 1}}>
+                            {user_name &&   <Content>Provided By: <span style={{fontWeight: 'bold'}}>{user_name}</span></Content>}
+                            {created_date && <Content>{timeSince(created_date)} ago</Content>}
+                        </Box>
+                    </TextContainer>
                 </GameItemContainer>
             </Link>
         </Box>

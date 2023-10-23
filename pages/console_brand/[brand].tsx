@@ -147,8 +147,8 @@ const FilterRow = ({ brand }: FilterRowProps) => {
           </Box>
       </Box>
       {/* Post */}
-      <Grid container spacing={1} display="flex" justifyContent="center" >
-        <Grid item xs={12} sm={12} md={11} lg={9} xl={6} display="flex" >
+      <Grid container spacing={1} display="flex" justifyContent="center" width={'100vw'}>
+        <Grid item display="flex" >
           {
             response.gameSalePostList?.length === 0
             ?
@@ -163,21 +163,24 @@ const FilterRow = ({ brand }: FilterRowProps) => {
               </Grid>
             </Grid>
             :
-            <Grid container spacing={3} mt={1} minHeight="60vh"  paddingX={{xs:5}} display="flex">
-              {response.gameSalePostList.content?.map(({ id, user_name, game_name, game_sale_post, image_url }: GameListProps,index:number) => {
-              return (
-                <Grid item xs={12} sm={4} md={3} lg={3} xl={2.5} key={index} >
-                  <GameItem
-                    key={game_sale_post.id}
-                    game_id={game_sale_post.id}
-                    user_name={user_name}
-                    game_name={game_name}
-                    price={game_sale_post.price}
-                    created_date={game_sale_post.created_date}
-                    src={image_url}
-                  />
-                </Grid>)})}
-            </Grid>
+            <Box justifyContent="center" width={'100%'} display="flex" maxWidth={'1500px'} padding={5}>
+              <Grid container spacing={3} mt={1} minHeight="60vh" display="flex" >
+                
+                  {response.gameSalePostList.content?.map(({ id, user_name, game_name, game_sale_post, image_url }: GameListProps,index:number) => {
+                  return (
+                    <Grid item key={index} display={"flex"} justifyContent="center" >
+                      <GameItem
+                        key={game_sale_post.id}
+                        game_id={game_sale_post.id}
+                        user_name={user_name}
+                        game_name={game_name}
+                        price={game_sale_post.price}
+                        created_date={game_sale_post.created_date}
+                        src={image_url}
+                      />
+                    </Grid>)})}
+              </Grid>
+            </Box>
           }
         </Grid>
       </Grid>
