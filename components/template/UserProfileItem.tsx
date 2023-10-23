@@ -45,8 +45,8 @@ interface StyledGameItemProps {
 }
 
 const GameItemContainer = styled(Box)({
-  backgroundColor: 'var(--mainLightGrey)',
-  color: 'var(--black)',
+    // backgroundColor: 'var(--mainLightGrey)',
+    color: 'var(--black)',
     display: 'flex',
     flexDirection: 'column',
     padding: '15px 15px 0px 15px',
@@ -54,8 +54,7 @@ const GameItemContainer = styled(Box)({
     borderRadius: 10,
     width: '200px',
     height: '400px',
-
-})
+  })
 
 const GameItemTitle = styled(Typography)({
     fontSize: 20,
@@ -202,7 +201,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
     
   return (
       <>
-    <Grid item xs={12} sm={6} md={3} lg={2}>
+    <Box>
         <GameItemContainer style={{    border: `3px solid ${colorCode()}` , cursor:'pointer'}} >
             <Image src={image_src} layout="responsive" width={180} height={200} alt={image_src} placeholder="blur" blurDataURL="/blur.png"/>
             <GameItemTitle>{name}</GameItemTitle>
@@ -229,7 +228,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
                 </Box>
             </Box>
         </GameItemContainer>
-    </Grid>
+    </Box>
     {/* Edit page */}
     <Dialog open={openEdit} onClose={handleCloseEdit}>
         <Box sx={{width:'400px',maxWidth:'100%'}}>
@@ -272,17 +271,17 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
       
 
         </Box>
-      </Dialog>
-      {/* Delete Page */}
-      <Dialog open={openDelete} onClose={handleCloseDelete}>
-        <Box sx={{width:'400px',maxWidth:'100%'}}>
-            <DialogTitle style={{ backgroundColor: "#000" }}>Deletion Confirm ?</DialogTitle>
-            <DialogActions style={{ backgroundColor: "#000" }}>
-                <StyledButton onClick={handleCloseDelete}>Cancel</StyledButton>
-                <StyledButton onClick={handleSubmitDelete} >Confirm</StyledButton>
-            </DialogActions>
-        </Box>
-      </Dialog>
+    </Dialog>
+    {/* Delete Page */}
+    <Dialog open={openDelete} onClose={handleCloseDelete}>
+      <Box sx={{width:'400px',maxWidth:'100%'}}>
+          <DialogTitle style={{ backgroundColor: "#000" }}>Deletion Confirm ?</DialogTitle>
+          <DialogActions style={{ backgroundColor: "#000" }}>
+              <StyledButton onClick={handleCloseDelete}>Cancel</StyledButton>
+              <StyledButton onClick={handleSubmitDelete} >Confirm</StyledButton>
+          </DialogActions>
+      </Box>
+    </Dialog>
     </>
 
   )

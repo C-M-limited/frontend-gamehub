@@ -76,19 +76,21 @@ export default function OthersProfile({postList,userInfo}:any) {
         </Box>
       </Box>
       <Box paddingX={5} sx={{display: 'flex', justifyContent:'center', alignItems:'center',flexDirection:'column'}}>
-          <Grid container spacing={2} maxWidth={'var(--pageMaxWidth)'} >
+        <Box >
+          <Grid container spacing={2} maxWidth={'var(--pageMaxWidth)'}>
               {postList.map((post: gameProps) => {
                   const { game_sale_post, user_name, game_name, image_url, console_brand_name } = post;
                   const { id, price, place_for_transaction, created_date, description, contact_method, user_Id, games_ID } = game_sale_post
                   return (
                   <Grid item key={id} xs={12} sm={6} md={4} lg={3}>
-                      <Box>
+                      <Box display={"flex"} sx={{width:'100%', justifyContent:'center', alignItems: 'center'}}>
                           <TodaysPickGameItem  game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}  />
                       </Box>
                   </Grid>
                   )
               })}
           </Grid>
+        </Box>
       </Box>
     </Box>
   )
