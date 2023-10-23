@@ -13,7 +13,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { ListItemIcon } from "@mui/material";
+import { Divider, ListItemIcon } from "@mui/material";
 
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -33,6 +33,7 @@ import { OpenAlertAction } from "../store/action/alert";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Logout } from "@mui/icons-material";
+import AddIcon from '@mui/icons-material/Add';
 
 const TagToChangeForm = styled("a")(({theme})=>({
   cursor: "pointer", 
@@ -73,6 +74,12 @@ export default function Navbar() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogOut = ()=> {
+    handleMenuClose();
+    dispatch(logOut());
+    router.push("/");
   };
 
   const handleOnClickUserIcon = (event: React.MouseEvent<HTMLElement>) => {
@@ -123,19 +130,25 @@ export default function Navbar() {
             </MenuItemWrapper>
           </Link>
         </MenuItem>
-        {/* <MenuItem onClick={()=> {
-            handleMenuClose();
-            dispatch(logOut());
-            router.push("/");
-          }}
-        >
+        <MenuItem onClick={handleMenuClose}>
+          <Link href={'/add_game'} passHref>
+            <MenuItemWrapper>
+              <ListItemIcon>
+                <AddIcon fontSize="small" />
+              </ListItemIcon>
+              Add Game
+            </MenuItemWrapper>
+          </Link>
+        </MenuItem>
+        <Divider/>
+        <MenuItem onClick={handleLogOut}>
           <MenuItemWrapper>
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>
             Logout
           </MenuItemWrapper>
-        </MenuItem> */}
+        </MenuItem>
     </Menu>
   );
 
