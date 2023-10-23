@@ -53,33 +53,30 @@ const MenuItemWrapper = styled("div")(({theme})=>({
 }))
 
 export default function Navbar() {
-  const router = useRouter()
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   const loginStatus = useSelector((state: RootState) => state.auth);
   const userProfile = useSelector((state: RootState) => state.userProfile);
 
   const isLogin = Object.keys(loginStatus).length > 1;
 
-  //search function
-  const [keyword, setKeyword] = React.useState("");
-  const dispatch = useDispatch();
-  const searchList = useSelector((state: RootState) => state.searchList);
-  React.useEffect(() => {
-    dispatch(fetchSearchListThunk({ page: 0, keyword: keyword }));
-    // console.log(searchList.searchList.content)
-  }, [keyword]);
-  const [problem, setProblem] = React.useState<boolean>(false);
-  const [problemDetail, setProblemDetail] = React.useState<string>("");
-  //provided by marterial ui
+  //User Icon Menu
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   //PopUpWindow
   const [openLoginDialog, setOpenLoginDialog] = React.useState<boolean>(false);
-  const [openRegisterDialog, setOpenRegisterDialog] =
-    React.useState<boolean>(false);
+  const [openRegisterDialog, setOpenRegisterDialog] = React.useState<boolean>(false);
+  const [problem, setProblem] = React.useState<boolean>(false);
+  const [problemDetail, setProblemDetail] = React.useState<string>("");
 
   const isMenuOpen = Boolean(anchorEl);
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOnClickUserIcon = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handleDialogOpen = (type: string) => {
@@ -92,58 +89,53 @@ export default function Navbar() {
     if (type === "register") setOpenRegisterDialog(false);
   };
 
-  const handleOnClickUserIcon = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   React.useEffect(()=>{
     if (router.query?.showLoginForm) setOpenLoginDialog(true)
-  },[router.query])
+  },[router.query]);
 
   const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      id={menuId}
-      keepMounted
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-        <MenuItem onClick={handleMenuClose}>
-          <Link href={'/profile/me'} passHref>
-            <MenuItemWrapper>
-              <ListItemIcon>
-                <AccountCircleIcon fontSize="small" />
-              </ListItemIcon>
-              Profile
-            </MenuItemWrapper>
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleMenuClose}>
-          <Link href={'/likes'} passHref>
-            <MenuItemWrapper>
-              <ListItemIcon>
-                <FavoriteBorderIcon fontSize="small" />
-              </ListItemIcon>
-              Favorite
-            </MenuItemWrapper>
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={()=> {
-            handleMenuClose();
-            dispatch(logOut());
-            router.push("/");
-          }}
-        >
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
+  // const renderMenu = (
+  //   <Menu
+  //     anchorEl={anchorEl}
+  //     id={menuId}
+  //     keepMounted
+  //     open={isMenuOpen}
+  //     onClose={handleMenuClose}
+  //   >
+  //       <MenuItem onClick={handleMenuClose}>
+  //         <Link href={'/profile/me'} passHref>
+  //           <MenuItemWrapper>
+  //             <ListItemIcon>
+  //               <AccountCircleIcon fontSize="small" />
+  //             </ListItemIcon>
+  //             Profile
+  //           </MenuItemWrapper>
+  //         </Link>
+  //       </MenuItem>
+  //       <MenuItem onClick={handleMenuClose}>
+  //         <Link href={'/likes'} passHref>
+  //           <MenuItemWrapper>
+  //             <ListItemIcon>
+  //               <FavoriteBorderIcon fontSize="small" />
+  //             </ListItemIcon>
+  //             Favorite
+  //           </MenuItemWrapper>
+  //         </Link>
+  //       </MenuItem>
+  //       <MenuItem onClick={()=> {
+  //           handleMenuClose();
+  //           dispatch(logOut());
+  //           router.push("/");
+  //         }}
+  //       >
+  //         <ListItemIcon>
+  //           <Logout fontSize="small" />
+  //         </ListItemIcon>
+  //         Logout
+  //       </MenuItem>
+  //   </Menu>
+  // );
 
   const LoginForm = () => {
     const dispatch = useDispatch();
@@ -388,14 +380,13 @@ export default function Navbar() {
             <SearchComponent/>
             {isLogin ? (
               <StyledCircleButton onClick={handleOnClickUserIcon}>
-                <div>hi</div>
-                {/* <Image 
+                <Image 
                   src={userProfile.imageKey || "/user_icon/noUserImage.jpg"}
                   alt='user icon'
                   placeholder="blur" 
                   blurDataURL="/blur.png"
                   layout="fill"
-                  objectFit='contain'/> */}
+                  objectFit='contain'/>
               </StyledCircleButton>
             ) : (
               <StyledCircleButton onClick={() => handleDialogOpen("login")}>
@@ -407,7 +398,7 @@ export default function Navbar() {
       </AppBar>
       <LoginForm />
       <RegisterForm />
-      {renderMenu}
+      {/* {renderMenu} */}
     </>
   );
 }

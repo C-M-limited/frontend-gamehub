@@ -197,7 +197,7 @@ export default function SearchComponent() {
                 {(groupedOptions as typeof options).map((option, index) => (
                   <ListItem {...getOptionProps({ option, index })} key={index}
                   onClick={()=>{
-                    router.push(`/game/index/${option.id}`);
+                    router.push(`/game/${option.id}`);
                     setOpen(false)
                   }}>{option.name}</ListItem>
                 ))}
@@ -230,7 +230,7 @@ export default function SearchComponent() {
                       {(groupedOptions as typeof options).map((option, index) => (
                         <ListItemSmall {...getOptionProps({ option, index })} key={index}
                         onClick={()=>{
-                          router.push(`/game/index/${option.id}`);
+                          router.push(`/game/${option.id}`);
                           setOpen(false)
                           setOpenBox(false)
                         }}>{option.name}</ListItemSmall>
