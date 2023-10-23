@@ -12,7 +12,7 @@ const Input = styled("input")<{ error?: boolean }>(({ error }) => ({
   width: "100%",
   height: 32,
   backgroundColor: "transparent",
-  color: "var(--black)",
+  color: "var(--white)",
   border: `solid 2px ${error ? "var(--ns)" : "var(--mainDarkerGrey)"}`,
   borderRadius: 8,
   paddingLeft: "20px",
