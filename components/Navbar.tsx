@@ -125,7 +125,7 @@ export default function Navbar() {
         </MenuItem>
         <MenuItem onClick={()=> {
             handleMenuClose();
-            dispatch(logOut());
+            // dispatch(logOut());
             // router.push("/");
           }}
         >
