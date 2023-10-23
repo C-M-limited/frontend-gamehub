@@ -59,48 +59,36 @@ export default function OthersProfile({postList,userInfo}:any) {
   return (
     <Box>
       <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:{xs:'column',sm:'row'}}} m={5}>
-        <Box sx={{borderRadius: "20px",overflow: "hidden"}} >
-            <Image src={imageLocation} onLoad={()=>handleUserImage()} width={'200px'} height={'200px'} />
+        <Box sx={{width: '150px', height: '150px', position: 'relative', bgcolor: 'var(--mainLightGrey)', padding: '20px', borderRadius: "20px",overflow: "hidden"}}>
+            <Image 
+                src={imageLocation}
+                onLoad={()=>handleUserImage()}
+                alt="game image"
+                placeholder="blur" 
+                blurDataURL="/blur.png"
+                layout="fill"
+                objectFit='contain'
+            />
         </Box>
         <Box sx={{marginLeft:{xs:0,sm:10},display:'flex', justifyContent:'center', alignItems:'center',flexDirection:'column'}} >
           <Name>{userInfo.firstName}</Name>
           <Typography fontSize={20}>This user have posted {postList.length} games</Typography>
         </Box>
-        
       </Box>
-      <Box paddingX={5} sx={{display:{xs:'none',sm:'flex'}, justifyContent:'center', alignItems:'center',flexDirection:'column'}}>
-        <Box>
-        <Grid container spacing={2}  >
-            {postList.map((post: gameProps) => {
-                const { game_sale_post, user_name, game_name, image_url, console_brand_name } = post;
-                const { id, price, place_for_transaction, created_date, description, contact_method, user_Id, games_ID } = game_sale_post
-                return (
-                <Grid item key={id}>
-                    <Box>
-                        <TodaysPickGameItem  game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}  />
-                    </Box>
-
-                </Grid>
-                )
-            })}
-        </Grid>
-        </Box>
-      </Box>
-      {/* small screen */}
-      <Box paddingX={5} sx={{display:{xs:'block',sm:'none'}}}>
-        <Grid container spacing={2} sx={{display:'flex', justifyContent:'center', alignItems:'center',flexDirection:'column'}}  >
-            {postList.map((post: gameProps) => {
-                const { game_sale_post, user_name, game_name, image_url, console_brand_name } = post;
-                const { id, price, place_for_transaction, created_date, description, contact_method, user_Id, games_ID } = game_sale_post
-                return (
-                <Grid item key={id}>
-                    <Box>
-                        <TodaysPickGameItem  game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}  />
-                    </Box>
-                </Grid>
-                )
-            })}
-        </Grid>
+      <Box paddingX={5} sx={{display: 'flex', justifyContent:'center', alignItems:'center',flexDirection:'column'}}>
+          <Grid container spacing={2} maxWidth={'var(--pageMaxWidth)'} >
+              {postList.map((post: gameProps) => {
+                  const { game_sale_post, user_name, game_name, image_url, console_brand_name } = post;
+                  const { id, price, place_for_transaction, created_date, description, contact_method, user_Id, games_ID } = game_sale_post
+                  return (
+                  <Grid item key={id} xs={12} sm={6} md={4} lg={3}>
+                      <Box>
+                          <TodaysPickGameItem  game_id={id} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name}  />
+                      </Box>
+                  </Grid>
+                  )
+              })}
+          </Grid>
       </Box>
     </Box>
   )

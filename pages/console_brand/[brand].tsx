@@ -163,7 +163,7 @@ const FilterRow = ({ brand }: FilterRowProps) => {
               </Grid>
             </Grid>
             :
-            <Box justifyContent="center" width={'100%'} display="flex" maxWidth={'1500px'} padding={5}>
+            <Box justifyContent="center" width={'100%'} display="flex" maxWidth={'var(--pageMaxWidth)'} padding={5}>
               <Grid container spacing={3} mt={1} minHeight="60vh" display="flex" >
                 
                   {response.gameSalePostList.content?.map(({ id, user_name, game_name, game_sale_post, image_url }: GameListProps,index:number) => {
