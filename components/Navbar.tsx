@@ -10,18 +10,13 @@ import Grid from '@mui/material/Grid'
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import { ListItemIcon } from "@mui/material";
+
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
 import {StyledButton, StyledCircleButton, StyledLoadingButton} from "./StyledButton";
 import StyledInput from "./StyledInput";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,9 +31,7 @@ import { useRouter } from "next/router";
 import { OpenAlertAction } from "../store/action/alert";
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { ListItemIcon } from "@mui/material";
 import { Logout } from "@mui/icons-material";
 
 const TagToChangeForm = styled("a")(({theme})=>({
@@ -395,13 +388,14 @@ export default function Navbar() {
             <SearchComponent/>
             {isLogin ? (
               <StyledCircleButton onClick={handleOnClickUserIcon}>
-                <Image 
+                <div>hi</div>
+                {/* <Image 
                   src={userProfile.imageKey || "/user_icon/noUserImage.jpg"}
                   alt='user icon'
                   placeholder="blur" 
                   blurDataURL="/blur.png"
                   layout="fill"
-                  objectFit='contain'/>
+                  objectFit='contain'/> */}
               </StyledCircleButton>
             ) : (
               <StyledCircleButton onClick={() => handleDialogOpen("login")}>
