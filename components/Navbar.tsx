@@ -22,7 +22,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import {StyledButton, StyledLoadingButton} from "./StyledButton";
+import {StyledButton, StyledCircleButton, StyledLoadingButton} from "./StyledButton";
 import StyledInput from "./StyledInput";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logOut } from "../store/action/auth";
@@ -34,12 +34,16 @@ import {CharacterImageList} from '../public/user_icon/user_icon'
 import SearchComponent from "./SearchComponent";
 import { useRouter } from "next/router";
 import { OpenAlertAction } from "../store/action/alert";
+
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { ListItemIcon } from "@mui/material";
+import { Logout } from "@mui/icons-material";
 
 const TagToChangeForm = styled("a")(({theme})=>({
   cursor: "pointer", 
-  border: "2px solid white",
+  border: "2px solid var(--black)",
   padding: "3px",
   marginLeft:'4px',
   borderRadius:'5px',
@@ -49,10 +53,19 @@ const TagToChangeForm = styled("a")(({theme})=>({
   },
 }))
 
+const MenuItemWrapper = styled("div")(({theme})=>({
+  display: 'flex', 
+  justifyContent: 'center', 
+  alignItems: 'center'
+}))
+
 export default function Navbar() {
   const router = useRouter()
   const loginStatus = useSelector((state: RootState) => state.auth);
   const userProfile = useSelector((state: RootState) => state.userProfile);
+
+  const isLogin = Object.keys(loginStatus).length > 1;
+
   //search function
   const [keyword, setKeyword] = React.useState("");
   const dispatch = useDispatch();
@@ -65,31 +78,15 @@ export default function Navbar() {
   const [problemDetail, setProblemDetail] = React.useState<string>("");
   //provided by marterial ui
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
   //PopUpWindow
   const [openLoginDialog, setOpenLoginDialog] = React.useState<boolean>(false);
   const [openRegisterDialog, setOpenRegisterDialog] =
     React.useState<boolean>(false);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const handleDialogOpen = (type: string) => {
@@ -102,88 +99,60 @@ export default function Navbar() {
     if (type === "register") setOpenRegisterDialog(false);
   };
 
+  const handleOnClickUserIcon = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   React.useEffect(()=>{
-    // console.log(loginStatus)
     if (router.query?.showLoginForm) setOpenLoginDialog(true)
   },[router.query])
 
-  const [isHoverHeart, setIsHoverHeart] = useState<boolean>(false);
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
       id={menuId}
       keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <Link href={'/profile/me'} passHref>
+            <MenuItemWrapper>
+              <ListItemIcon>
+                <AccountCircleIcon fontSize="small" />
+              </ListItemIcon>
+              Profile
+            </MenuItemWrapper>
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <Link href={'/likes'} passHref>
+            <MenuItemWrapper>
+              <ListItemIcon>
+                <FavoriteBorderIcon fontSize="small" />
+              </ListItemIcon>
+              Favorite
+            </MenuItemWrapper>
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={()=> {
+            handleMenuClose();
+            dispatch(logOut());
+            router.push("/");
+          }}
+        >
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
     </Menu>
   );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
 
   const LoginForm = () => {
-    const loginStatus = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
     const {
       register,
@@ -304,7 +273,7 @@ export default function Navbar() {
                     style={{
                       border: ` ${
                         imageKey === charactor.image_key
-                          ? "5px solid purple"
+                          ? "5px solid var(--mainBlue)"
                           : "3px solid white"
                       }`,
                       width: "60px",
@@ -424,51 +393,26 @@ export default function Navbar() {
               </Link>
             </div>
             <SearchComponent/>
-            {Object.keys(loginStatus).length > 1 ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Typography sx={{ marginRight: "20px", borderRadius: 5, overflow: 'hidden' , cursor:'pointer'}}>
-                  <Link href={'/profile/me'} passHref>
-                    <Image src={userProfile.imageKey || "/user_icon/noUserImage.jpg"} alt='user icon' width={50} height={50} placeholder="blur" blurDataURL="/blur.png"/>
-                  </Link>
-                </Typography>
-                <button  onMouseOver={()=>setIsHoverHeart(true)} onMouseLeave={()=>setIsHoverHeart(false)} style={{background:'none', border:'none',marginRight:'10px',cursor:'pointer'}} onClick={()=>router.push("/likes")}  >
-                  {isHoverHeart 
-                  ?
-                  <FavoriteIcon sx={{ color: 'white' }}/>
-                  :
-                  <FavoriteBorderIcon sx={{ color: 'white' }}/>
-                  }             
-                </button>
-                {/* <Box mr={1}>
-                  <Link href="/add_game" passHref>
-                    <StyledButton>add games</StyledButton>
-                  </Link>
-                </Box> */}
-                <StyledButton 
-                onClick={() => {
-                  dispatch(logOut())
-                  router.push("/")
-                  }}>
-                  LogOut
-                </StyledButton>
-              </Box>
+            {isLogin ? (
+              <StyledCircleButton onClick={handleOnClickUserIcon}>
+                <Image 
+                  src={userProfile.imageKey || "/user_icon/noUserImage.jpg"}
+                  alt='user icon'
+                  placeholder="blur" 
+                  blurDataURL="/blur.png"
+                  layout="fill"
+                  objectFit='contain'/>
+              </StyledCircleButton>
             ) : (
-              <StyledButton onClick={() => handleDialogOpen("login")}>
-                Login
-              </StyledButton>
+              <StyledCircleButton onClick={() => handleDialogOpen("login")}>
+                <AccountCircleIcon/>
+              </StyledCircleButton>
             )}
           </Grid>
         </Toolbar>
       </AppBar>
       <LoginForm />
       <RegisterForm />
-      {renderMobileMenu}
       {renderMenu}
     </>
   );
