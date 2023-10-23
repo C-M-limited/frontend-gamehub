@@ -108,9 +108,16 @@ export default function ResponsiveDrawer(props: Props) {
   const [isHoverHeart, setIsHoverHeart] = React.useState<boolean>(false);
   const [isLiked,setIsLiked] = React.useState<boolean>(false);
 
+  const { contact_method, created_date, description, place_for_transaction, price, user_name, imageKey, user_Id } = gameDetails;
+
   React.useEffect(()=>{
-    fetchIsLikedPost()
+    fetchIsLikedPost();
+    setCurrentPost(gameDetails.id);
   },[gameDetails.id]);
+
+  React.useEffect(()=>{
+    handleUserImage(imageKey)
+  },[imageKey]);
 
   const fetchIsLikedPost= async()=>{
     if (user.id===undefined){return} 
@@ -188,7 +195,7 @@ export default function ResponsiveDrawer(props: Props) {
                     const { id,seller, location, price, imageKey } = post;
                     return (
                       <Link href={`/game/${id}`} key={index} passHref>
-                        <Box  sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 ,cursor: 'pointer'}} bgcolor={"var(--mainLightGrey)"} mt={5}>
+                        <Box  sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 ,cursor: 'pointer', border: currentPost === id ? '2px solid var(--mainBlue)' : 'none'}} bgcolor={"var(--mainLightGrey)"} mt={5}>
                             <Box sx={{ position: 'relative', width: 50, height: 50, borderRadius: 2, overflow: 'hidden' }} ml={-3} mt={-3}>
                               <Image layout="fill" src={drawerImageLocation[index]} onLoad={()=>handleUserImage(imageKey, true, index)} alt="user icon" placeholder="blur" blurDataURL="/blur.png"/>
                             </Box>
@@ -204,7 +211,6 @@ export default function ResponsiveDrawer(props: Props) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
-  const { contact_method, created_date, description, place_for_transaction, price, user_name, imageKey, user_Id } = gameDetails;
   
   return (
     <Box sx={{ display: 'flex' }}>
@@ -298,13 +304,21 @@ export default function ResponsiveDrawer(props: Props) {
                 <Box position="relative" bottom={70} right={-100} sx={{}} padding={1}>
                   <Box sx={{width: '100px', height: '100px', position: 'relative', padding: '20px', borderRadius: 5, overflow:'hidden'}}>
                       <Image 
-                          src={imageLocation} onLoad={()=>handleUserImage(imageKey)} 
+                          src={imageLocation} 
+                          // onLoad={()=>handleUserImage(imageKey)} 
                           alt="user icon"
                           placeholder="blur" 
                           blurDataURL="/blur.png"
                           layout="fill"
                           objectFit='contain'
                       />
+                  </Box>
+                </Box>
+                <Box position="relative" bottom={110} right={-100} sx={{}} zIndex={2} padding={1}>
+                  <Box sx={{width: '85px', height: '50px', position: 'relative', borderRadius: 5, overflow:'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <Link href={`/profile/${user_Id}`} passHref>
+                      <Typography bgcolor='var(--mainBlue)' paddingX={1}  sx={{borderRadius:2, cursor: 'pointer'}}>{user_name}</Typography>
+                    </Link>
                   </Box>
                 </Box>
               </Box>
