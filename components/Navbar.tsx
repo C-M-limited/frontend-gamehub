@@ -32,7 +32,7 @@ import { OpenAlertAction } from "../store/action/alert";
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Logout } from "@mui/icons-material";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddIcon from '@mui/icons-material/Add';
 
 const TagToChangeForm = styled("a")(({theme})=>({
@@ -144,7 +144,7 @@ export default function Navbar() {
         <MenuItem onClick={handleLogOut}>
           <MenuItemWrapper>
             <ListItemIcon>
-              <AddIcon fontSize="small" />
+              <ExitToAppIcon fontSize="small" />
             </ListItemIcon>
             Logout
           </MenuItemWrapper>
