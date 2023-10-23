@@ -123,10 +123,10 @@ export default function Navbar() {
             </MenuItemWrapper>
           </Link>
         </MenuItem>
-        <MenuItem onClick={()=> {
+        {/* <MenuItem onClick={()=> {
             handleMenuClose();
-            // dispatch(logOut());
-            // router.push("/");
+            dispatch(logOut());
+            router.push("/");
           }}
         >
           <MenuItemWrapper>
@@ -135,7 +135,7 @@ export default function Navbar() {
             </ListItemIcon>
             Logout
           </MenuItemWrapper>
-        </MenuItem>
+        </MenuItem> */}
     </Menu>
   );
 
