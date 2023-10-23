@@ -123,17 +123,19 @@ export default function Navbar() {
             </MenuItemWrapper>
           </Link>
         </MenuItem>
-        {/* <MenuItem onClick={()=> {
+        <MenuItem onClick={()=> {
             handleMenuClose();
             dispatch(logOut());
             router.push("/");
           }}
         >
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem> */}
+          <MenuItemWrapper>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItemWrapper>
+        </MenuItem>
     </Menu>
   );
 
