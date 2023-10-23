@@ -95,47 +95,55 @@ export default function Navbar() {
   },[router.query]);
 
   const menuId = "primary-search-account-menu";
-  // const renderMenu = (
-  //   <Menu
-  //     anchorEl={anchorEl}
-  //     id={menuId}
-  //     keepMounted
-  //     open={isMenuOpen}
-  //     onClose={handleMenuClose}
-  //   >
-  //       <MenuItem onClick={handleMenuClose}>
-  //         <Link href={'/profile/me'} passHref>
-  //           <MenuItemWrapper>
-  //             <ListItemIcon>
-  //               <AccountCircleIcon fontSize="small" />
-  //             </ListItemIcon>
-  //             Profile
-  //           </MenuItemWrapper>
-  //         </Link>
-  //       </MenuItem>
-  //       <MenuItem onClick={handleMenuClose}>
-  //         <Link href={'/likes'} passHref>
-  //           <MenuItemWrapper>
-  //             <ListItemIcon>
-  //               <FavoriteBorderIcon fontSize="small" />
-  //             </ListItemIcon>
-  //             Favorite
-  //           </MenuItemWrapper>
-  //         </Link>
-  //       </MenuItem>
-  //       <MenuItem onClick={()=> {
-  //           handleMenuClose();
-  //           dispatch(logOut());
-  //           router.push("/");
-  //         }}
-  //       >
-  //         <ListItemIcon>
-  //           <Logout fontSize="small" />
-  //         </ListItemIcon>
-  //         Logout
-  //       </MenuItem>
-  //   </Menu>
-  // );
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      id={menuId}
+      keepMounted
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right"
+      }}
+      // transformOrigin={{
+      //   vertical: "bottom",
+      //   horizontal: "right"
+      // }}
+    >
+        <MenuItem onClick={handleMenuClose}>
+          <Link href={'/profile/me'} passHref>
+            <MenuItemWrapper>
+              <ListItemIcon>
+                <AccountCircleIcon fontSize="small" />
+              </ListItemIcon>
+              Profile
+            </MenuItemWrapper>
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <Link href={'/likes'} passHref>
+            <MenuItemWrapper>
+              <ListItemIcon>
+                <FavoriteBorderIcon fontSize="small" />
+              </ListItemIcon>
+              Favorite
+            </MenuItemWrapper>
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={()=> {
+            handleMenuClose();
+            dispatch(logOut());
+            router.push("/");
+          }}
+        >
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+    </Menu>
+  );
 
   const LoginForm = () => {
     const dispatch = useDispatch();
@@ -398,7 +406,7 @@ export default function Navbar() {
       </AppBar>
       <LoginForm />
       <RegisterForm />
-      {/* {renderMenu} */}
+      {renderMenu}
     </>
   );
 }
