@@ -102,10 +102,8 @@ export default function Navbar() {
       keepMounted
       open={isMenuOpen}
       onClose={handleMenuClose}
-      // anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-      // transformOrigin={{ horizontal: 'right', vertical: 'top' }}
     >
-        {/* <MenuItem onClick={handleMenuClose}>
+        <MenuItem onClick={handleMenuClose}>
           <Link href={'/profile/me'} passHref>
             <MenuItemWrapper>
               <ListItemIcon>
@@ -124,8 +122,8 @@ export default function Navbar() {
               Favorite
             </MenuItemWrapper>
           </Link>
-        </MenuItem> */}
-        <MenuItem onClick={()=> {
+        </MenuItem>
+        {/* <MenuItem onClick={()=> {
             handleMenuClose();
             dispatch(logOut());
             router.push("/");
@@ -135,7 +133,7 @@ export default function Navbar() {
             <Logout fontSize="small" />
           </ListItemIcon>
           Logout
-        </MenuItem>
+        </MenuItem> */}
     </Menu>
   );
 
