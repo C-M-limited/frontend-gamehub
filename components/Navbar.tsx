@@ -106,10 +106,10 @@ export default function Navbar() {
         vertical: "bottom",
         horizontal: "right"
       }}
-      // transformOrigin={{
-      //   vertical: "bottom",
-      //   horizontal: "right"
-      // }}
+      transformOrigin={{
+        vertical: "bottom",
+        horizontal: "right"
+      }}
     >
         <MenuItem onClick={handleMenuClose}>
           <Link href={'/profile/me'} passHref>
