@@ -364,7 +364,7 @@ export default function Navbar() {
   return (
     <>
       <AppBar position="sticky">
-        <Toolbar style={{ position: "sticky", backgroundColor: 'white' }}>
+        <Toolbar style={{ position: "sticky", backgroundColor: 'white', height: 'var(--navBarHeight)' }}>
           <Grid item width="100%" display="flex" alignItems="center" justifyContent="space-between">
             <div style={{ cursor: 'pointer' }}>
               <Link href="/" passHref={true}>

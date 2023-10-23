@@ -12,8 +12,8 @@ const _Button = styled(Button)({
 })
 
 const _CircleButton = styled('button')({
-    height: '46px',
-    width: '46px',
+    height: '40px',
+    width: '40px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -34,6 +34,7 @@ const _LoadingButton = styled(LoadingButton)({
     borderRadius: 24,
     padding: '8px 20px'
 })
+
 interface styledButtonProps {
     children: any;
     onClick?: () => void;

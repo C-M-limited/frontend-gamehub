@@ -79,15 +79,17 @@ export default function TodaysPickGameItem({game_id,image_src, name, price, loca
     <>
         <Link href={`/game/${game_id}`} passHref>
             <GameItemContainer>
-                <Box sx={{widht: '200px', height: '280px', position: 'relative',}}>
-                    <Image 
-                        src={image_src} 
-                        placeholder="blur" 
-                        blurDataURL="/blur.png"
-                        alt={image_src}
-                        layout="fill"
-                        objectFit='contain'
-                    />
+                <Box sx={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                    <Box sx={{width: '200px', height: '280px', position: 'relative',}}>
+                        <Image 
+                            src={image_src} 
+                            placeholder="blur" 
+                            blurDataURL="/blur.png"
+                            alt={image_src}
+                            layout="fill"
+                            objectFit='contain'
+                        />
+                    </Box>
                 </Box>
                 <GameItemTitle>${price}</GameItemTitle>
                 <Box display={'flex'} justifyContent='space-between' alignItems='center'>

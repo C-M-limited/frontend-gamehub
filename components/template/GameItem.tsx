@@ -20,6 +20,7 @@ const GameItemContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
     padding: '30px',
     margin: '10px 0px',
     borderRadius: 8,
@@ -60,7 +61,7 @@ export default function GameItem({ src, user_name, game_name, game_id, price, cr
         <Box>
             <Link href={`/game/${game_id}`} passHref>
                 <GameItemContainer>
-                    <Box sx={{widht: '200px', height: '280px', position: 'relative'}}>
+                    <Box sx={{width: '200px', height: '280px', position: 'relative'}}>
                         <Image 
                             src={src} 
                             placeholder="blur" 
