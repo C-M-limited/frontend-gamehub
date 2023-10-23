@@ -17,7 +17,7 @@ import axios from 'axios';
 import { axiosInstance, server } from '../../config';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
-import { CharacterImageList } from '../../public/user_icon/user_icon';
+import { CharacterImageList, defaultImage } from '../../public/user_icon/user_icon';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch, useSelector } from 'react-redux';
@@ -79,7 +79,7 @@ export default function ResponsiveDrawer(props: Props) {
   const dispatch= useDispatch();
   const loginStatus = useSelector((state: RootState) => state.auth);
   const user = useSelector((state: RootState) => state.userProfile);
-  const { window, gameDetails,postList,gameInfo } = props;
+  const { window, gameDetails, postList, gameInfo } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [currentPost, setCurrentPost] = React.useState<any>([]);
   const [isHoverHeart, setIsHoverHeart] = React.useState<boolean>(false);
@@ -102,11 +102,18 @@ export default function ResponsiveDrawer(props: Props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const [imageLocation,setImagLocation] = React.useState("/user_icon/noUserImage.jpeg");
-  const handleUserImage = (imageKey:string)=>{
+  const [imageLocation,setImagLocation] = React.useState<string>(defaultImage);
+  const [drawerImageLocation, setDrawerImageLocation] =  React.useState<string[]>(Array(postList.length).fill(defaultImage) || [defaultImage]);
+  const handleUserImage = (imageKey:string, isDrawerImage: boolean = false, index: number = 0)=>{
     CharacterImageList.forEach(data =>{
       if (data.image_key===imageKey){
-        setImagLocation(data.image_url);  
+        if (isDrawerImage){
+          let newDrawerImageLocation = drawerImageLocation;
+          newDrawerImageLocation[index] = data.image_url;
+          setDrawerImageLocation(newDrawerImageLocation);
+        }else{
+          setImagLocation(data.image_url);  
+        }
       }
     } )
   }
@@ -159,7 +166,7 @@ export default function ResponsiveDrawer(props: Props) {
                       <Link href={`/game/${id}`} key={index} passHref>
                         <Box  sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 ,cursor: 'pointer'}} bgcolor={"var(--mainLightGrey)"} mt={5}>
                             <Box sx={{ position: 'relative', width: 50, height: 50, borderRadius: 2, overflow: 'hidden' }} ml={-3} mt={-3}>
-                              <Image layout="fill" src={imageLocation} onLoad={()=>handleUserImage(imageKey)} alt="user icon" placeholder="blur" blurDataURL="/blur.png"/>
+                              <Image layout="fill" src={drawerImageLocation[index]} onLoad={()=>handleUserImage(imageKey, true, index)} alt="user icon" placeholder="blur" blurDataURL="/blur.png"/>
                             </Box>
                             <Tags tags={'Seller'} variable={seller}/>
                             <Tags tags={'Location'} variable={location}/>
@@ -173,8 +180,8 @@ export default function ResponsiveDrawer(props: Props) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
-  // console.log(gameDetails)
   const { contact_method, created_date, description, place_for_transaction, price, user_name, imageKey, user_Id } = gameDetails;
+  
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -305,14 +312,12 @@ export default function ResponsiveDrawer(props: Props) {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // console.log(context.query)
-  const { postId } = context.query
+  const { postId } = context.query;
 
-  const [gameDetails] = await (await axios.get(`${server}/api/v1/game_sale_post/id/${postId}`)).data
-  const gameInfo = await (await axios.get(`${server}/api/v1/games/byId/${gameDetails.game_sale_post.games_ID}`)).data
-  const postList = await (await axios.get(`${server}/api/v1/game_sale_post/games/${gameDetails.game_sale_post.games_ID}`)).data
-  // console.log(gameDetails.game_sale_post.games_ID)
-  // const gamePostList = await(await axios.get(`${server}/games/1`)).data
+  const [gameDetails] = await (await axios.get(`${server}/api/v1/game_sale_post/id/${postId}`)).data;
+  const gameInfo = await (await axios.get(`${server}/api/v1/games/byId/${gameDetails.game_sale_post.games_ID}`)).data;
+  const postList = await (await axios.get(`${server}/api/v1/game_sale_post/games/${gameDetails.game_sale_post.games_ID}`)).data;
+
   return {
       props: {
           gameDetails: {

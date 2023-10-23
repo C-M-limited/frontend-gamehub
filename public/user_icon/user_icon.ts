@@ -19,3 +19,5 @@ const CharacterImageList =[
 ]
 
 export {CharacterImageList};
+
+export const defaultImage = "/user_icon/noUserImage.jpeg";

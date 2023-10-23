@@ -7,7 +7,7 @@ import TodaysPickGameItem from '../../components/template/TodaysPickGameItem';
 import UserProfileItem from '../../components/template/UserProfileItem';
 import userProfileItem from '../../components/template/UserProfileItem';
 import { server } from '../../config';
-import { CharacterImageList } from '../../public/user_icon/user_icon';
+import { CharacterImageList, defaultImage } from '../../public/user_icon/user_icon';
 import { RootState } from '../../store/reducer';
 import { styled } from '@mui/system';
 import Image from "next/image";
@@ -46,7 +46,7 @@ const Name = styled(Typography)({
 })
 export default function OthersProfile({postList,userInfo}:any) {
 
-  const [imageLocation,setImagLocation] = useState("/user_icon/noUserImage.jpeg");
+  const [imageLocation,setImagLocation] = useState(defaultImage);
   const userProfile = useSelector((state: RootState) => state.userProfile);
   const handleUserImage = ()=>{
       CharacterImageList.forEach(data =>{
