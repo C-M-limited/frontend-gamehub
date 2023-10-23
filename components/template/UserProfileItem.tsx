@@ -52,8 +52,10 @@ const GameItemContainer = styled(Box)({
     padding: '15px 15px 0px 15px',
     margin: '10px 0px',
     borderRadius: 10,
-    width: '200px',
-    height: '400px',
+    width: '300px',
+    height: '500px',
+    justifyContent: 'center',
+    alignItems: 'center'
   })
 
 const GameItemTitle = styled(Typography)({
@@ -202,24 +204,34 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
   return (
       <>
     <Box>
-        <GameItemContainer style={{    border: `3px solid ${colorCode()}` , cursor:'pointer'}} >
-            <Image src={image_src} layout="responsive" width={180} height={200} alt={image_src} placeholder="blur" blurDataURL="/blur.png"/>
+        <GameItemContainer style={{cursor:'pointer'}} >
+            <Box sx={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <Box sx={{width: '200px', height: '280px', position: 'relative',}}>
+                    <Image 
+                        src={image_src} 
+                        placeholder="blur" 
+                        blurDataURL="/blur.png"
+                        alt={image_src}
+                        layout="fill"
+                        objectFit='contain'
+                    />
+                </Box>
+            </Box>
             <GameItemTitle>{name}</GameItemTitle>
-            <Divider style={{display: 'none'}}/>
             <>
                 <Box display={'flex'} justifyContent='space-between' >
                     <GameItemSubTitle>Price</GameItemSubTitle>
-                    <Box display={'flex'} justifyContent='center' alignItems='center' bgcolor={colorCode} borderRadius={2} width={50} mt={1} position={'absolute'} ml={14}>
+                    <Box display={'flex'} justifyContent='center' alignItems='center' bgcolor={colorCode} borderRadius={2} width={50} mt={1} position={'absolute'} ml={11}>
                         <Tags>{consoleCode()}</Tags>
                     </Box>
                 </Box>
-                <Typography >{price} HKD</Typography>
+                <Typography >${price}</Typography>
             </>
             <>
                 <GameItemSubTitle>Location</GameItemSubTitle>
                 <Typography>{location}</Typography>
             </>
-            <Box sx={{display: 'flex', justifyContent:'space-around',marginY:'10px' }}>
+            <Box sx={{display: 'flex', justifyContent:'flex-end', width: '100%',marginY:'10px' }}>
                 <Box onClick={handleClickOpenEdit} sx={{cursor: 'pointer',padding:'5px', '&:hover': {backgroundColor:'#35354584',borderRadius:'3px'}}}>
                     <EditIcon sx={{color:'green',}}/>
                 </Box>

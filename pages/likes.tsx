@@ -77,12 +77,16 @@ export default function Likes() {
     <Box>
       <Box sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:{xs:'column',sm:'row'}}} m={5}>
         <Box justifyContent={'center'} alignItems={'center'} display={'flex'} flexDirection={'column'}>
-          <Box sx={{borderRadius: "20px",overflow: "hidden"}}>
-              <Image src={user.imageKey || "/user_icon/noUserImage.jpg"}  width={'200px'} height={'200px'} objectFit="cover" />
+          <Box sx={{width: '150px', height: '150px', position: 'relative', bgcolor: 'var(--mainLightGrey)', padding: '20px', borderRadius: "20px",overflow: "hidden"}}>
+            <Image 
+                src={user.imageKey || "/user_icon/noUserImage.jpg"}
+                alt="game image"
+                placeholder="blur" 
+                blurDataURL="/blur.png"
+                layout="fill"
+                objectFit='contain'
+            />
           </Box>
-          {/* <Box >
-            <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
-          </Box> */}
         </Box>
         <Box sx={{marginLeft:{xs:0,sm:10},display:'flex', justifyContent:'center', alignItems:'center',flexDirection:'column'}}  >
           <Name>{user.name}</Name>

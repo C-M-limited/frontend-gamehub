@@ -102,7 +102,7 @@ export default function Me() {
                   const { game_sale_post, user_name, game_name, image_url, console_brand_name } = post;
                   const { id, price, place_for_transaction, created_date, description, contact_method, user_Id, games_ID } = game_sale_post
                   return (
-                    <Grid item key={id} xs={12} sm={6} md={6} lg={6}>
+                    <Grid item key={id} xs={12} sm={6} md={4} lg={3}>
                         <Box display={"flex"} sx={{width:'100%', justifyContent:'center', alignItems: 'center'}}>
                           <UserProfileItem post_id={id} game_id={games_ID} name={game_name} image_src={image_url} price={price} location={place_for_transaction} brand={console_brand_name} contact_method={contact_method} description={description}/>
                         </Box>

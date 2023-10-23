@@ -94,7 +94,7 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
                 >
                   <SnackbarUtilsConfigurator />
 
-                  <AddGameButton />
+                  {/* <AddGameButton /> */}
                   <StyledAlert />
                   <ProtectRoute pathname={props.router.pathname}>
                     <Component {...pageProps} />
