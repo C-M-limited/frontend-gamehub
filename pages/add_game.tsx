@@ -2,11 +2,12 @@ import React,{useEffect, useState} from 'react';
 import { useForm , SubmitHandler} from 'react-hook-form';
 import axios from 'axios';
 import { server } from '../config'
-import { Autocomplete, Typography, TextField } from '@mui/material';
+import { Autocomplete, Typography, TextField, styled, Box, Grid } from '@mui/material';
 import {StyledButton} from '../components/StyledButton';
 import { OpenAlertAction } from '../store/action/alert';
 import { useDispatch } from 'react-redux';
 import RefreshTokenFunction from '../utility/refreshTokenFunction';
+import Image from 'next/image';
 
 interface AddGameFormInput {
   game_id: number;
@@ -20,10 +21,41 @@ interface GameListProps{
   name: string;
   image_url: string;
 }
+
+const AddGameSubTitleTextStyle = styled(Typography)({
+  fontSize: 12,
+  margin: '4px 0px',
+  color: 'var(--mainGrey)'
+});
+
+const AddGameInputStyle = styled(TextField)({
+  backgroundColor:'var(--mainLightGrey)',
+  borderWidth: 0,
+  borderRadius:'4px',
+  color: 'var(--back) !important',
+  border: 'none',
+  "& fieldset": { border: 'none' },
+  marginBottom: '8px'
+});
+
+const AddGameInputTextStyle = styled('textarea')({
+  backgroundColor:'var(--mainLightGrey)',
+  borderRadius:'4px',
+  borderWidth: 0,
+  minHeight: 80,
+  color: 'var(--black)',
+  padding:'12px',
+  resize: 'none',
+  marginBottom: '18px'
+})
+
 export default function AddGame() {
   const dispatch = useDispatch();
   const [newGameId,setNewGameId] = useState<any>(-1);
   const [gameError,setGameError] = useState<boolean>(false);
+  const [imageSrc, setImageSrc] = useState<any>();
+  const [options,setOptions] = useState<GameListProps[]>([]);
+  console.log(options)
   const { register, handleSubmit, getValues, formState: { errors }} = useForm({
     defaultValues: {
       game_id: 0,
@@ -33,6 +65,12 @@ export default function AddGame() {
       contact_method: ""
     }
   });
+
+  const handleOnChangeGame = (id: number | undefined) => {
+    setImageSrc(options.find((element) => element.id === id)?.image_url);
+    setNewGameId(id);
+  };
+
   const onSubmit : SubmitHandler<AddGameFormInput> = data => {
     const {price,place_for_transaction,description,contact_method}= data
     if (newGameId===-1){
@@ -72,7 +110,7 @@ export default function AddGame() {
       console.log(error)
       console.log("I fail")
       if(error.response.status === 403){
-        if (error.response.data==='Expired JWT token'){
+        if (error.response?.data==='Expired JWT token'){
           // console.log("I expired")
             RefreshTokenFunction(addPost,dataToSend);
         }
@@ -80,7 +118,6 @@ export default function AddGame() {
     })
   }
 
-  const [options,setOptions] = useState<GameListProps[]>([]);
   const fetchGameList=async()=>{
     axios.get(`${server}/api/v1/games/all`)
     .then(response =>{
@@ -89,89 +126,76 @@ export default function AddGame() {
     })
     .catch((error)=> {})
   }
+
   useEffect (()=>{
     fetchGameList();
-  },[])
+  },[]);
 
   
   return (
     <div style={{justifyContent:'center', width:'100%' , display:'flex', flexDirection:'column', alignItems:'center'}}>
-      <h2 style={{color:'var(--white'}}>ADD GAME</h2>
-      <form onSubmit={handleSubmit(onSubmit)} style={addGameFormStyle} id="addGameForm">
-        {/* Game */}
-        <Typography style={addGameSubTitleTextStyle}>Game name:</Typography>
-        <Autocomplete 
-          style={addGameInputStyle}
-          disablePortal
-          size="small"
-          renderInput={(params) => <TextField {...params}  label="Game" />}
-          isOptionEqualToValue={(option, value) => option.name === value.name}
-          onChange={(event, value) => setNewGameId(value?.id)}
-          getOptionLabel={(option) => option.name}
-          options={options}
-        />
-        {gameError && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
-        {/* Price */}
-        <Typography style={addGameSubTitleTextStyle}>Price :</Typography>
-        <TextField size="small" type="number" {...register("price", {required: true, max: 2000, min: 0})} style={addGameInputStyle}/>
-        {errors.price && <Typography style={addGameWarningFont}>⚠ This field is required</Typography> }
-        {/* Place for Transaction */}
-        <Typography style={addGameSubTitleTextStyle}>Place for Transaction :</Typography>
-        <TextField size="small" placeholder='e.g. Kowloon' type="text" {...register("place_for_transaction", {required: true})} style={addGameInputStyle}/>
-        {errors.place_for_transaction && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
-        {/* Contact Method */}
-        <Typography style={addGameSubTitleTextStyle}>Contact Method : </Typography>
-        <TextField size="small" placeholder='e.g. (+852) 12345678' type="text" {...register("contact_method", { required: true })}  style={addGameInputStyle}/>
-        {errors.contact_method && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
-        {/* Description */}
-        <Typography style={addGameSubTitleTextStyle}>Description : </Typography>
-        <textarea {...register("description", {})} placeholder="Optional" style={addGameInputTextStyle}/>
-        <StyledButton type="submit" form="addGameForm">Submit</StyledButton>
-      </form>
+      <Box width={'100%'} maxWidth={'var(--pageMaxWidth)'} display={"flex"} flexDirection={"column"} alignItems={"center"} padding={2}>
+        <h2 style={{color:'var(--black'}}>ADD GAME</h2>
+        <Grid container md={8}>
+          <Grid item xs={12} md={6} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+            <Box sx={{width: {xs: '150px', md: '300px'}, height: {xs: '150px', md: '300px'}, position: 'relative', borderRadius: '5px', backgroundColor: 'var(--mainLightGrey)', padding: '10px', border: '2px dashed var(--mainDarkerGrey)'}}>
+                <Image 
+                    src={imageSrc || require("../public/favicon.png")}
+                    placeholder="blur" 
+                    blurDataURL="/blur.png"
+                    alt="game image"
+                    layout="fill"
+                    objectFit='contain'
+                />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+            <form onSubmit={handleSubmit(onSubmit)} style={addGameFormStyle} id="addGameForm">
+              {/* Game */}
+              <AddGameSubTitleTextStyle>Game*</AddGameSubTitleTextStyle>
+              <Autocomplete 
+                disablePortal
+                size="small"
+                renderInput={(params) => <AddGameInputStyle {...params} />}
+                isOptionEqualToValue={(option, value) => option.name === value.name}
+                onChange={(event, value) => handleOnChangeGame(value?.id)}
+                getOptionLabel={(option) => option.name}
+                options={options}
+              />
+              {gameError && <AddGameSubTitleTextStyle style={addGameWarningFont}>⚠This field is required</AddGameSubTitleTextStyle>}
+              {/* Price */}
+              <AddGameSubTitleTextStyle>Price*</AddGameSubTitleTextStyle>
+              <AddGameInputStyle size="small" type="number" {...register("price", {required: true, max: 2000, min: 0})} />
+              {errors.price && <AddGameSubTitleTextStyle style={addGameWarningFont}>⚠ This field is required</AddGameSubTitleTextStyle> }
+              {/* Place for Transaction */}
+              <AddGameSubTitleTextStyle>Place for Transaction*</AddGameSubTitleTextStyle>
+              <AddGameInputStyle size="small" placeholder='e.g. Richmond' type="text" {...register("place_for_transaction", {required: true})} />
+              {errors.place_for_transaction && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
+              {/* Contact Method */}
+              <AddGameSubTitleTextStyle>Contact Method* </AddGameSubTitleTextStyle>
+              <AddGameInputStyle size="small" placeholder='+1 (XXX) XXX - XXXX' type="text" {...register("contact_method", { required: true })}  />
+              {errors.contact_method && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
+              {/* Description */}
+              <AddGameSubTitleTextStyle >Description : </AddGameSubTitleTextStyle>
+              <AddGameInputTextStyle {...register("description", {})} placeholder="Optional"/>
+              <StyledButton type="submit" form="addGameForm">Submit</StyledButton>
+            </form>
+          </Grid>
+        </Grid>
+      </Box>
       
     </div>
   );
 }
 
 const addGameFormStyle : React.CSSProperties={
-  backgroundColor:'var(--mainGrey)',
   justifyContent: 'center',
   display:'flex',
   flexDirection:'column',
   padding:'20px 20px 32px 20px',
-  borderRadius:'12px',
   width:'60%',
   minWidth: '300px',
   maxWidth:'600px'
-}
-
-const addGameInputStyle : React.CSSProperties={
-  backgroundColor:'var(--mainBackground)',
-  borderWidth: 0,
-  borderRadius:'4px',
-  color: 'var(--white) !important',
-  padding:'8px',
-}
-//Todo
-// const addGameInputStyle :-internal-autofill-selected : React.CSSProperties={
-
-// }
-
-const addGameSubTitleTextStyle : React.CSSProperties={
-  fontSize: 12,
-  margin: '4px 0px',
-  color: 'var(--mainDarkerGrey)'
-}
-
-const addGameInputTextStyle : React.CSSProperties={
-  backgroundColor:'var(--mainBackground)',
-  borderRadius:'10px',
-  borderWidth: 0,
-  minHeight: 80,
-  color: 'var(--white)',
-  padding:'12px',
-  marginBottom: 12,
-  resize: 'none',
 }
 
 const addGameWarningFont : React.CSSProperties={
