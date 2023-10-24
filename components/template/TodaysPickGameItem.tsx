@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Grid, Typography, Box, Divider, Pagination } from '@mui/material';
 import { styled } from '@mui/system';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import CircleIcon from '@mui/icons-material/Circle';
+import { StyledHoverImage } from './StyledImage';
 
 interface StyledGameItemProps {
     game_id: number;
@@ -64,6 +65,9 @@ const Tags = styled(Typography)({
 })
 
 export default function TodaysPickGameItem({game_id,image_src, name, price, location, brand }: StyledGameItemProps) {
+
+    const [isHoever, setIsHover] = useState<boolean>(false);
+
     const colorCode = () =>{
         if(brand==="Play Station") { return "#007ABE"}
         else if (brand==="Xbox") { return "#169A00"}
@@ -78,19 +82,8 @@ export default function TodaysPickGameItem({game_id,image_src, name, price, loca
   return (
     <>
         <Link href={`/game/${game_id}`} passHref>
-            <GameItemContainer>
-                <Box sx={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                    <Box sx={{width: '200px', height: '280px', position: 'relative',}}>
-                        <Image 
-                            src={image_src} 
-                            placeholder="blur" 
-                            blurDataURL="/blur.png"
-                            alt={image_src}
-                            layout="fill"
-                            objectFit='contain'
-                        />
-                    </Box>
-                </Box>
+            <GameItemContainer onMouseEnter={()=>setIsHover(true)} onMouseLeave={()=> setIsHover(false)}>
+                <StyledHoverImage src={image_src} alt={image_src} width={'200px'} height={'280px'} isHoever={isHoever}/>
                 <GameItemTitle>${price}</GameItemTitle>
                 <Box display={'flex'} justifyContent='space-between' alignItems='center'>
                     <GameItemSubTitle paddingX={1}>{name}</GameItemSubTitle>

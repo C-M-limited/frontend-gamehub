@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {  Typography, Box, Divider} from '@mui/material';
 import { styled } from '@mui/system';
 import Image from 'next/image';
 import Link from 'next/link';
 import timeSince from '../../utility/timeSince';
+import { StyledHoverImage } from './StyledImage';
 interface StyledGameItemProps {
     src: string;
     game_name: string;
@@ -56,20 +57,14 @@ const Content = styled(Typography)({
 
 
 export default function GameItem({ src, user_name, game_name, game_id, price, created_date }: StyledGameItemProps) {
+
+    const [isHoever, setIsHover] = useState<boolean>(false);
+
     return (
         <Box>
             <Link href={`/game/${game_id}`} passHref>
-                <GameItemContainer>
-                    <Box sx={{width: '200px', height: '280px', position: 'relative'}}>
-                        <Image 
-                            src={src} 
-                            placeholder="blur" 
-                            blurDataURL="/blur.png"
-                            alt={src}
-                            layout="fill"
-                            objectFit='contain'
-                        />
-                    </Box>
+                <GameItemContainer onMouseEnter={()=>setIsHover(true)} onMouseLeave={()=> setIsHover(false)}>
+                    <StyledHoverImage src={src} alt={src} width={'200px'} height={'280px'} isHoever={isHoever}/>
                     <TextContainer>
                         <GameItemTitle>{game_name}</GameItemTitle>
                         <Divider style={{ display: 'none'}}/>
