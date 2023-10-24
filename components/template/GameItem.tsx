@@ -56,6 +56,7 @@ const Content = styled(Typography)({
 
 
 export default function GameItem({ src, user_name, game_name, game_id, price, created_date }: StyledGameItemProps) {
+    console.log(price)
     return (
         <Box>
             <Link href={`/game/${game_id}`} passHref>
@@ -73,9 +74,9 @@ export default function GameItem({ src, user_name, game_name, game_id, price, cr
                     <TextContainer>
                         <GameItemTitle>{game_name}</GameItemTitle>
                         <Divider style={{ display: 'none'}}/>
-                        {price && 
+                        {price !== undefined && 
                             <Box>
-                                <GameItemSubTitle>${price}</GameItemSubTitle>
+                                <GameItemSubTitle>{price === 0 ? 'Free !' : `$${price}`}</GameItemSubTitle>
                             </Box>
                         }
                         <Box sx={{display:'flex', justifyContent:"space-between", width: '100%', marginTop: 1}}>

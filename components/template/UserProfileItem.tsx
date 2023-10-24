@@ -142,6 +142,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
         editPost(dataToSend);
       
     };
+
     const editPost = async(dataToSendWithoutGameId:any) =>{
         // console.log(dataToSend.games)
         const id= newGameId
@@ -168,7 +169,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
             }
           }
         })
-      }
+    };
 
     const handleSubmitDelete = () =>{
         const accessToken = localStorage.getItem('access-token');
@@ -188,7 +189,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
             }
           }
         })
-    }
+    };
 
     const fetchGameList=async()=>{
       axios.get(`${server}/api/v1/games/all`)
@@ -244,7 +245,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
     {/* Edit page */}
     <Dialog open={openEdit} onClose={handleCloseEdit}>
         <Box sx={{width:'400px',maxWidth:'100%'}}>
-            <DialogTitle style={{ backgroundColor: "#000" }}>Update Post</DialogTitle>
+            <DialogTitle style={{ backgroundColor: "var(--white)" }}>Update Post</DialogTitle>
             <form onSubmit={handleSubmit(onSubmit)} style={addGameFormStyle} id="addGameForm">
                 {/* Game */}
                 <Typography style={addGameSubTitleTextStyle}>Game name:</Typography>
@@ -266,16 +267,16 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
                 {errors.newPrice && <Typography style={addGameWarningFont}>⚠ This field is required</Typography> }
                 {/* Place for Transaction */}
                 <Typography style={addGameSubTitleTextStyle}>Place for Transaction :</Typography>
-                <TextField size="small" placeholder='e.g. Kowloon' type="text" {...register("new_place_for_transaction", {required: true})} style={addGameInputStyle}/>
+                <TextField size="small" placeholder='e.g. Richmond' type="text" {...register("new_place_for_transaction", {required: true})} style={addGameInputStyle}/>
                 {errors.new_place_for_transaction && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
                 {/* Contact Method */}
                 <Typography style={addGameSubTitleTextStyle}>Contact Method : </Typography>
-                <TextField size="small" placeholder='e.g. (+852) 12345678' type="text" {...register("new_contact_method", { required: true })}  style={addGameInputStyle}/>
+                <TextField size="small" placeholder='e.g. +1 (XXX) XXX - XXXX' type="text" {...register("new_contact_method", { required: true })}  style={addGameInputStyle}/>
                 {errors.new_contact_method && <Typography style={addGameWarningFont}>⚠This field is required</Typography>}
                 {/* Description */}
                 <Typography style={addGameSubTitleTextStyle}>Description : </Typography>
                 <textarea {...register("new_description", {})} placeholder="Optional" style={addGameInputTextStyle}/>
-                <DialogActions style={{ backgroundColor: "#000" }}>
+                <DialogActions style={{ backgroundColor: "var(--white)" }}>
                     <StyledButton onClick={handleCloseEdit}>Cancel</StyledButton>
                     <StyledButton type="submit">Update</StyledButton>
                 </DialogActions>
@@ -287,8 +288,8 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
     {/* Delete Page */}
     <Dialog open={openDelete} onClose={handleCloseDelete}>
       <Box sx={{width:'400px',maxWidth:'100%'}}>
-          <DialogTitle style={{ backgroundColor: "#000" }}>Deletion Confirm ?</DialogTitle>
-          <DialogActions style={{ backgroundColor: "#000" }}>
+          <DialogTitle style={{ backgroundColor: "var(--white)" }}>Deletion Confirm ?</DialogTitle>
+          <DialogActions style={{ backgroundColor: "var(--white)" }}>
               <StyledButton onClick={handleCloseDelete}>Cancel</StyledButton>
               <StyledButton onClick={handleSubmitDelete} >Confirm</StyledButton>
           </DialogActions>
@@ -299,7 +300,7 @@ export default function UserProfileItem({post_id, game_id,image_src, name, price
   )
 }
 const addGameFormStyle : React.CSSProperties={
-    backgroundColor:'black',
+    backgroundColor:'var(--white)',
     justifyContent: 'center',
     display:'flex',
     flexDirection:'column',
@@ -309,17 +310,13 @@ const addGameFormStyle : React.CSSProperties={
   }
   
   const addGameInputStyle : React.CSSProperties={
-    backgroundColor:'var(--mainBackground)',
+    backgroundColor:'var(--white)',
     borderWidth: 0,
     borderRadius:'4px',
-    color: 'var(--white) !important',
+    color: 'var(--black) !important',
     padding:'8px',
   }
-  //Todo
-  // const addGameInputStyle :-internal-autofill-selected : React.CSSProperties={
-  
-  // }
-  
+
   const addGameSubTitleTextStyle : React.CSSProperties={
     fontSize: 12,
     margin: '4px 0px',
@@ -327,11 +324,11 @@ const addGameFormStyle : React.CSSProperties={
   }
   
   const addGameInputTextStyle : React.CSSProperties={
-    backgroundColor:'var(--mainBackground)',
-    borderRadius:'10px',
-    borderWidth: 0,
+    backgroundColor:'var(--white)',
+    borderRadius:'5px',
+    borderWidth: 0.5,
     minHeight: 80,
-    color: 'var(--white)',
+    color: 'var(--black)',
     padding:'12px',
     marginBottom: 12,
     resize: 'none',
