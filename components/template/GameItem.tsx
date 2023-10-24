@@ -56,7 +56,6 @@ const Content = styled(Typography)({
 
 
 export default function GameItem({ src, user_name, game_name, game_id, price, created_date }: StyledGameItemProps) {
-    console.log(price)
     return (
         <Box>
             <Link href={`/game/${game_id}`} passHref>
