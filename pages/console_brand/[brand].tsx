@@ -96,96 +96,96 @@ const FilterRow = ({ brand }: FilterRowProps) => {
   };
   return (
     <>
-      {/* Button Show on Large Screen */}
-      <Grid container justifyContent="center" sx={{display:{xs: 'none',sm:'none',md:'flex'}}}>
-        <Grid item sm={10} display="flex" alignItems="center" mt={3}>
-          <Grid item sm={8} display="flex">
-            {
-              filterList.map((item) => (
-                <Link href={item.src} key={item.src} passHref>
-                  <FilterButton key={item.src} active={brand === item.brand}>{item.name}</FilterButton>
-                </Link>
-              ))
-            }
-          </Grid>
-          <Grid item sm={4} display="flex" justifyContent="flex-end">
-            <StyledMenu
-              selectIndex={filterData.index}
-              handleChange={handleUpdateFilterData}
-              nameList={[
-                // { name: "Lowest ID", asc: true, sortBy: 'id' },
-                // { name: "Highest ID", asc: false, sortBy: 'id' },
-                { name: "Lowest Price", asc: true, sortBy: 'price' },
-                { name: "Highest Price", asc: false, sortBy: 'price' },
-                { name: "Latest", asc: false, sortBy: 'created_date' },
-              ]}
-            />
-          </Grid>
-        </Grid>
-      </Grid>
-      {/* Button Show on Small Screen */}
-      <Box flexDirection={"row"} justifyContent='space-between' sx={{display:{xs: 'flex',sm:'flex',md:'none'}}}  mt={2} paddingX={5} width={'100vw'} >
-          <Box display={'flex'} >
-            <StyledMenuForCategoryMobile
-              nameList={
-                filterList
-              }
-            />
-          </Box>
-          <Box display={'flex'}>
-            <StyledMenu
-              selectIndex={filterData.index}
-              handleChange={handleUpdateFilterData}
-              nameList={[
-                // { name: "Lowest ID", asc: true, sortBy: 'id' },
-                // { name: "Highest ID", asc: false, sortBy: 'id' },
-                { name: "Lowest Price", asc: true, sortBy: 'price' },
-                { name: "Highest Price", asc: false, sortBy: 'price' },
-                { name: "Latest", asc: false, sortBy: 'created_date' },
-              ]}
-            />
-          </Box>
-      </Box>
-      {/* Post */}
-      <Grid container spacing={1} display="flex" justifyContent="center" width={'100vw'}>
-        <Grid item display="flex" >
-          {
-            response.gameSalePostList?.length === 0
-            ?
-            <Grid container spacing={3} mt={1} minHeight="60vh"  paddingX={{xs:5}} display="flex" justifyContent={'center'}>
-              <Grid item lg={12} display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap={2}>
-                <div style={{ position: 'relative', objectFit: 'contain', width: '440px', height: '240px' }}>
-                  <Image layout='fill' src="/not_found.png" alt="no_game" />
-                </div>
-                <Typography color='#000' fontWeight={700}>
-                There is no game here. Please try again later.
-                </Typography>
+      <Box width={'100%'} display={'flex'} flexDirection={'column'} alignItems={'center'}>
+        <Box width={'100%'} maxWidth={'var(--pageMaxWidth)'}>
+          {/* Button Show on Large Screen */}
+          <Box paddingX={3} sx={{display:{xs: 'none', sm:'none',md:'flex'}}}>
+            <Grid container display="flex" alignItems="center" mt={3}>
+              <Grid item sm={8} display="flex">
+                {
+                  filterList.map((item) => (
+                    <Link href={item.src} key={item.src} passHref>
+                      <FilterButton key={item.src} active={brand === item.brand}>{item.name}</FilterButton>
+                    </Link>
+                  ))
+                }
+              </Grid>
+              <Grid item sm={4} display="flex" justifyContent="flex-end">
+                <StyledMenu
+                  selectIndex={filterData.index}
+                  handleChange={handleUpdateFilterData}
+                  nameList={[
+                    { name: "Lowest Price", asc: true, sortBy: 'price' },
+                    { name: "Highest Price", asc: false, sortBy: 'price' },
+                    { name: "Latest", asc: false, sortBy: 'created_date' },
+                  ]}
+                />
               </Grid>
             </Grid>
-            :
-            <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-            <Grid container direction='row' columns={12} spacing={2} flexGrow={1} minHeight="60vh" maxWidth={'var(--pageMaxWidth)'} mx='auto' m={2}>
-                {response.gameSalePostList.content?.map(({ user_name, game_name, game_sale_post, image_url }: GameListProps,index:number) => {
-                return (
-                  <Grid item key={index} xs={12} sm={6} md={4} lg={3} width='100%' minWidth={300}>
-                    <GameItem
-                      key={game_sale_post.id}
-                      game_id={game_sale_post.id}
-                      user_name={user_name}
-                      game_name={game_name}
-                      price={game_sale_post.price}
-                      created_date={game_sale_post.created_date}
-                      src={image_url}
-                    />
-                  </Grid>)})}
+          </Box>
+          {/* Button Show on Small Screen */}
+          <Box flexDirection={"row"} justifyContent='space-between' sx={{display:{xs: 'flex',sm:'flex',md:'none'}}}  mt={2} paddingX={5} width={'100vw'} >
+              <Box display={'flex'} >
+                <StyledMenuForCategoryMobile
+                  nameList={
+                    filterList
+                  }
+                />
+              </Box>
+              <Box display={'flex'}>
+                <StyledMenu
+                  selectIndex={filterData.index}
+                  handleChange={handleUpdateFilterData}
+                  nameList={[
+                    { name: "Lowest Price", asc: true, sortBy: 'price' },
+                    { name: "Highest Price", asc: false, sortBy: 'price' },
+                    { name: "Latest", asc: false, sortBy: 'created_date' },
+                  ]}
+                />
+              </Box>
+          </Box>
+          {/* Post */}
+          <Grid container spacing={1} display="flex" justifyContent="center" width={'100%'}>
+            <Grid item display="flex" >
+              {
+                response.gameSalePostList?.length === 0
+                ?
+                <Grid container spacing={3} mt={1} minHeight="60vh"  paddingX={{xs:5}} display="flex" justifyContent={'center'}>
+                  <Grid item lg={12} display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap={2}>
+                    <div style={{ position: 'relative', objectFit: 'contain', width: '440px', height: '240px' }}>
+                      <Image layout='fill' src="/not_found.png" alt="no_game" />
+                    </div>
+                    <Typography color='#000' fontWeight={700}>
+                    There is no game here. Please try again later.
+                    </Typography>
+                  </Grid>
+                </Grid>
+                :
+                <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                <Grid container direction='row' columns={12} spacing={2} flexGrow={1} minHeight="60vh" maxWidth={'var(--pageMaxWidth)'} mx='auto' m={2}>
+                    {response.gameSalePostList.content?.map(({ user_name, game_name, game_sale_post, image_url }: GameListProps,index:number) => {
+                    return (
+                      <Grid item key={index} xs={12} sm={6} md={4} lg={3} width='100%' minWidth={300}>
+                        <GameItem
+                          key={game_sale_post.id}
+                          game_id={game_sale_post.id}
+                          user_name={user_name}
+                          game_name={game_name}
+                          price={game_sale_post.price}
+                          created_date={game_sale_post.created_date}
+                          src={image_url}
+                        />
+                      </Grid>)})}
+                </Grid>
+                </div>
+              }
             </Grid>
-            </div>
-          }
-        </Grid>
-      </Grid>
-      <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
-        <GameListPagination color="primary" count={Math.ceil(response.gameSalePostList?.totalPages / 16) || 1} page={page} onChange={handleChange} showFirstButton showLastButton />
-      </Grid>
+          </Grid>
+          <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
+            <GameListPagination color="primary" count={Math.ceil(response.gameSalePostList?.totalPages / 16) || 1} page={page} onChange={handleChange} showFirstButton showLastButton />
+          </Grid>
+        </Box>
+      </Box>
     </>
   )
 }

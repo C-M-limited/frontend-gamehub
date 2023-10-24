@@ -22,7 +22,7 @@ const GameItemContainer = styled(Box)({
     flexDirection: 'column',
     borderRadius: 4,
     width: '300px',
-    height: '500px',
+    height: '400px',
     paddingBottom: 8,
     cursor:'pointer',
     margin:'0 auto'
