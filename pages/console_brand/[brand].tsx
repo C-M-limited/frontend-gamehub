@@ -124,7 +124,7 @@ const FilterRow = ({ brand }: FilterRowProps) => {
         </Grid>
       </Grid>
       {/* Button Show on Small Screen */}
-      <Box flexDirection={"column"} sx={{display:{xs: 'flex',sm:'flex',md:'none'}}}  mt={2} paddingX={5} width={'100vw'} >
+      <Box flexDirection={"row"} justifyContent='space-between' sx={{display:{xs: 'flex',sm:'flex',md:'none'}}}  mt={2} paddingX={5} width={'100vw'} >
           <Box display={'flex'} >
             <StyledMenuForCategoryMobile
               nameList={
@@ -132,7 +132,7 @@ const FilterRow = ({ brand }: FilterRowProps) => {
               }
             />
           </Box>
-          <Box display={'flex'} mt={2}>
+          <Box display={'flex'}>
             <StyledMenu
               selectIndex={filterData.index}
               handleChange={handleUpdateFilterData}
@@ -163,24 +163,21 @@ const FilterRow = ({ brand }: FilterRowProps) => {
               </Grid>
             </Grid>
             :
-            <Box justifyContent="center" width={'100%'} display="flex" maxWidth={'var(--pageMaxWidth)'} padding={5}>
-              <Grid container spacing={3} mt={1} minHeight="60vh" display="flex" >
-                
-                  {response.gameSalePostList.content?.map(({ id, user_name, game_name, game_sale_post, image_url }: GameListProps,index:number) => {
-                  return (
-                    <Grid item key={index} display={"flex"} justifyContent="center" >
-                      <GameItem
-                        key={game_sale_post.id}
-                        game_id={game_sale_post.id}
-                        user_name={user_name}
-                        game_name={game_name}
-                        price={game_sale_post.price}
-                        created_date={game_sale_post.created_date}
-                        src={image_url}
-                      />
-                    </Grid>)})}
-              </Grid>
-            </Box>
+            <Grid container spacing={2} minHeight="60vh" display="flex" maxWidth={'var(--pageMaxWidth)'} mx='auto' mt={2}>
+                {response.gameSalePostList.content?.map(({ id, user_name, game_name, game_sale_post, image_url }: GameListProps,index:number) => {
+                return (
+                  <Grid item key={index} xs={12} sm={6} md={4} lg={3} display={"flex"} justifyContent="center">
+                    <GameItem
+                      key={game_sale_post.id}
+                      game_id={game_sale_post.id}
+                      user_name={user_name}
+                      game_name={game_name}
+                      price={game_sale_post.price}
+                      created_date={game_sale_post.created_date}
+                      src={image_url}
+                    />
+                  </Grid>)})}
+            </Grid>
           }
         </Grid>
       </Grid>
