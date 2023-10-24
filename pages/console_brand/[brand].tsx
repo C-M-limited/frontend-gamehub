@@ -163,10 +163,11 @@ const FilterRow = ({ brand }: FilterRowProps) => {
               </Grid>
             </Grid>
             :
-            <Grid container spacing={2} minHeight="60vh" display="flex" maxWidth={'var(--pageMaxWidth)'} mx='auto' mt={2}>
-                {response.gameSalePostList.content?.map(({ id, user_name, game_name, game_sale_post, image_url }: GameListProps,index:number) => {
+            <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+            <Grid container direction='row' columns={12} spacing={2} flexGrow={1} minHeight="60vh" maxWidth={'var(--pageMaxWidth)'} mx='auto' m={2}>
+                {response.gameSalePostList.content?.map(({ user_name, game_name, game_sale_post, image_url }: GameListProps,index:number) => {
                 return (
-                  <Grid item key={index} xs={12} sm={6} md={4} lg={3} display={"flex"} justifyContent="center">
+                  <Grid item key={index} xs={12} sm={6} md={4} lg={3} width='100%' minWidth={300}>
                     <GameItem
                       key={game_sale_post.id}
                       game_id={game_sale_post.id}
@@ -178,6 +179,7 @@ const FilterRow = ({ brand }: FilterRowProps) => {
                     />
                   </Grid>)})}
             </Grid>
+            </div>
           }
         </Grid>
       </Grid>

@@ -14,7 +14,7 @@ interface StyledGameItemProps {
 }
 
 const GameItemContainer = styled(Box)({
-    width: '300px',
+    width: '100%',
     boxShadow: 'var(--mainShadow)',
     color: 'var(--black)',
     display: 'flex',
