@@ -107,6 +107,8 @@ export default function ResponsiveDrawer(props: Props) {
   const [currentPost, setCurrentPost] = React.useState<any>([]);
   const [isHoverHeart, setIsHoverHeart] = React.useState<boolean>(false);
   const [isLiked,setIsLiked] = React.useState<boolean>(false);
+  const [imageLocation,setImagLocation] = React.useState<string>(defaultImage);
+  const [drawerImageLocation, setDrawerImageLocation] =  React.useState<string[]>(Array(postList.length).fill(defaultImage) || [defaultImage]);
 
   const { contact_method, created_date, description, place_for_transaction, price, user_name, imageKey, user_Id } = gameDetails;
 
@@ -116,8 +118,17 @@ export default function ResponsiveDrawer(props: Props) {
   },[gameDetails.id]);
 
   React.useEffect(()=>{
-    handleUserImage(imageKey)
+    setImagLocation(getUserImage(imageKey));
   },[imageKey]);
+
+  React.useEffect(()=>{
+    const newDrawerImageLocation = postList.map((element: postProps)=> getUserImage(element.imageKey));
+    setDrawerImageLocation(newDrawerImageLocation);
+  },[postList]);
+  
+  const getUserImage = (imageKey:string) : string =>{
+    return CharacterImageList.find((element)=> element.image_key === imageKey)?.image_url || "";
+  }
 
   const fetchIsLikedPost= async()=>{
     if (user.id===undefined){return} 
@@ -133,21 +144,6 @@ export default function ResponsiveDrawer(props: Props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const [imageLocation,setImagLocation] = React.useState<string>(defaultImage);
-  const [drawerImageLocation, setDrawerImageLocation] =  React.useState<string[]>(Array(postList.length).fill(defaultImage) || [defaultImage]);
-  const handleUserImage = (imageKey:string, isDrawerImage: boolean = false, index: number = 0)=>{
-    CharacterImageList.forEach(data =>{
-      if (data.image_key===imageKey){
-        if (isDrawerImage){
-          let newDrawerImageLocation = drawerImageLocation;
-          newDrawerImageLocation[index] = data.image_url;
-          setDrawerImageLocation(newDrawerImageLocation);
-        }else{
-          setImagLocation(data.image_url);  
-        }
-      }
-    } )
-  }
   const handleSubscribe = async()=>{
     // return if the user haven't logIn
     if (Object.keys(loginStatus).length <= 1){
@@ -197,7 +193,7 @@ export default function ResponsiveDrawer(props: Props) {
                       <Link href={`/game/${id}`} key={index} passHref>
                         <Box  sx={{ display: 'flex', justifyContent: 'space-Between', width: '80%', borderRadius: 2, padding: 1 ,cursor: 'pointer', border: currentPost === id ? '2px solid var(--mainBlue)' : 'none'}} bgcolor={"var(--mainLightGrey)"} mt={5}>
                             <Box sx={{ position: 'relative', width: 50, height: 50, borderRadius: 2, overflow: 'hidden' }} ml={-3} mt={-3}>
-                              <Image layout="fill" src={drawerImageLocation[index]} onLoad={()=>handleUserImage(imageKey, true, index)} alt="user icon" placeholder="blur" blurDataURL="/blur.png"/>
+                              <Image layout="fill" src={drawerImageLocation[index]} alt="user icon" placeholder="blur" blurDataURL="/blur.png"/>
                             </Box>
                             <Tags tags={'Seller'} variable={seller}/>
                             <Tags tags={'Location'} variable={location}/>
@@ -305,7 +301,6 @@ export default function ResponsiveDrawer(props: Props) {
                   <Box sx={{width: '100px', height: '100px', position: 'relative', padding: '20px', borderRadius: 5, overflow:'hidden'}}>
                       <Image 
                           src={imageLocation} 
-                          // onLoad={()=>handleUserImage(imageKey)} 
                           alt="user icon"
                           placeholder="blur" 
                           blurDataURL="/blur.png"
