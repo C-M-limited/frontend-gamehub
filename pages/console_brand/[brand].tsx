@@ -62,14 +62,13 @@ interface GameListProps {
 const GameListPagination = styled(Pagination)({
   ul: {
     "& .MuiPaginationItem-root": {
-      color: "#fff"
+      color: "var(--black)"
     }
   },
   marginBottom: 20,
 })
 
 const FilterRow = ({ brand }: FilterRowProps) => {
-  const router = useRouter();
   const response = useSelector((state: RootState) => state.gameSalePostList);
   const [page, setPage] = React.useState(1);
   const [filterData, setFilterData] = React.useState({
@@ -182,7 +181,7 @@ const FilterRow = ({ brand }: FilterRowProps) => {
             </Grid>
           </Grid>
           <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
-            <GameListPagination color="primary" count={Math.ceil(response.gameSalePostList?.totalPages / 16) || 1} page={page} onChange={handleChange} showFirstButton showLastButton />
+            <GameListPagination color="primary" count={Math.ceil(response.gameSalePostList?.totalPages) || 1} page={page} onChange={handleChange} showFirstButton showLastButton />
           </Grid>
         </Box>
       </Box>
