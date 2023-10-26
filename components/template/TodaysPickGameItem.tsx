@@ -84,7 +84,7 @@ export default function TodaysPickGameItem({game_id,image_src, name, price, loca
         <Link href={`/game/${game_id}`} passHref>
             <GameItemContainer onMouseEnter={()=>setIsHover(true)} onMouseLeave={()=> setIsHover(false)}>
                 <StyledHoverImage src={image_src} alt={image_src} width={'200px'} height={'280px'} isHoever={isHoever}/>
-                <GameItemTitle>${price}</GameItemTitle>
+                <GameItemTitle>{price === 0 ? 'Free !' : `$${price}`}</GameItemTitle>
                 <Box display={'flex'} justifyContent='space-between' alignItems='center'>
                     <GameItemSubTitle paddingX={1}>{name}</GameItemSubTitle>
                     <Box textAlign='center' width={50} bgcolor={colorCode} borderRadius={1}>
@@ -103,4 +103,3 @@ export default function TodaysPickGameItem({game_id,image_src, name, price, loca
 
   )
 }
-//border: `3px solid ${colorCode()}` , 

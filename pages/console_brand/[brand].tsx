@@ -60,11 +60,6 @@ interface GameListProps {
   }
 }
 const GameListPagination = styled(Pagination)({
-  ul: {
-    "& .MuiPaginationItem-root": {
-      color: "var(--black)"
-    }
-  },
   marginBottom: 20,
 })
 
@@ -78,16 +73,25 @@ const FilterRow = ({ brand }: FilterRowProps) => {
   })
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const { sortBy, asc } = filterData
-    dispatch(fetchGameSalePostListThunk({ page: page - 1, size: 16, sortBy, asc, category: brand }));
-  }, [page, brand, filterData])
-
-  const handleUpdateFilterData = (index: number, sortBy: string, asc: boolean) => {
-    setFilterData({ index, sortBy, asc })
-    dispatch(fetchGameSalePostListThunk({ page: page - 1, size: 16, sortBy, asc, category: brand }));
+  const resetPage = ()=> {
+    setPage(1);
+    return 1;
   }
 
+  useEffect(() => {
+    resetPage();
+  }, [brand, filterData]);
+
+  useEffect(() => {
+    const { sortBy, asc } = filterData
+    dispatch(fetchGameSalePostListThunk({ page: page -1, size: 16, sortBy, asc, category: brand }));
+  }, [page, brand, filterData]);
+
+  const handleUpdateFilterData = (index: number, sortBy: string, asc: boolean) => {
+    const newPage = resetPage();
+    setFilterData({ index, sortBy, asc });
+    dispatch(fetchGameSalePostListThunk({ page: newPage, size: 16, sortBy, asc, category: brand }));
+  };
 
   const handleChange = (_event: any, value: number) => {
     setPage(value);
@@ -181,7 +185,7 @@ const FilterRow = ({ brand }: FilterRowProps) => {
             </Grid>
           </Grid>
           <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
-            <GameListPagination color="primary" count={Math.ceil(response.gameSalePostList?.totalPages) || 1} page={page} onChange={handleChange} showFirstButton showLastButton />
+            <GameListPagination color="primary" count={Math.ceil(response.gameSalePostList?.totalPages) || 1} page={page} onChange={handleChange} showFirstButton showLastButton/>
           </Grid>
         </Box>
       </Box>
