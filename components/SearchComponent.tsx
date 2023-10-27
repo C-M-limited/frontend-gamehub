@@ -71,6 +71,7 @@ const Listbox = styled('ul')(({ theme }) => ({
   borderRadius: '0 0px 5px 5px',
   listStyle: 'none',
   paddingLeft: 0,
+  overflow: 'hidden',
 }));
 
 const ListItem = styled('li')(({ theme }) => ({
@@ -161,10 +162,12 @@ export default function SearchComponent() {
     const fetchGameList=async()=>{
       axios.get(`${server}/api/v1/games/all`)
       .then(response =>{
-        setOptions(response.data);
+        const sortedData = response.data.sort((a : any,b: any) => a.name.localeCompare(b.name));
+        setOptions(sortedData);
       })
       .catch((error)=> dispatch(OpenAlertAction({type:"warning",content: "Sorry, Server is down"})))
     }
+
     const {
       getRootProps,
       getInputLabelProps,

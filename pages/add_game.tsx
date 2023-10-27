@@ -55,7 +55,7 @@ export default function AddGame() {
   const [gameError,setGameError] = useState<boolean>(false);
   const [imageSrc, setImageSrc] = useState<any>();
   const [options,setOptions] = useState<GameListProps[]>([]);
-  console.log(options)
+
   const { register, handleSubmit, getValues, formState: { errors }} = useForm({
     defaultValues: {
       game_id: 0,
@@ -121,7 +121,8 @@ export default function AddGame() {
   const fetchGameList=async()=>{
     axios.get(`${server}/api/v1/games/all`)
     .then(response =>{
-      setOptions(response.data);
+      const sortedData = response.data.sort((a : any,b: any) => a.name.localeCompare(b.name));
+      setOptions(sortedData);
       // console.log(response.data)
     })
     .catch((error)=> {})
