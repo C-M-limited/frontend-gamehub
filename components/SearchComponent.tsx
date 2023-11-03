@@ -73,6 +73,9 @@ const Listbox = styled('ul')(({ theme }) => ({
   listStyle: 'none',
   paddingLeft: 0,
   overflow: 'auto',
+  [theme.breakpoints.down("sm")]: {
+    top: 40,
+  },
 }));
 
 const ListItem = styled('li')(({ theme }) => ({
@@ -86,46 +89,6 @@ const ListItem = styled('li')(({ theme }) => ({
   }),
   "&:hover": {
     backgroundColor: 'var(--mainLightGrey)'
-  },
-}));
-
-
-const ListboxSmall = styled('ul')(({ theme }) => ({
-  cursor: 'pointer',
-  width: '196px',
-  margin: 0,
-  height: '150',
-  zIndex: 1,
-  fontSize:'20px',
-  position: 'absolute',
-  listStyle: 'none',
-  // backgroundColor: theme.palette.background.paper,
-  overflow: 'auto',
-  maxHeight: 200,
-  border: '1px solid rgba(0,0,0,.25)',
-  '& li[data-focus="true"]': {
-    backgroundColor: '#4a8df6',
-    color: 'white',
-    cursor: 'pointer',
-  },
-  '& li:active': {
-    backgroundColor: '#2977f5',
-    color: 'white',
-  },
-  backgroundColor: alpha(theme.palette.common.black, 1),
-  borderRadius: '0 0px 20px 20px'
-}));
-
-const ListItemSmall = styled('li')(({ theme }) => ({
-  // paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-  width:'100%',
-  transition:  theme.transitions.create(['font-size', 'transform'], {
-    duration: theme.transitions.duration.standard,
-  }),
-  "&:hover": {
-    // backgroundColor: alpha(theme.palette.common.white, 0.25),
-    fontSize:'25px',
-    overflow: 'hidden'
   },
 }));
 
@@ -155,7 +118,6 @@ export default function SearchComponent() {
       }, [wrapperRef]);
     }
 
-    const [open, setOpen] = React.useState(false);
     const [openBox, setOpenBox] = React.useState(false);
     const [options, setOptions] = React.useState<GameListProps[]>([]);
     const [inputValue, setInputValue] = React.useState("");
@@ -192,7 +154,7 @@ export default function SearchComponent() {
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              <Input value={inputValue} placeholder="Search…" onChange={handleInputChange} />
+              <Input value={inputValue} placeholder="Search your game name…" onChange={handleInputChange} />
             </Search>
             {options.length > 0 ? (
               <Listbox>
@@ -210,27 +172,27 @@ export default function SearchComponent() {
         {/* Small Screen */}
         <Box  sx={{display:{xs:'block',sm:'none'}}}>
           <Box display={'flex'} justifyContent={'center'} alignItems={'center'} padding={'10px'} sx={{cursor:'pointer'}} onClick={()=>{setOpenBox(!openBox)}}>
-            <SearchIcon />
+            <SearchIcon color='action' />
           </Box>
           {openBox && 
-            <Box ref={wrapperRef} position={'absolute'} overflow='scroll' width={'200px'} height={'250px'} bgcolor={'black'} display={'flex'} borderRadius={'0 0 20px 20px'} border='2px solid white'>
+            <Box ref={wrapperRef} position={'absolute'} left={0} top={60} width="100%" height={'40px'} display={'flex'} bgcolor="white">
               <Search>
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
-                <Input placeholder="Search…"/>
+                <Input value={inputValue} placeholder="Search your game name…" onChange={handleInputChange}/>
               </Search>
               {options.length > 0 ? (
-                <ListboxSmall>
+                <Listbox>
                   {options.map((option, index) => (
-                    <ListItemSmall key={index}
+                    <ListItem key={index}
                     onClick={()=>{
                       router.push(`/game/${option.id}`);
                       setOptions([]);
                       setOpenBox(false)
-                    }}>{option.name}</ListItemSmall>
+                    }}>{option.name}</ListItem>
                   ))}
-                </ListboxSmall>
+                </Listbox>
               ) : null}
             </Box>
           }

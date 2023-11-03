@@ -37,10 +37,8 @@ import AddIcon from '@mui/icons-material/Add';
 
 const TagToChangeForm = styled("a")(({theme})=>({
   cursor: "pointer", 
-  border: "2px solid var(--black)",
   padding: "3px",
-  marginLeft:'4px',
-  borderRadius:'5px',
+  color: 'blue',
 
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.45),
@@ -194,7 +192,7 @@ export default function Navbar() {
               type="password"
             />
             <p>
-              Don{"'"}t have an account?{" "}
+              {`Don't have an account?`}
               <TagToChangeForm
                 onClick={() => {
                   handleDialogClose("login");
@@ -392,22 +390,29 @@ export default function Navbar() {
                 </Box>
               </Link>
             </div>
-            <SearchComponent/>
-            {isLogin ? (
-              <StyledCircleButton onClick={handleOnClickUserIcon}>
-                <Image 
-                  src={userProfile.imageKey || "/user_icon/noUserImage.jpg"}
-                  alt='user icon'
-                  placeholder="blur" 
-                  blurDataURL="/blur.png"
-                  layout="fill"
-                  objectFit='contain'/>
-              </StyledCircleButton>
-            ) : (
-              <StyledCircleButton onClick={() => handleDialogOpen("login")}>
-                <AccountCircleIcon/>
-              </StyledCircleButton>
-            )}
+            <Box sx={{display:{xs:'none',sm:'block'}}}>
+              <SearchComponent/>
+            </Box>
+            <Box display="flex" gap={1}>
+              <Box sx={{display:{xs:'block',sm:'none'}}}>
+                <SearchComponent/>
+              </Box>
+              {isLogin ? (
+                <StyledCircleButton onClick={handleOnClickUserIcon}>
+                  <Image 
+                    src={userProfile.imageKey || "/user_icon/noUserImage.jpg"}
+                    alt='user icon'
+                    placeholder="blur" 
+                    blurDataURL="/blur.png"
+                    layout="fill"
+                    objectFit='contain'/>
+                </StyledCircleButton>
+              ) : (
+                <StyledCircleButton onClick={() => handleDialogOpen("login")}>
+                  <AccountCircleIcon/>
+                </StyledCircleButton>
+              )}
+            </Box>
           </Grid>
         </Toolbar>
       </AppBar>
