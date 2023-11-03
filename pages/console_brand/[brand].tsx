@@ -1,8 +1,7 @@
-import { Box, CircularProgress, Grid, Pagination, Typography } from '@mui/material';
+import { Box, Grid, Pagination, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';
 import Link from 'next/link';
@@ -64,7 +63,7 @@ const GameListPagination = styled(Pagination)({
 })
 
 const FilterRow = ({ brand }: FilterRowProps) => {
-  const response = useSelector((state: RootState) => state.gameSalePostList);
+  const gamePostSelector = useSelector((state: RootState) => state.gameSalePostList);
   const [page, setPage] = React.useState(1);
   const [filterData, setFilterData] = React.useState({
     index: 0,
@@ -148,45 +147,55 @@ const FilterRow = ({ brand }: FilterRowProps) => {
               </Box>
           </Box>
           {/* Post */}
-          <Grid container spacing={1} display="flex" justifyContent="center" width={'100%'}>
-            <Grid item display="flex" >
-              {
-                response.gameSalePostList?.length === 0
-                ?
-                <Grid container spacing={3} mt={1} minHeight="60vh"  paddingX={{xs:5}} display="flex" justifyContent={'center'}>
-                  <Grid item lg={12} display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap={2}>
-                    <div style={{ position: 'relative', objectFit: 'contain', width: '440px', height: '240px' }}>
-                      <Image layout='fill' src="/not_found.png" alt="no_game" />
-                    </div>
-                    <Typography color='#000' fontWeight={700}>
-                    There is no game here. Please try again later.
-                    </Typography>
+          {gamePostSelector.loading && <Box>
+            <Box display="flex" flexDirection={'column'} justifyContent="center" alignItems="center" height={'80vh'} width={'100%'}>
+                <Image src="/spinner.gif" alt="loading" width={100} height={100} />
+                <Typography color='#000' fontWeight={700}>
+                  Fetching games for you...
+                </Typography>
+            </Box>
+          </Box>}
+          {!gamePostSelector.loading && <Box>
+            <Grid container spacing={1} display="flex" justifyContent="center" width={'100%'}>
+              <Grid item display="flex" >
+                {
+                  gamePostSelector.gameSalePostList?.length === 0
+                  ?
+                  <Grid container spacing={3} mt={1} minHeight="60vh"  paddingX={{xs:5}} display="flex" justifyContent={'center'}>
+                    <Grid item lg={12} display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap={2}>
+                      <div style={{ position: 'relative', objectFit: 'contain', width: '440px', height: '240px' }}>
+                        <Image layout='fill' src="/not_found.png" alt="no_game" />
+                      </div>
+                      <Typography color='#000' fontWeight={700}>
+                      There is no game here. Please try again later.
+                      </Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
-                :
-                <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-                <Grid container direction='row' columns={12} spacing={2} flexGrow={1} minHeight="60vh" maxWidth={'var(--pageMaxWidth)'} mx='auto' m={2}>
-                    {response.gameSalePostList.content?.map(({ user_name, game_name, game_sale_post, image_url }: GameListProps,index:number) => {
-                    return (
-                      <Grid item key={index} xs={12} sm={6} md={4} lg={3} width='100%' minWidth={300}>
-                        <GameItem
-                          key={game_sale_post.id}
-                          game_id={game_sale_post.id}
-                          user_name={user_name}
-                          game_name={game_name}
-                          price={game_sale_post.price}
-                          created_date={game_sale_post.created_date}
-                          src={image_url}
-                        />
-                      </Grid>)})}
-                </Grid>
-                </div>
-              }
+                  :
+                  <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                  <Grid container direction='row' columns={12} spacing={2} flexGrow={1} minHeight="60vh" maxWidth={'var(--pageMaxWidth)'} mx='auto' m={2}>
+                      {gamePostSelector.gameSalePostList.content?.map(({ user_name, game_name, game_sale_post, image_url }: GameListProps,index:number) => {
+                      return (
+                        <Grid item key={index} xs={12} sm={6} md={4} lg={3} width='100%' minWidth={300}>
+                          <GameItem
+                            key={game_sale_post.id}
+                            game_id={game_sale_post.id}
+                            user_name={user_name}
+                            game_name={game_name}
+                            price={game_sale_post.price}
+                            created_date={game_sale_post.created_date}
+                            src={image_url}
+                          />
+                        </Grid>)})}
+                  </Grid>
+                  </div>
+                }
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
-            <GameListPagination color="primary" count={Math.ceil(response.gameSalePostList?.totalPages) || 1} page={page} onChange={handleChange} showFirstButton showLastButton/>
-          </Grid>
+            <Grid justifyContent={'center'} width='100%' alignItems={'center'} display={'flex'} mt={10}>
+              <GameListPagination color="primary" count={Math.ceil(gamePostSelector.gameSalePostList?.totalPages) || 1} page={page} onChange={handleChange} showFirstButton showLastButton/>
+            </Grid>
+          </Box>}
         </Box>
       </Box>
     </>
