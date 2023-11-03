@@ -7,6 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, useAutocomplete } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { OpenAlertAction } from '../store/action/alert';
+import { useDebounce, useDebouncedCallback } from "use-debounce";
 
 interface GameListProps{
   id: number;
@@ -71,7 +72,7 @@ const Listbox = styled('ul')(({ theme }) => ({
   borderRadius: '0 0px 5px 5px',
   listStyle: 'none',
   paddingLeft: 0,
-  overflow: 'hidden',
+  overflow: 'auto',
 }));
 
 const ListItem = styled('li')(({ theme }) => ({
@@ -157,51 +158,49 @@ export default function SearchComponent() {
     const [open, setOpen] = React.useState(false);
     const [openBox, setOpenBox] = React.useState(false);
     const [options, setOptions] = React.useState<GameListProps[]>([]);
+    const [inputValue, setInputValue] = React.useState("");
     const router = useRouter();
 
-    const fetchGameList=async()=>{
-      axios.get(`${server}/api/v1/games/all`)
+    const debounced = useDebouncedCallback(
+      (value) => {
+        setInputValue(value);
+        fetchGameList(value);
+      }, 500
+    );
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setInputValue(value);
+      debounced(value);
+    };
+
+    const fetchGameList = async(keyword: string)=>{
+      axios.get(`${server}/api/v1/games/byKeyword?keyword=${keyword}&page=${0}`)
       .then(response =>{
-        const sortedData = response.data.sort((a : any,b: any) => a.name.localeCompare(b.name));
+        const sortedData = response.data.content.sort((a : any,b: any) => a.name.localeCompare(b.name));
+        console.log(sortedData);
         setOptions(sortedData);
       })
       .catch((error)=> dispatch(OpenAlertAction({type:"warning",content: "Sorry, Server is down"})))
     }
 
-    const {
-      getRootProps,
-      getInputLabelProps,
-      getInputProps,
-      getListboxProps,
-      getOptionProps,
-      groupedOptions,
-    } = useAutocomplete({
-      id: 'use-autocomplete-demo',
-      options: options,
-      getOptionLabel: (option) => option.name,
-    });
-
     return (
       <>
         <Box sx={{display:{xs:'none',sm:'block'}}}>
           <SearchWrapper>
-            <Search {...getRootProps()} 
-              onClick={()=>{
-                fetchGameList()
-                setOpen(true)
-            }}>
+            <Search>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              <Input  {...getInputProps()} placeholder="Search…"/>
+              <Input value={inputValue} placeholder="Search…" onChange={handleInputChange} />
             </Search>
-            {open && groupedOptions.length > 0 ? (
-              <Listbox {...getListboxProps()}>
-                {(groupedOptions as typeof options).map((option, index) => (
-                  <ListItem {...getOptionProps({ option, index })} key={index}
+            {options.length > 0 ? (
+              <Listbox>
+                {options.map((option, index) => (
+                  <ListItem key={index}
                   onClick={()=>{
                     router.push(`/game/${option.id}`);
-                    setOpen(false)
+                    setOptions([]);
                   }}>{option.name}</ListItem>
                 ))}
               </Listbox>
@@ -214,33 +213,25 @@ export default function SearchComponent() {
             <SearchIcon />
           </Box>
           {openBox && 
-            <Box ref={wrapperRef} position={'absolute'} width={'200px'} height={'250px'} bgcolor={'black'} display={'flex'} borderRadius={'0 0 20px 20px'} border='2px solid white'>
-              {/* <Box position={'absolute'} border={'10px solid white'} width={'20px'} height={'20px'} mt={-2} ml={-1}/ > */}
-              <Box>
-                <Search {...getRootProps()} 
-                  onClick={()=>{
-                    fetchGameList()
-                    setOpen(!open)
-                  }}>
-                    <SearchIconWrapper>
-                      <SearchIcon />
-                    </SearchIconWrapper>
-                    <Input  {...getInputProps()} placeholder="Search…"/>
-
-                  </Search>
-                  {open && groupedOptions.length > 0 ? (
-                    <ListboxSmall {...getListboxProps()}>
-                      {(groupedOptions as typeof options).map((option, index) => (
-                        <ListItemSmall {...getOptionProps({ option, index })} key={index}
-                        onClick={()=>{
-                          router.push(`/game/${option.id}`);
-                          setOpen(false)
-                          setOpenBox(false)
-                        }}>{option.name}</ListItemSmall>
-                      ))}
-                    </ListboxSmall>
-                  ) : null}
-              </Box>
+            <Box ref={wrapperRef} position={'absolute'} overflow='scroll' width={'200px'} height={'250px'} bgcolor={'black'} display={'flex'} borderRadius={'0 0 20px 20px'} border='2px solid white'>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <Input placeholder="Search…"/>
+              </Search>
+              {options.length > 0 ? (
+                <ListboxSmall>
+                  {options.map((option, index) => (
+                    <ListItemSmall key={index}
+                    onClick={()=>{
+                      router.push(`/game/${option.id}`);
+                      setOptions([]);
+                      setOpenBox(false)
+                    }}>{option.name}</ListItemSmall>
+                  ))}
+                </ListboxSmall>
+              ) : null}
             </Box>
           }
           
