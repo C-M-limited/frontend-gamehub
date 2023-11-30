@@ -1,11 +1,7 @@
 import * as React from "react";
 import Image from "next/image";
 //material ui
-import { styled, alpha } from "@mui/material/styles";
-import Dialog from '@mui/material/Dialog'
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
+import { styled} from "@mui/material/styles";
 import Grid from '@mui/material/Grid'
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -16,40 +12,31 @@ import Menu from "@mui/material/Menu";
 import { Divider, ListItemIcon } from "@mui/material";
 
 import Link from "next/link";
-import { useForm } from "react-hook-form";
-import {StyledButton, StyledCircleButton, StyledLoadingButton} from "./StyledButton";
-import StyledInput from "./StyledInput";
+import { StyledCircleButton} from "./StyledButton";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logOut } from "../store/action/auth";
-import { registerThunk } from "../store/action/registration";
+import { logOut } from "../store/action/auth";
 import { RootState } from "../store/reducer";
-import { fetchSearchListThunk } from "../store/action/search";
-import { useState } from "react";
-import {CharacterImageList} from '../public/user_icon/user_icon'
 import SearchComponent from "./SearchComponent";
 import { useRouter } from "next/router";
-import { OpenAlertAction } from "../store/action/alert";
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddIcon from '@mui/icons-material/Add';
 
-const TagToChangeForm = styled("a")(({theme})=>({
-  cursor: "pointer", 
-  padding: "3px",
-  color: 'blue',
-
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.45),
-  },
-}))
+import LoginForm from "./form/LoginForm";
+import RegisterForm from "./form/RegisterForm";
 
 const MenuItemWrapper = styled("div")(({theme})=>({
   display: 'flex', 
   justifyContent: 'center', 
   alignItems: 'center'
 }))
+
+export interface OpenFormInterface {
+  loginForm: boolean,
+  registerForm: boolean
+}
 
 export default function Navbar() {
   const router = useRouter();
@@ -63,10 +50,7 @@ export default function Navbar() {
   //User Icon Menu
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   //PopUpWindow
-  const [openLoginDialog, setOpenLoginDialog] = React.useState<boolean>(false);
-  const [openRegisterDialog, setOpenRegisterDialog] = React.useState<boolean>(false);
-  const [problem, setProblem] = React.useState<boolean>(false);
-  const [problemDetail, setProblemDetail] = React.useState<string>("");
+  const [openForm, setOpenForm] = React.useState<OpenFormInterface>({loginForm: false, registerForm: false});
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -84,19 +68,8 @@ export default function Navbar() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleDialogOpen = (type: string) => {
-    if (type === "login") setOpenLoginDialog(true);
-    if (type === "register") setOpenRegisterDialog(true);
-  };
-
-  const handleDialogClose = (type: string) => {
-    if (type === "login") setOpenLoginDialog(false);
-    if (type === "register") setOpenRegisterDialog(false);
-  };
-
-
   React.useEffect(()=>{
-    if (router.query?.showLoginForm) setOpenLoginDialog(true)
+    if (router.query?.showLoginForm) setOpenForm({...openForm, loginForm: true})
   },[router.query]);
 
   const menuId = "primary-search-account-menu";
@@ -150,228 +123,6 @@ export default function Navbar() {
     </Menu>
   );
 
-  const LoginForm = () => {
-    const dispatch = useDispatch();
-    const {
-      register,
-      handleSubmit,
-      watch,
-      formState: { errors },
-    } = useForm();
-    const onSubmit = (data: any) => {
-      dispatch(login(data))
-      handleDialogClose("login")
-    };
-
-    return (
-      <Dialog open={openLoginDialog} onClose={() => handleDialogClose("login")}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          style={{ width: 400, maxWidth: "100%" }}
-        >
-          <DialogTitle>Login</DialogTitle>
-          <DialogContent>
-            <StyledInput
-              label="Email"
-              name="email"
-              placeholder="Enter your email"
-              register={register}
-              required
-              error={!!errors.email}
-              helperText="Email is required"
-              type="email"
-            />
-            <StyledInput
-              label="Password"
-              name="password"
-              placeholder="Enter your password"
-              register={register}
-              required
-              error={!!errors.password}
-              helperText="Password is required"
-              type="password"
-            />
-            <p>
-              {`Don't have an account?`}
-              <TagToChangeForm
-                onClick={() => {
-                  handleDialogClose("login");
-                  handleDialogOpen("register");
-                }}
-              >
-                Register
-              </TagToChangeForm>
-            </p>
-          </DialogContent>
-          {problem && (
-            <Typography variant="body1" color="red" mb={2} align="center">
-              {problemDetail}
-            </Typography>
-          )}
-          <DialogActions>
-            <StyledButton onClick={() => handleDialogClose("login")}>
-              Cancel
-            </StyledButton>
-            <StyledButton type="submit">Submit</StyledButton>
-          </DialogActions>
-        </form>
-      </Dialog>
-    );
-  };
-
-  const RegisterForm = () => {
-    const registerStatus:any = useSelector((state: RootState) => state.register);
-    const dispatch = useDispatch();
-    const {
-      register,
-      handleSubmit,
-      watch,
-      formState: { errors },
-    } = useForm();
-    const [imageKey, setImageKey] = useState("");
-    const onSubmit = (data: any) => {
-      if (imageKey === "") {
-        dispatch(OpenAlertAction({type:"error", content: "Please Select an User image"}))
-        return;
-      }else if (data.password !==data.confirmPassword){
-        dispatch(OpenAlertAction({type:"error", content: "Password & Confirm Password should be the same"}))
-        return;
-      }
-      dispatch(registerThunk(data, imageKey));
-    };
-    return (
-      <Dialog
-        open={openRegisterDialog}
-        onClose={() => handleDialogClose("register")}
-      >
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          style={{ width: 400, maxWidth: "100%" }}
-        >
-          <DialogTitle>
-            Register
-          </DialogTitle>
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            spacing={2}
-          >
-            {CharacterImageList.map((charactor) => {
-              return (
-                <Grid
-                  item
-                  key={charactor.id}
-                  onClick={() => {
-                    setImageKey(charactor.image_key);
-                  }}
-                >
-                  <Box
-                    style={{
-                      border: ` ${
-                        imageKey === charactor.image_key
-                          ? "5px solid var(--mainBlue)"
-                          : "3px solid white"
-                      }`,
-                      width: "60px",
-                      height: "60px",
-                    }}
-                  >
-                    <Image
-                      layout="intrinsic"
-                      src={charactor.image_url}
-                      alt={charactor.image_key}
-                      width="100%"
-                      height="100%"
-                      objectFit="contain"
-                      placeholder="blur" 
-                      blurDataURL="/blur.png"
-                    />
-                  </Box>
-                </Grid>
-              );
-            })}
-          </Grid>
-          <DialogContent>
-            {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
-          </DialogContentText> */}
-            <StyledInput
-              label="first name"
-              name="firstName"
-              placeholder="Enter your first name"
-              register={register}
-              required
-              error={!!errors.first_name}
-              helperText="First name is required"
-              type="text"
-            />
-            <StyledInput
-              label="last name"
-              name="lastName"
-              placeholder="Enter your last name"
-              register={register}
-              required
-              error={!!errors.last_name}
-              helperText="Last name is required"
-              type="text"
-            />
-            <StyledInput
-              label="email"
-              name="email"
-              placeholder="Enter your email"
-              register={register}
-              required
-              error={!!errors.email}
-              helperText="Email is required"
-              type="email"
-            />
-            <StyledInput
-              label="password"
-              name="password"
-              placeholder="Enter your password"
-              register={register}
-              required
-              error={!!errors.password}
-              helperText="Password is required"
-              type="password"
-            />
-            <StyledInput
-              label="confirm password"
-              name="confirmPassword"
-              placeholder="Enter your confirm password"
-              register={register}
-              required
-              error={!!errors.confirm_password}
-              helperText="Confirm password is required"
-              type="password"
-            />
-            <p>
-              Already have an account?{" "}
-              <TagToChangeForm
-                onClick={() => {
-                  handleDialogClose("register");
-                  handleDialogOpen("login");
-                }}
-              >
-                Login
-              </TagToChangeForm>
-            </p>
-          </DialogContent>
-          <DialogActions>
-            <StyledButton onClick={() => handleDialogClose("register")}>
-              Cancel
-            </StyledButton>
-            {/* <StyledButton type="submit">Submit</StyledButton> */}
-            <StyledLoadingButton type="submit" loading={registerStatus.loading} >Submit</StyledLoadingButton>
-          </DialogActions>
-        </form>
-      </Dialog>
-    );
-  };
-
   return (
     <>
       <AppBar position="sticky">
@@ -408,7 +159,7 @@ export default function Navbar() {
                     objectFit='contain'/>
                 </StyledCircleButton>
               ) : (
-                <StyledCircleButton onClick={() => handleDialogOpen("login")}>
+                <StyledCircleButton onClick={() => setOpenForm({...openForm, loginForm: true})}>
                   <AccountCircleIcon/>
                 </StyledCircleButton>
               )}
@@ -416,8 +167,14 @@ export default function Navbar() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <LoginForm />
-      <RegisterForm />
+      <LoginForm 
+        openForm={openForm} 
+        handleOpenForm={setOpenForm} 
+      />
+      <RegisterForm 
+        openForm={openForm} 
+        handleOpenForm={setOpenForm} 
+      />
       {renderMenu}
     </>
   );

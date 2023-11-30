@@ -1,7 +1,10 @@
 import Button from '@mui/material/Button'
 import { styled } from '@mui/system'
 import LoadingButton from '@mui/lab/LoadingButton';
-import React from 'react'
+import React, { CSSProperties } from 'react'
+import { IconButton } from '@mui/material';
+
+import CloseIcon from '@mui/icons-material/Close';
 
 const _Button = styled(Button)({
     height: 36,
@@ -35,11 +38,20 @@ const _LoadingButton = styled(LoadingButton)({
     padding: '8px 20px'
 })
 
+const _CloseButton = styled(IconButton)(({theme})=>({
+    position: 'absolute',
+    right: 8,
+    top: 8,
+    color: 'var(--black)',
+    borderRadius: '100%',
+}))
+
 interface styledButtonProps {
     children: any;
     onClick?: () => void;
     type?: "button" | "submit" | "reset" | undefined;
     form?: string;
+    style?: CSSProperties;
 }
 
 interface styledCircleButtonProps {
@@ -56,9 +68,13 @@ interface styledLoadingButtonProps {
     form?: string;
     loading: boolean;
 }
-const StyledButton = ({children, onClick, type, form }: styledButtonProps) => {
+
+interface styledCloseButtonProps {
+    onClick?: () => void;
+}
+const StyledButton = ({children, onClick, type, form, style }: styledButtonProps) => {
     return (
-        <_Button form={form} type={type} onClick={onClick}>{children}</_Button>
+        <_Button form={form} type={type} onClick={onClick} style={style}>{children}</_Button>
 
     )
 }
@@ -76,4 +92,15 @@ const StyledLoadingButton = ({ children, onClick, type, form,loading }: styledLo
     )
 }
 
-export  {StyledButton, StyledCircleButton, StyledLoadingButton}
+const StyledCloseFormButton = ({onClick}: styledCloseButtonProps) => {
+    return (
+        <_CloseButton
+            aria-label="close"
+            onClick={onClick}
+            >
+            <CloseIcon />
+        </_CloseButton>
+    )
+}
+
+export  {StyledButton, StyledCircleButton, StyledLoadingButton, StyledCloseFormButton}
