@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Layout from "../components/Layout";
 import Head from "next/head";
+import Script from "next/script";
 
 import React from "react";
 import { Provider } from "react-redux";
@@ -65,6 +66,29 @@ const getDesignTokens = (mode: PaletteMode) => ({
     },
   },
 });
+
+const Analytics = () => {
+  return (
+    <>
+      <Script
+        strategy="lazyOnload"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+      />
+
+      <Script strategy="lazyOnload">
+        {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+                    page_path: window.location.pathname,
+                    });
+                `}
+      </Script>
+    </>
+  )
+}
+
 const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const theme = useTheme();
@@ -80,6 +104,7 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
             <FirstLoadingPage>
               <NextNProgress />
               <Layout>
+                <Analytics/>
                 <Head>
                   <title>GameHub</title>
                   <meta
